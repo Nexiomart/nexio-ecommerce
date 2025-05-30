@@ -26,6 +26,10 @@ setupDB();
 require('./config/passport')(app);
 app.use(routes);
 
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
 const server = app.listen(port, () => {
   console.log(
     `${chalk.green('✓')} ${chalk.blue(
