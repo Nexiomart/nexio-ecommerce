@@ -1,6 +1,7 @@
 .shop-page {
   .main {
-    background-color: $theme-white;
+    // background-color: $theme-white;
+    background-color: blanchedalmond;
   }
 
   .shop-toolbar {
@@ -8,3 +9,14 @@
     box-shadow: $box-shadow-primary;
   }
 }
+
+// .shop-page {
+//   .main {
+//     background-color: $theme-white;
+//   }
+
+//   .shop-toolbar {
+//     border-radius: $border-radius-primary;
+//     box-shadow: $box-shadow-primary;
+//   }
+// }
