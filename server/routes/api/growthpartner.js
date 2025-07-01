@@ -144,7 +144,7 @@ router.delete('/delete/:id', auth, role.check(ROLES.Admin), async (req, res) => 
 //   }
 // });
 
-const createGrowthPartnerUser = async (email, name, partnerId, host) => {
+const createGrowthPartnerUser = async (email, name, _partnerId, host) => {
   const firstName = name;
   const lastName = '';
 
