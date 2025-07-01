@@ -32,6 +32,13 @@ const MerchantSchema = new Schema({
     ref: 'Brand',
     default: null
   },
+  
+//   referredBy: {
+//   type: Schema.Types.ObjectId,
+//   ref: 'GrowthPartner',
+//   default: null
+// },
+
   status: {
     type: String,
     default: MERCHANT_STATUS.Waiting_Approval,

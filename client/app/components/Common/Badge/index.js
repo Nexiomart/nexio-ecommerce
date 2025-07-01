@@ -9,6 +9,7 @@ import React from 'react';
 const variants = {
   primary: 'custom-badge-primary',
   secondary: 'custom-badge-secondary',
+  success: 'custom-badge-success',
   danger: 'custom-badge-danger',
   dark: 'custom-badge-dark',
   none: 'custom-badge-none',

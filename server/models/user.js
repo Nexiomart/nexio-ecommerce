@@ -29,6 +29,12 @@ const UserSchema = new Schema({
     ref: 'Merchant',
     default: null
   },
+  growthpartner: {
+  type: Schema.Types.ObjectId,
+  ref: 'GrowthPartner',
+  default: null
+},
+
   provider: {
     type: String,
     required: true,
@@ -46,7 +52,7 @@ const UserSchema = new Schema({
   role: {
     type: String,
     default: ROLES.Member,
-    enum: [ROLES.Admin, ROLES.Member, ROLES.Merchant]
+    enum: [ROLES.Admin, ROLES.Member, ROLES.Merchant , ROLES.GrowthPartner]
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },

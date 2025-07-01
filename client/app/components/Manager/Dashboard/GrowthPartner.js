@@ -1,6 +1,6 @@
 /*
  *
- * Admin
+ * GrowthPartner
  *
  */
 
@@ -14,20 +14,18 @@ import Page404 from '../../Common/Page404';
 
 import Account from '../../../containers/Account';
 import AccountSecurity from '../../../containers/AccountSecurity';
+// import Referral from '../../../containers/Referral'; // Custom for Growth Partner
+// import Leads from '../../../containers/Leads';       // Optional: e.g., merchants acquired
+// import Commission from '../../../containers/Commission'; // Optional earnings view
 import Address from '../../../containers/Address';
-import Order from '../../../containers/Order';
-import Users from '../../../containers/Users';
-import Category from '../../../containers/Category';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
-import Merchant from '../../../containers/Merchant';
-import GrowthPartner from '../../../containers/GrowthPartner';
-import Review from '../../../containers/Review';
+import Order from '../../../containers/Order';
 import Wishlist from '../../../containers/WishList';
 
-const Admin = props => {
+const GrowthPartner = props => {
   return (
-    <div className='admin'>
+    <div className='growth-partner'>
       <Row>
         <Col xs='12' md='5' xl='3'>
           <AccountMenu {...props} />
@@ -39,14 +37,12 @@ const Admin = props => {
               <Route path='/dashboard/security' component={AccountSecurity} />
               <Route path='/dashboard/address' component={Address} />
               <Route path='/dashboard/product' component={Product} />
-              <Route path='/dashboard/category' component={Category} />
               <Route path='/dashboard/brand' component={Brand} />
-              <Route path='/dashboard/users' component={Users} />
-              <Route path='/dashboard/merchant' component={Merchant} />
-              <Route path='/dashboard/GrowthPartner' component={GrowthPartner} />
               <Route path='/dashboard/orders' component={Order} />
-              <Route path='/dashboard/review' component={Review} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
+              {/* <Route path='/dashboard/referrals' component={Referral} />
+              <Route path='/dashboard/leads' component={Leads} />
+              <Route path='/dashboard/commission' component={Commission} /> */}
               <Route path='*' component={Page404} />
             </Switch>
           </div>
@@ -56,4 +52,4 @@ const Admin = props => {
   );
 };
 
-export default Admin;
+export default GrowthPartner;

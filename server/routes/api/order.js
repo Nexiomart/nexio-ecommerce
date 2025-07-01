@@ -254,6 +254,95 @@ router.get('/:orderId', auth, async (req, res) => {
   }
 });
 
+
+// Fetch order by ID
+// router.get('/:orderId', auth, async (req, res) => {
+//   try {
+//     const orderId = req.params.orderId;
+//     let orderDoc = null;
+
+//     // If Admin → fetch any order
+//     if (req.user.role === ROLES.Admin) {
+//       orderDoc = await Order.findOne({ _id: orderId }).populate({
+//         path: 'cart',
+//         populate: {
+//           path: 'products.product',
+//           populate: { path: 'brand' }
+//         }
+//       });
+
+//     // If Merchant → fetch order and check if any product belongs to this merchant
+//     } 
+//     else if (req.user.role === ROLES.Merchant) {
+//       orderDoc = await Order.findOne({ _id: orderId }).populate({
+//         path: 'cart',
+//         populate: {
+//           path: 'products.product',
+//           populate: { path: 'brand' }
+//         }
+//       });
+
+//       if (!orderDoc || !orderDoc.cart) {
+//         return res.status(404).json({
+//           message: `Cannot find order with the id: ${orderId}.`
+//         });
+//       }
+
+//       // Check if this merchant owns any product in the order
+//       const merchantOwnsProduct = orderDoc.cart.products.some(
+//         item => item.seller?.toString() === req.user._id.toString()
+//       );
+
+//       if (!merchantOwnsProduct) {
+//         return res.status(403).json({
+//           message: 'You are not authorized to view this order.'
+//         });
+//       }
+
+//     // Else → treat as Buyer → can only see their own orders
+//     } else {
+//       const user = req.user._id;
+//       orderDoc = await Order.findOne({ _id: orderId, user }).populate({
+//         path: 'cart',
+//         populate: {
+//           path: 'products.product',
+//           populate: { path: 'brand' }
+//         }
+//       });
+//     }
+
+//     if (!orderDoc || !orderDoc.cart) {
+//       return res.status(404).json({
+//         message: `Cannot find order with the id: ${orderId}.`
+//       });
+//     }
+
+//     // Build order response
+//     let order = {
+//       _id: orderDoc._id,
+//       total: orderDoc.total,
+//       created: orderDoc.created,
+//       totalTax: 0,
+//       products: orderDoc?.cart?.products,
+//       cartId: orderDoc.cart._id
+//     };
+
+//     order = store.caculateTaxAmount(order);
+
+//     res.status(200).json({ order });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json({
+//       error: 'Your request could not be processed. Please try again.'
+//     });
+//   }
+// });
+
+   
+
+
+
 router.delete('/cancel/:orderId', auth, async (req, res) => {
   try {
     const orderId = req.params.orderId;

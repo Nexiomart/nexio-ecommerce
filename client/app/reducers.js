@@ -33,6 +33,8 @@ import contactReducer from './containers/Contact/reducer';
 import orderReducer from './containers/Order/reducer';
 import reviewReducer from './containers/Review/reducer';
 import wishListReducer from './containers/WishList/reducer';
+// import growthPartnerReducer from './containers/GrowthPartner/reducer'; // NEW: Import Growth Partner reducer
+import growthPartnerReducer from './containers/GrowthPartner/reducer';
 
 const createReducer = history =>
   combineReducers({
@@ -61,7 +63,9 @@ const createReducer = history =>
     contact: contactReducer,
     order: orderReducer,
     review: reviewReducer,
-    wishlist: wishListReducer
+    wishlist: wishListReducer,
+    growthPartner: growthPartnerReducer // NEW: Add Growth Partner reducer
+    
   });
 
 export default createReducer;

@@ -1,10 +1,17 @@
 exports.ROLES = {
   Admin: 'ROLE ADMIN',
   Member: 'ROLE MEMBER',
-  Merchant: 'ROLE MERCHANT'
+  Merchant: 'ROLE MERCHANT',
+  GrowthPartner: 'ROLE GROWTH PARTNER'
 };
 
 exports.MERCHANT_STATUS = {
+  Rejected: 'Rejected',
+  Approved: 'Approved',
+  Waiting_Approval: 'Waiting Approval'
+};
+
+exports.GROWTH_PARTNER_STATUS = {
   Rejected: 'Rejected',
   Approved: 'Approved',
   Waiting_Approval: 'Waiting Approval'

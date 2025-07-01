@@ -8,7 +8,8 @@ export const SOCKET_URL =
 export const ROLES = {
   Admin: 'ROLE ADMIN',
   Member: 'ROLE MEMBER',
-  Merchant: 'ROLE MERCHANT'
+  Merchant: 'ROLE MERCHANT',
+  GrowthPartner: 'ROLE GROWTH PARTNER'
 };
 
 export const CART_ITEMS = 'cart_items';
@@ -28,6 +29,13 @@ export const MERCHANT_STATUS = {
   Approved: 'Approved',
   Waiting_Approval: 'Waiting Approval'
 };
+
+export const GROWTH_PARTNER_STATUS = {
+  Rejected: 'Rejected',
+  Approved: 'Approved',
+  Waiting_Approval: 'Waiting Approval'
+};
+
 
 export const REVIEW_STATUS = {
   Rejected: 'Rejected',
