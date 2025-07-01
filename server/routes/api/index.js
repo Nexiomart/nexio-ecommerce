@@ -104,7 +104,7 @@ router.use('/contact', contactRoutes);
 router.use('/merchant', merchantRoutes);
 
  // growth partner routes
-router.use('/growthpartner', growthpartnerRoutes);
+router.use('/growthPartner', growthpartnerRoutes);
 
 // cart routes
 router.use('/cart', cartRoutes);
