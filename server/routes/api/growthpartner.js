@@ -29,7 +29,7 @@ router.post('/add', async (req, res) => {
     const gp = new GrowthPartner({ name, email, phoneNumber, location });
     const gpDoc = await gp.save();
 
-    // await mailgun.sendEmail(email, 'growth-partner-application');
+    await mailgun.sendEmail(email, 'growth-partner-application');
 
     res.status(200).json({
       success: true,
