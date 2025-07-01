@@ -105,5 +105,29 @@ exports.orderConfirmationEmail = order => {
       `We've received your order and will contact you as soon as your package is shipped. \n\n`
   };
 
+  exports.growthPartnerSignup = (data) => {
+  return {
+    subject: `Welcome to Nexio Growth Partner Program`,
+    text: `Hi ${data.name}, your referral code is ${data.referralCode}`,
+    html: `<h1>Hi ${data.name},</h1><p>Your referral code is: <strong>${data.referralCode}</strong></p>`
+  };
+};
+
+exports.growthPartnerApproved = (data) => {
+  return {
+    subject: `Your Growth Partner Application is Approved`,
+    text: `Congratulations ${data.name}, your application has been approved.`,
+    html: `<h1>Congratulations ${data.name},</h1><p>Your application has been approved.</p>`
+  };
+};
+
+exports.growthPartnerRejected = (data) => {
+  return {
+    subject: `Your Growth Partner Application is Rejected`,
+    text: `We're sorry ${data.name}, your application has been rejected.`,
+    html: `<h1>We're sorry ${data.name},</h1><p>Your application has been rejected.</p>`
+  };
+};
+
   return message;
 };

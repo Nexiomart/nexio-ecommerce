@@ -81,6 +81,20 @@ const prepareTemplate = (type, host, data) => {
       message = template.orderConfirmationEmail(data);
       break;
 
+
+    case 'growth-partner-signup':
+  message = template.growthPartnerSignup(data);
+  break;
+
+case 'growth-partner-approved':
+  message = template.growthPartnerApproved(data);
+  break;
+
+case 'growth-partner-rejected':
+  message = template.growthPartnerRejected(data);
+  break;
+  
+
     default:
       message = '';
   }
