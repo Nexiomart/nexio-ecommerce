@@ -121,7 +121,7 @@ class Dashboard extends React.PureComponent {
             links={dashboardLinks[ROLES.Merchant]}
             toggleMenu={toggleDashboardMenu}
           />
-        ) : user.role === ROLES.GrowthPartner && user.growthpartner ? ( // ✅ Growth Partner check
+        ) : user.role === ROLES.GrowthPartner  ? ( // ✅ Growth Partner check
           <GrowthPartner
             user={user}
             isMenuOpen={isMenuOpen}

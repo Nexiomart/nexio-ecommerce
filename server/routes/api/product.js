@@ -179,7 +179,7 @@ router.get('/list/select', auth, async (req, res) => {
 router.post(
   '/add',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
   upload.single('image'),
   async (req, res) => {
     try {
@@ -251,7 +251,7 @@ router.post(
 router.get(
   '/',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let products = [];
@@ -297,7 +297,7 @@ router.get(
 router.get(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -344,7 +344,7 @@ router.get(
 router.put(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -381,7 +381,7 @@ router.put(
 router.put(
   '/:id/active',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -407,7 +407,7 @@ router.put(
 router.delete(
   '/delete/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const product = await Product.deleteOne({ _id: req.params.id });

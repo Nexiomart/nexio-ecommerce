@@ -14,14 +14,13 @@ import Page404 from '../../Common/Page404';
 
 import Account from '../../../containers/Account';
 import AccountSecurity from '../../../containers/AccountSecurity';
-// import Referral from '../../../containers/Referral'; // Custom for Growth Partner
-// import Leads from '../../../containers/Leads';       // Optional: e.g., merchants acquired
-// import Commission from '../../../containers/Commission'; // Optional earnings view
 import Address from '../../../containers/Address';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Order from '../../../containers/Order';
 import Wishlist from '../../../containers/WishList';
+import Merchant from '../../../containers/Merchant'; // Custom for Growth Partner
+
 
 const GrowthPartner = props => {
   return (
@@ -35,14 +34,12 @@ const GrowthPartner = props => {
             <Switch>
               <Route exact path='/dashboard' component={Account} />
               <Route path='/dashboard/security' component={AccountSecurity} />
+              <Route path='/dashboard/merchant' component={Merchant} />
               <Route path='/dashboard/address' component={Address} />
               <Route path='/dashboard/product' component={Product} />
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
-              {/* <Route path='/dashboard/referrals' component={Referral} />
-              <Route path='/dashboard/leads' component={Leads} />
-              <Route path='/dashboard/commission' component={Commission} /> */}
               <Route path='*' component={Page404} />
             </Switch>
           </div>
@@ -53,3 +50,11 @@ const GrowthPartner = props => {
 };
 
 export default GrowthPartner;
+
+
+{/* <Route path='/dashboard/referrals' component={Referral} />
+  <Route path='/dashboard/leads' component={Leads} />
+  // import Referral from '../../../containers/Referral'; // Custom for Growth Partner
+  // import Leads from '../../../containers/Leads';       // Optional: e.g., merchants acquired
+  // import Commission from '../../../containers/Commission'; // Optional earnings view
+              <Route path='/dashboard/commission' component={Commission} /> */}

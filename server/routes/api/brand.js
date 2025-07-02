@@ -63,7 +63,7 @@ router.get('/list', async (req, res) => {
 router.get(
   '/',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let brands = null;
@@ -115,7 +115,7 @@ router.get('/:id', async (req, res) => {
 router.get(
   '/list/select',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let brands = null;
@@ -145,7 +145,7 @@ router.get(
 router.put(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const brandId = req.params.id;
@@ -180,7 +180,7 @@ router.put(
 router.put(
   '/:id/active',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant),
+  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const brandId = req.params.id;

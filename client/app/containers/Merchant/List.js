@@ -75,7 +75,7 @@ class List extends React.PureComponent {
       <div className='merchant-dashboard'>
         <SubPage
           title={'Merchants'}
-          actionTitle={user.role === ROLES.Admin && 'Add'}
+          actionTitle={(user.role === ROLES.Admin || user.role === ROLES.GrowthPartner) && 'Add'}
           handleAction={() => history.push('/dashboard/merchant/add')}
         />
         <MerchantSearch
