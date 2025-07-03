@@ -63,6 +63,21 @@ const AccountDetails = props => {
               }}
             />
           </Col>
+
+          {/* {user.role === ROLES.GrowthPartner && (
+  <Col xs='12' md='6'>
+    <Input
+      type='text'
+      label='Referral Code'
+      name='referralCode'
+      value={referralCode || 'Loading...'}
+      readOnly={true}
+    />
+  </Col>
+)} */}
+
+
+
           {/* TODO: update email feature to be added instead form change */}
           {/* <Col xs='12' md='6'>
             <Input

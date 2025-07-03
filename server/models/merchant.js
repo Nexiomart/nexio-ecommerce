@@ -33,11 +33,11 @@ const MerchantSchema = new Schema({
     default: null
   },
   
-//   referredBy: {
-//   type: Schema.Types.ObjectId,
-//   ref: 'GrowthPartner',
-//   default: null
-// },
+  referredBy: {
+  type: Schema.Types.ObjectId,
+  ref: 'GrowthPartner',
+  default: null
+},
 
   status: {
     type: String,

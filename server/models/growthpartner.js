@@ -54,10 +54,10 @@ const GrowthPartnerSchema = new Schema({
        GROWTH_PARTNER_STATUS.Approved
       ]
   },
-  // referredMerchants: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Merchant'
-  // }],
+  referredMerchants: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Merchant'
+  }],
   updated: Date,
   created: {
     type: Date,

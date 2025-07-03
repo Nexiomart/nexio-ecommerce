@@ -179,7 +179,7 @@ router.get('/', auth, async (req, res) => {
     )
       .sort('-created')
       .populate('merchant',      'name')
-      // .populate('growthPartner', 'name region') // NEW
+      .populate('growthPartner', 'name region') // NEW
       .populate('growthPartner', 'name ') // NEW
       .limit(limit * 1)
       .skip((page - 1) * limit)

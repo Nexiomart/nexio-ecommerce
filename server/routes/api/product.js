@@ -179,7 +179,7 @@ router.get('/list/select', auth, async (req, res) => {
 router.post(
   '/add',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant , ROLES.GrowthPartner),
   upload.single('image'),
   async (req, res) => {
     try {
@@ -232,6 +232,8 @@ router.post(
         imageKey
       });
 
+      // addedBy: req.user._id 
+
       const savedProduct = await product.save();
 
       res.status(200).json({
@@ -251,7 +253,7 @@ router.post(
 router.get(
   '/',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant ),
   async (req, res) => {
     try {
       let products = [];
