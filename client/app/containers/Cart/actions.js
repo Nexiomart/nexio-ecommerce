@@ -35,36 +35,20 @@ export const handleAddToCart = product => {
     product.totalPrice = parseFloat(product.totalPrice.toFixed(2));
     const inventory = getState().product.storeProduct.inventory;
 
-    // const result = calculatePurchaseQuantity(inventory);
-    const result = calculatePurchaseQuantity(product._id, inventory, cartItems);
+    const result = calculatePurchaseQuantity(inventory);
+   
 
 
-    // const rules = {
-    //   quantity: `min:1|max:${result}`
-    // };
+    const rules = {
+      quantity: `min:1|max:${result}`
+    };
 
-    // const { isValid, errors } = allFieldsValidation(product, rules, {
-    //   'min.quantity': 'Quantity must be at least 1.',
-    //   'max.quantity': `Quantity may not be greater than ${result}.`
-    // });
-    const state = getState();
-const cartItems = JSON.parse(localStorage.getItem(CART_ITEMS)) || [];
+    const { isValid, errors } = allFieldsValidation(product, rules, {
+      'min.quantity': 'Quantity must be at least 1.',
+      'max.quantity': `Quantity may not be greater than ${result}.`
+    });
+   
 
-const quantity = Number(state.product.productShopData.quantity);
-const inventory = state.product.storeProduct.inventory;
-const rules = {
-  quantity: `min:1|max:${result}`
-};
-
-const { isValid, errors } = allFieldsValidation(
-  { quantity },
-  rules,
-  {
-    'min.quantity': 'Quantity must be at least 1.',
-    'max.quantity': `Quantity may not be greater than ${result}.`
-  }
-);
-//new part Quantity
 
     
 
@@ -81,7 +65,7 @@ const { isValid, errors } = allFieldsValidation(
       payload: product
     });
 
-    // const cartItems = JSON.parse(localStorage.getItem(CART_ITEMS));
+    const cartItems = JSON.parse(localStorage.getItem(CART_ITEMS));
     let newCartItems = [];
     if (cartItems) {
       newCartItems = [...cartItems, product];
@@ -227,23 +211,14 @@ const getCartItems = cartItems => {
   return newCartItems;
 };
 
-// const calculatePurchaseQuantity = inventory => {
-//   if (inventory <= 25) {
-//     return 1;
-//   } else if (inventory > 25 && inventory <= 100) {
-//     return 5;
-//   } else if (inventory > 100 && inventory < 500) {
-//     return 25;
-//   } else {
-//     return 50;
-//   }
-// };
-
-const calculatePurchaseQuantity = (productId, inventory, cartItems) => {
-  const existingInCart = cartItems.find(item => item._id === productId);
-  const cartQty = existingInCart ? existingInCart.quantity : 0;
-
-  const availableQty = inventory - cartQty;
-  return availableQty > 0 ? availableQty : 0;
+const calculatePurchaseQuantity = inventory => {
+  if (inventory <= 25) {
+    return 1;
+  } else if (inventory > 25 && inventory <= 100) {
+    return 5;
+  } else if (inventory > 100 && inventory < 500) {
+    return 25;
+  } else {
+    return 50;
+  }
 };
-
