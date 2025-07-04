@@ -66,8 +66,8 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// search merchants api
-router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
+// search merchants api role.check(ROLES.Admin),
+router.get('/search', auth,  async (req, res) => {
   try {
     const { search } = req.query;
 
@@ -93,8 +93,8 @@ router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
   }
 });
 
-// fetch all merchants api
-router.get('/', auth, role.check(ROLES.Admin), async (req, res) => {
+// fetch all merchants api role.check(ROLES.Admin),
+router.get('/', auth, async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
 
