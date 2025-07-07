@@ -13,58 +13,123 @@ const role = require('../../middleware/role');
 const mailgun = require('../../services/mailgun');
 
 // add merchant api
-router.post('/add', async (req, res) => {
-  try {
-    const { name, business, phoneNumber, email, brandName } = req.body;
+router.post(
+  '/add',
+  auth,
+  role.check(ROLES.Admin, ROLES.GrowthPartner),
+  async (req, res) => {
+    try {
+      const { name, business, phoneNumber, email, brandName } = req.body;
 
-    if (!name || !email) {
-      return res
-        .status(400)
-        .json({ error: 'You must enter your name and email.' });
+      // -------- basic validation --------
+      if (!name || !email || !phoneNumber || !business) {
+        return res
+          .status(400)
+          .json({ error: 'Missing required fields: name, email, phoneNumber, business.' });
+      }
+
+      const existingMerchant = await Merchant.findOne({ email });
+      if (existingMerchant) {
+        return res.status(400).json({ error: 'That email address is already registered.' });
+      }
+
+      // -------- build merchant payload --------
+      const merchantData = {
+        name,
+        email,
+        business,
+        phoneNumber,
+        brandName
+      };
+
+      // -------- growth‑partner logic --------
+      // • populate growthpartner so we can read its uniqueId
+      const user = await User.findById(req.user._id).populate('growthPartner');
+// ✅ Debug logs start
+console.log('🔍 Authenticated user ID:', req.user._id);
+console.log('🧾 Populated user:', user);
+console.log('📦 user.growthpartner:', user.growthPartner);
+console.log('🧩 user.growthpartner.uniqueId:', user.growthPartner?.uniqueId);
+// ✅ Debug logs end
+      if (user && user.role === ROLES.GrowthPartner && user.growthPartner) {
+        const gpUniqueId = user.growthPartner.uniqueId;      // e.g. "GRW-58C96C"
+        merchantData.growthPartner = gpUniqueId;             // store uniqueId (string)
+        merchantData.referredBy   = gpUniqueId;              // same public code for tracking
+      }
+
+      // -------- save merchant --------
+      const merchantDoc = await new Merchant(merchantData).save();
+
+      // -------- optional email notice --------
+      void mailgun.sendEmail(email, 'merchant-application');
+
+      return res.status(200).json({
+        success: true,
+        message: `We received your request! We will reach you on ${phoneNumber}!`,
+        merchant: merchantDoc
+      });
+    } catch (err) {
+      console.error('Error creating merchant:', err);
+      return res.status(500).json({
+        error: 'Could not process your request. Please try again.'
+      });
     }
-
-    if (!business) {
-      return res
-        .status(400)
-        .json({ error: 'You must enter a business description.' });
-    }
-
-    if (!phoneNumber || !email) {
-      return res
-        .status(400)
-        .json({ error: 'You must enter a phone number and an email address.' });
-    }
-
-    const existingMerchant = await Merchant.findOne({ email });
-
-    if (existingMerchant) {
-      return res
-        .status(400)
-        .json({ error: 'That email address is already in use.' });
-    }
-
-    const merchant = new Merchant({
-      name,
-      email,
-      business,
-      phoneNumber,
-      brandName
-    });
-    const merchantDoc = await merchant.save();
-
-    await mailgun.sendEmail(email, 'merchant-application');
-
-    res.status(200).json({
-      success: true,
-      message: `We received your request! we will reach you on your phone number ${phoneNumber}!`,
-      merchant: merchantDoc
-    });
-  } catch (error) {
-    return res.status(400).json({
-      error: 'Your request could not be processed. Please try again.'
-    });
   }
-});
+);
+
+
+// router.post('/add', async (req, res) => {
+//   try {
+//     const { name, business, phoneNumber, email, brandName } = req.body;
+
+//     if (!name || !email) {
+//       return res
+//         .status(400)
+//         .json({ error: 'You must enter your name and email.' });
+//     }
+
+//     if (!business) {
+//       return res
+//         .status(400)
+//         .json({ error: 'You must enter a business description.' });
+//     }
+
+//     if (!phoneNumber || !email) {
+//       return res
+//         .status(400)
+//         .json({ error: 'You must enter a phone number and an email address.' });
+//     }
+
+//     const existingMerchant = await Merchant.findOne({ email });
+
+//     if (existingMerchant) {
+//       return res
+//         .status(400)
+//         .json({ error: 'That email address is already in use.' });
+//     }
+
+//     const merchant = new Merchant({
+//       name,
+//       email,
+//       business,
+//       phoneNumber,
+//       brandName
+//     });
+//     const merchantDoc = await merchant.save();
+
+//     await mailgun.sendEmail(email, 'merchant-application');
+
+//     res.status(200).json({
+//       success: true,
+//       message: `We received your request! we will reach you on your phone number ${phoneNumber}!`,
+//       merchant: merchantDoc
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       error: 'Your request could not be processed. Please try again.'
+//     });
+//   }
+// });
 
 // search merchants api role.check(ROLES.Admin),
 router.get('/search', auth,  async (req, res) => {
@@ -94,18 +159,27 @@ router.get('/search', auth,  async (req, res) => {
 });
 
 // fetch all merchants api role.check(ROLES.Admin),
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, role.check(ROLES.Admin, ROLES.GrowthPartner), async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
+    let query = {};
 
-    const merchants = await Merchant.find()
+    const user = await User.findById(req.user._id).populate('growthPartner');
+
+    // 🎯 If user is a Growth Partner, filter only merchants they referred
+    if (user.role === ROLES.GrowthPartner && user.growthPartner) {
+      const gpUniqueId = user.growthPartner.uniqueId;
+      query.growthPartner = gpUniqueId; // filter merchants linked to this GP
+    }
+
+    const merchants = await Merchant.find(query)
       .populate('brand')
       .sort('-created')
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
 
-    const count = await Merchant.countDocuments();
+    const count = await Merchant.countDocuments(query);
 
     res.status(200).json({
       merchants,
@@ -114,11 +188,38 @@ router.get('/', auth, async (req, res) => {
       count
     });
   } catch (error) {
+    console.error('❌ Error fetching merchants:', error);
     res.status(400).json({
       error: 'Your request could not be processed. Please try again.'
     });
   }
 });
+
+// router.get('/', auth,role.check(ROLES.Admin , ROLES.GrowthPartner), async (req, res) => {
+//   try {
+//     const { page = 1, limit = 10 } = req.query;
+
+//     const merchants = await Merchant.find()
+//       .populate('brand')
+//       .sort('-created')
+//       .limit(limit * 1)
+//       .skip((page - 1) * limit)
+//       .exec();
+
+//     const count = await Merchant.countDocuments();
+
+//     res.status(200).json({
+//       merchants,
+//       totalPages: Math.ceil(count / limit),
+//       currentPage: Number(page),
+//       count
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       error: 'Your request could not be processed. Please try again.'
+//     });
+//   }
+// });
 
 // disable merchant account
 router.put('/:id/active', auth, async (req, res) => {

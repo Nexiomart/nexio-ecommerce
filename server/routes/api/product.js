@@ -294,6 +294,71 @@ router.get(
     }
   }
 );
+// router.get(
+//   '/',
+//   auth,
+//   role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+//   async (req, res) => {
+//     try {
+//       let products = [];
+
+//       // If user is a Merchant
+//       if (req.user.merchant) {
+//         const brands = await Brand.find({ merchant: req.user.merchant }).select('_id');
+//         const brandIds = brands.map(brand => brand._id);
+
+//         products = await Product.find({ brand: { $in: brandIds } })
+//           .populate({
+//             path: 'brand',
+//             populate: {
+//               path: 'merchant',
+//               model: 'Merchant'
+//             }
+//           });
+//       }
+
+//       // If user is a Growth Partner
+//       else if (req.user.growthPartner) {
+//         const growthPartner = await GrowthPartner.findById(req.user.growthPartner).select('brands');
+
+//         if (!growthPartner || !growthPartner.brands || growthPartner.brands.length === 0) {
+//           return res.status(200).json({ products: [] }); // no access
+//         }
+
+//         products = await Product.find({ brand: { $in: growthPartner.brands } })
+//           .populate({
+//             path: 'brand',
+//             populate: {
+//               path: 'merchant',
+//               model: 'Merchant'
+//             }
+//           });
+//       }
+
+//       // If user is Admin
+//       else {
+//         products = await Product.find({})
+//           .populate({
+//             path: 'brand',
+//             populate: {
+//               path: 'merchant',
+//               model: 'Merchant'
+//             }
+//           });
+//       }
+
+//       res.status(200).json({ products });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(400).json({
+//         error: 'Your request could not be processed. Please try again.'
+//       });
+//     }
+//   }
+// );
+
+
+
 
 // fetch product api
 router.get(

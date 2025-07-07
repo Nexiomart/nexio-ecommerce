@@ -144,7 +144,7 @@ router.delete('/delete/:id', auth, role.check(ROLES.Admin), async (req, res) => 
 //   }
 // });
 
-const createGrowthPartnerUser = async (email, name, _partnerId, host) => {
+const createGrowthPartnerUser = async (email, name, growthPartner, host) => {
   const firstName = name;
   const lastName = '';
 
@@ -153,7 +153,7 @@ const createGrowthPartnerUser = async (email, name, _partnerId, host) => {
   if (existingUser) {
     return await User.findOneAndUpdate(
       { _id: existingUser._id },
-      { role: ROLES.GrowthPartner },
+      { growthPartner ,role: ROLES.GrowthPartner },
       { new: true }
     );
   } else {
@@ -165,6 +165,7 @@ const createGrowthPartnerUser = async (email, name, _partnerId, host) => {
       firstName,
       lastName,
       resetPasswordToken: resetToken,
+      growthPartner,
       role: ROLES.GrowthPartner
     });
 

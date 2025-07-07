@@ -23,7 +23,7 @@ const AccountDetails = props => {
 
   return (
     <div className='account-details'>
-      <div className='info'>
+      {/* <div className='info'>
         <div className='desc'>
           <p className='one-line-ellipsis mr-3'>
             {user.provider === EMAIL_PROVIDER.Email ? (
@@ -33,10 +33,37 @@ const AccountDetails = props => {
                 Logged in With {user.provider}
               </span>
             )}
+           
           </p>
           <UserRole user={user} />
         </div>
-      </div>
+      </div> */}
+      <div className='info'>
+  <div className='desc'>
+    <p className='one-line-ellipsis mr-3'>
+      {user.provider === EMAIL_PROVIDER.Email ? (
+        user.email
+      ) : (
+        <span className='provider-email'>
+          Logged in With {user.provider}
+        </span>
+      )}
+    </p>
+
+
+    <UserRole user={user} />
+    <br />
+   {user.growthPartner?.uniqueId && (
+  <div className="mt-3 p-3 rounded-md bg-gray-100 dark:bg-gray-800">
+    <p className="text-lg font-extrabold text-gray-800">
+      ID: <span className="text-blue-900">{user.growthPartner.uniqueId}</span>
+    </p>
+  </div>
+)}
+
+  </div>
+</div>
+
       <form onSubmit={handleSubmit}>
         <Row>
           <Col xs='12' md='6'>

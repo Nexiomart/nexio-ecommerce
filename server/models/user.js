@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const Mongoose = require('mongoose');
 
 const { ROLES, EMAIL_PROVIDER } = require('../constants');
@@ -12,6 +14,16 @@ const UserSchema = new Schema({
       return this.provider !== 'email' ? false : true;
     }
   },
+  uniqueId: {
+  type: String,
+  unique: true,
+  index: true
+},
+referredBy: {
+  type: String,
+  default: null
+},
+
   phoneNumber: {
     type: String
   },
@@ -29,7 +41,7 @@ const UserSchema = new Schema({
     ref: 'Merchant',
     default: null
   },
-  growthpartner: {
+  growthPartner: {
   type: Schema.Types.ObjectId,
   ref: 'GrowthPartner',
   default: null
@@ -63,4 +75,25 @@ const UserSchema = new Schema({
   }
 });
 
+function makeUniqueId(prefix = 'USR') {
+  return `${prefix}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+}
+
+UserSchema.pre('save', async function (next) {
+  if (!this.uniqueId) {
+    let id, exists;
+    do {
+      id = makeUniqueId('USR');
+      exists = await Mongoose.models.User.findOne({ uniqueId: id });
+    } while (exists);
+    this.uniqueId = id;
+  }
+  next();
+});
+
+
+
+
 module.exports = Mongoose.model('User', UserSchema);
+
+

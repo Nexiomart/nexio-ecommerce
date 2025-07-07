@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const Mongoose = require('mongoose');
 
 const { MERCHANT_STATUS } = require('../constants');
@@ -32,11 +34,21 @@ const MerchantSchema = new Schema({
     ref: 'Brand',
     default: null
   },
-  
-  referredBy: {
-  type: Schema.Types.ObjectId,
-  ref: 'GrowthPartner',
+  uniqueId: {
+  type: String,
+  unique: true,
+  index: true
+},
+referredBy: {
+  type: String,
   default: null
+},
+
+  
+  growthPartner: {
+  type: String,  // ✅ change to String
+  ref: 'GrowthPartner',
+  default: null  // ✅ and store values like "GRW-58C96C"
 },
 
   status: {
@@ -54,5 +66,22 @@ const MerchantSchema = new Schema({
     default: Date.now
   }
 });
+
+function makeUniqueId(prefix = 'MER') {
+  return `${prefix}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+}
+
+MerchantSchema.pre('save', async function (next) {
+  if (!this.uniqueId) {
+    let id, exists;
+    do {
+      id = makeUniqueId('MER');
+      exists = await Mongoose.models.Merchant.findOne({ uniqueId: id });
+    } while (exists);
+    this.uniqueId = id;
+  }
+  next();
+});
+
 
 module.exports = Mongoose.model('Merchant', MerchantSchema);
