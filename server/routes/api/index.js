@@ -15,6 +15,7 @@ const orderRoutes = require('./order');
 const reviewRoutes = require('./review');
 const wishlistRoutes = require('./wishlist');
 const growthpartnerRoutes = require('./growthPartner');
+const locationRoutes = require('./location');
 // auth routes
 router.use('/auth', authRoutes);
 
@@ -41,6 +42,9 @@ router.use('/contact', contactRoutes);
 
 // merchant routes
 router.use('/merchant', merchantRoutes);
+
+// location routes
+router.use('/location', locationRoutes);
 
  // growth partner routes
 router.use('/growthPartner', growthpartnerRoutes);

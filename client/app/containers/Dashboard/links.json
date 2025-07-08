@@ -31,6 +31,7 @@
     { "to": "/brand", "name": "Brand", "prefix": "/dashboard" },
     { "to": "/product", "name": "Products", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
+    { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
     { "to": "/support", "name": "Support" }
   ],

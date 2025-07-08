@@ -43,6 +43,22 @@ referredBy: {
   type: String,
   default: null
 },
+// Add inside MerchantSchema definition
+
+pinCode: {
+  type: String,
+  trim: true,
+  maxlength: 6,
+  index: true
+},
+city: {
+  type: String,
+  trim: true
+},
+state: {
+  type: String,
+  trim: true
+},
 
   
   growthPartner: {

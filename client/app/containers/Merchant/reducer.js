@@ -32,7 +32,10 @@ const initialState = {
     email: '',
     phoneNumber: '',
     brandName: '',
-    business: ''
+    business: '',
+    pinCode: '',     // ✅ added
+    city: '',        // ✅ added
+    state: ''        // ✅ added
   },
   formErrors: {},
   signupFormData: {
@@ -106,7 +109,10 @@ const merchantReducer = (state = initialState, action) => {
           email: '',
           phoneNumber: '',
           brandName: '',
-          business: ''
+          business: '',
+           pinCode: '',     // ✅ added
+  city: '',        // ✅ added
+  state: ''        // ✅ added
         },
         formErrors: {}
       };

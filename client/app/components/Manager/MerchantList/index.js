@@ -48,6 +48,12 @@ const MerchantList = props => {
             <p className='text-truncate'>{merchant.brandName}</p>
             <label className='text-black'>Name</label>
             <p className='text-truncate'>{merchant.name}</p>
+            <label className='text-black'>Pincode</label>
+            <p className='text-truncate'>{merchant.pinCode}</p>
+             <label className='text-black'>City</label>
+            <p className='text-truncate'>{merchant.city}</p>
+             <label className='text-black'>State</label>
+            <p className='text-truncate'>{merchant.state}</p>
             <label className='text-black'>Email</label>
             <p className='text-truncate'>
               {merchant.email ? merchant.email : 'N/A'}

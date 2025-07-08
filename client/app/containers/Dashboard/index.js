@@ -86,7 +86,7 @@ import { ROLES } from '../../constants';
 import dashboardLinks from './links.json';
 import { isDisabledMerchantAccount } from '../../utils/app';
 import Admin from '../../components/Manager/Dashboard/Admin';
-import Merchant from '../../components/Manager/Dashboard/Merchant';
+import Merchant_dashboard from '../../components/Manager/Dashboard/Merchant';
 import Customer from '../../components/Manager/Dashboard/Customer';
 import GrowthPartner from '../../components/Manager/Dashboard/GrowthPartner'; // ✅ NEW
 import DisabledMerchantAccount from '../../components/Manager/DisabledAccount/Merchant';
@@ -115,7 +115,7 @@ class Dashboard extends React.PureComponent {
             toggleMenu={toggleDashboardMenu}
           />
         ) : user.role === ROLES.Merchant && user.merchant ? (
-          <Merchant
+          <Merchant_dashboard
             user={user}
             isMenuOpen={isMenuOpen}
             links={dashboardLinks[ROLES.Merchant]}

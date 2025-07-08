@@ -18,9 +18,11 @@ import Address from '../../../containers/Address';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Order from '../../../containers/Order';
+import Merchant from '../../../containers/Merchant';
 import Wishlist from '../../../containers/WishList';
+// import Merchant from '../../../containers/Merchant';
 
-const Merchant = props => {
+const Merchant_dashboard = props => {
   return (
     <div className='merchant'>
       <Row>
@@ -36,6 +38,7 @@ const Merchant = props => {
               <Route path='/dashboard/product' component={Product} />
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/orders' component={Order} />
+              <Route path='/dashboard/merchant' component={Merchant} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
               <Route path='*' component={Page404} />
             </Switch>
@@ -46,4 +49,4 @@ const Merchant = props => {
   );
 };
 
-export default Merchant;
+export default Merchant_dashboard;

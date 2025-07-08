@@ -73,7 +73,8 @@ export const addMerchant = (isBack = false) => {
         email: 'required|email',
         phoneNumber: ['required', `regex:${phoneno}`],
         brandName: 'required',
-        business: 'required|min:10'
+        business: 'required|min:10',
+        // pinCode: ['required', `regex:${pinCodePattern}`] // ✅ NEW
       };
 
       const merchant = getState().merchant.merchantFormData;
@@ -86,7 +87,9 @@ export const addMerchant = (isBack = false) => {
         'regex.phoneNumber': 'Phone number format is invalid.',
         'required.brandName': 'Brand is required.',
         'required.business': 'Business is required.',
-        'min.business': 'Business must be at least 10 characters.'
+        'min.business': 'Business must be at least 10 characters.',
+        'required.pinCode': 'PIN Code is required.',              // ✅ NEW
+        'regex.pinCode': 'PIN Code must be 6 digits.'             // ✅ NEW
       });
 
       if (!isValid) {
