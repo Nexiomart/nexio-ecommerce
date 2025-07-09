@@ -106,7 +106,7 @@ const AddGrowthPartner = props => {
             />
           </Col>
 
-          <Col xs='12'>
+          {/* <Col xs='12'>
             <Input
               type='text'
               error={formErrors['referralCode']}
@@ -118,7 +118,7 @@ const AddGrowthPartner = props => {
                 growthPartnerChange(name, value);
               }}
             />
-          </Col>
+          </Col> */}
         </Row>
 
         <hr />
