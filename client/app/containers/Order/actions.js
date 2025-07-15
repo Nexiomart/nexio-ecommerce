@@ -215,6 +215,29 @@ export const addOrder = () => {
     }
   };
 };
+// export const addOrder = (cartItems) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const cartId = localStorage.getItem('cart_id');
+//       const total = getState().cart.cartTotal;
+
+//       // ✅ use existing utility to format products
+//       const products = getCartItems(cartItems); // defined in Cart/actions.js
+
+//       const response = await axios.post(`${API_URL}/order/add`, {
+//         cartId,
+//         total,
+//       });
+
+//       dispatch(push(`/order/success/${response.data.order._id}`));
+//       dispatch(clearCart()); // ✅ clear cart after order
+//     } catch (error) {
+//       handleError(error, dispatch);
+//     }
+//   };
+// };
+
+
 
 export const placeOrder = () => {
   return (dispatch, getState) => {

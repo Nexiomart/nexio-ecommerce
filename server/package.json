@@ -29,6 +29,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.0",
+    "razorpay": "^2.9.6",
     "server": "file:",
     "socket.io": "^4.2.0",
     "uuid": "^9.0.0",

@@ -16,6 +16,7 @@ const reviewRoutes = require('./review');
 const wishlistRoutes = require('./wishlist');
 const growthpartnerRoutes = require('./growthPartner');
 const locationRoutes = require('./location');
+const paymentRoutes = require('./payment'); // ✅ NEW
 // auth routes
 router.use('/auth', authRoutes);
 
@@ -54,6 +55,9 @@ router.use('/cart', cartRoutes);
 
 // order routes
 router.use('/order', orderRoutes);
+
+// payment routes
+router.use('/payment', paymentRoutes);
 
 // Review routes
 router.use('/review', reviewRoutes);
