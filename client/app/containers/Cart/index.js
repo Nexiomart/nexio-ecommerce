@@ -14,6 +14,7 @@ import CartSummary from '../../components/Store/CartSummary';
 import Checkout from '../../components/Store/Checkout';
 import { BagIcon, CloseIcon } from '../../components/Common/Icon';
 import Button from '../../components/Common/Button';
+import { API_URL } from '../../constants';
 
 class Cart extends React.PureComponent {
   // razorpay 
@@ -22,7 +23,7 @@ class Cart extends React.PureComponent {
   const { cartTotal, placeOrder, user } = this.props;
 
 // api http://localhost:3000/api
-  const res = await fetch('http://localhost:3000/api/payment/create-order', {
+  const res = await fetch(`${API_URL}/payment/create-order`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -41,7 +42,7 @@ class Cart extends React.PureComponent {
     description: 'Order Payment',
     order_id: data.order.id,
     handler: async function (response) {
-      const verifyRes = await fetch('http://localhost:3000/api/payment/verify', {
+      const verifyRes = await fetch(`${API_URL}/payment/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(response)
