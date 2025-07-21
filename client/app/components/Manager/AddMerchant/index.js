@@ -112,6 +112,7 @@ import { Row, Col } from 'reactstrap';
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
 import axios from 'axios';
+import { API_URL } from '../../../constants';
 
 const AddMerchant = props => {
   const {
@@ -133,7 +134,7 @@ const AddMerchant = props => {
 
     if (value.length === 6) {
       try {
-        const response = await axios.get(`http://localhost:3000/api/location/${value}`);
+        const response = await axios.get(`${API_URL}/location/${value}`);
 
         const { city, state } = response.data;
 

@@ -114,7 +114,7 @@ class Dashboard extends React.PureComponent {
             links={dashboardLinks[ROLES.Admin]}
             toggleMenu={toggleDashboardMenu}
           />
-        ) : user.role === ROLES.Merchant && user.merchant ? (
+        ) : user.role === ROLES.Merchant  ? (
           <Merchant_dashboard
             user={user}
             isMenuOpen={isMenuOpen}

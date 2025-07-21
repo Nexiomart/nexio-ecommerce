@@ -31,3 +31,382 @@
     }
   }
 }
+
+// ===== COMPLETELY SEPARATE STYLES FOR ACCOUNT SELL/PARTNER LINKS =====
+// These styles are completely isolated and won't affect any existing buttons
+
+.account-action-links-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+// Base styles for both account action links
+.account-sell-link,
+.account-partner-link {
+  position: relative;
+  display: block;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0) scale(1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  // Enhanced hover effects
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    border-color: rgba(255, 255, 255, 0.3);
+
+    .account-link-overlay {
+      opacity: 1;
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+    }
+
+    .account-link-content {
+      transform: translateY(-3px);
+    }
+
+    .account-link-icon {
+      transform: scale(1.15) rotate(8deg);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .account-link-title {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .account-link-desc {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+  }
+
+  &:active {
+    transform: translateY(-3px) scale(0.98);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.1s ease;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.4);
+  }
+
+  // Ripple effect on click
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: 1;
+  }
+
+  &:active::after {
+    width: 300px;
+    height: 300px;
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+}
+
+// Sell button specific styles
+.account-sell-link {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 18px;
+    z-index: 0;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+
+    background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+
+    .account-link-title {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(255, 71, 87, 0.6);
+    }
+
+    .account-link-desc {
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 1px 4px rgba(255, 71, 87, 0.4);
+    }
+  }
+
+  &:active {
+    background: linear-gradient(135deg, #ff3742 0%, #b33951 100%);
+  }
+}
+
+// Growth Partner button specific styles
+.account-partner-link {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 18px;
+    z-index: 0;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+
+    background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
+    box-shadow: 0 12px 35px rgba(78, 205, 196, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+
+    .account-link-title {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(29, 209, 161, 0.6);
+    }
+
+    .account-link-desc {
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 1px 4px rgba(29, 209, 161, 0.4);
+    }
+  }
+
+  &:active {
+    background: linear-gradient(135deg, #00d2d3 0%, #01a3a4 100%);
+  }
+}
+
+// Content and element styles for account action links
+.account-link-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.account-link-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.account-link-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  display: inline-block;
+}
+
+.account-link-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.account-link-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  opacity: 0.9;
+}
+
+// Shine effect for account action links
+.account-link-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.account-sell-link:hover .account-link-shine,
+.account-partner-link:hover .account-link-shine {
+  left: 100%;
+}
+
+// Animations for account action links
+.account-sell-link,
+.account-partner-link {
+  animation: accountLinkFloat 4s ease-in-out infinite;
+
+  &:hover {
+    animation: accountLinkGlow 2s ease-in-out infinite;
+  }
+
+  &:focus {
+    animation: accountLinkPulse 2s infinite;
+    outline: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.5);
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
+// Stagger animation for account action links
+.account-action-links-wrapper {
+  .account-sell-link {
+    animation-delay: 0s;
+  }
+
+  .account-partner-link {
+    animation-delay: 0.2s;
+  }
+}
+
+// Responsive adjustments for account action links
+@include media-breakpoint-down(sm) {
+  .account-action-links-wrapper {
+    margin-top: 1.5rem;
+  }
+
+  .account-sell-link,
+  .account-partner-link {
+    padding: 1.25rem 1.5rem;
+
+    .account-link-icon {
+      font-size: 1.75rem;
+    }
+
+    .account-link-title {
+      font-size: 1rem;
+    }
+
+    .account-link-desc {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Keyframe animations for account action links
+@keyframes accountLinkFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes accountLinkGlow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes accountLinkPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Dark mode support for account action links
+@media (prefers-color-scheme: dark) {
+  .account-sell-link,
+  .account-partner-link {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .account-link-title {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .account-link-desc {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Reduced motion support for accessibility
+@media (prefers-reduced-motion: reduce) {
+  .account-sell-link,
+  .account-partner-link {
+    animation: none;
+    transition: none;
+
+    &:hover {
+      animation: none;
+    }
+
+    &:focus {
+      animation: none;
+    }
+  }
+
+  .account-link-shine {
+    display: none;
+  }
+}
+
+// End of account action links styles

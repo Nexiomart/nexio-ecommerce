@@ -233,10 +233,10 @@ const GrowthPartnerList = ({
             <p>{growthpartner.phoneNumber}</p>
 
             <label className='text-black'>Region</label>
-            <p>{growthpartner.region}</p>
-
+            <p>{growthpartner.location}</p>
+{/* 
             <label className='text-black'>Strategy</label>
-            <p className='text-truncate'>{growthpartner.strategy}</p>
+            <p className='text-truncate'>{growthpartner.strategy}</p> */}
 
             <label className='text-black'>Request Date</label>
             <p>{formatDate(growthpartner.created)}</p>

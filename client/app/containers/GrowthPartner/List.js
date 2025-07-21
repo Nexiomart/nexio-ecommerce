@@ -164,6 +164,10 @@ class List extends React.PureComponent {
       this.setState({ search: e.value });
     } else {
       this.setState({ search: '' });
+      // Fetch original list when search is cleared
+      if (e.value.length === 0) {
+        this.props.fetchGrowthPartners();
+      }
     }
   };
 
@@ -188,6 +192,14 @@ class List extends React.PureComponent {
     const filteredPartners = isSearch ? searchedGrowthPartners : growthPartners;
     const displayPagination = !isSearch && advancedFilters.totalPages > 1;
     const displayPartners = filteredPartners && filteredPartners.length > 0;
+
+    // Temporary debugging
+    if (isSearch) {
+      console.log('Search active:', search);
+      console.log('Searched partners:', searchedGrowthPartners?.length || 0);
+      console.log('Filtered partners:', filteredPartners?.length || 0);
+    }
+
 
     return (
       <div className='growth-partner-dashboard'>
@@ -214,7 +226,7 @@ class List extends React.PureComponent {
             )}
 
             <SearchResultMeta
-              label='growth partners'
+              label='growthpartners'
               count={isSearch ? filteredPartners.length : advancedFilters.count}
             />
 

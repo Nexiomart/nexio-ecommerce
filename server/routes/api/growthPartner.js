@@ -15,7 +15,7 @@ const mailgun = require('../../services/mailgun');
 // Register growth partner
 router.post('/add', async (req, res) => {
   try {
-    const { name, location, phoneNumber, email } = req.body;
+    const { name, region, phoneNumber, email } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ error: 'Name and email are required.' });
@@ -26,7 +26,7 @@ router.post('/add', async (req, res) => {
       return res.status(400).json({ error: 'Email already registered.' });
     }
 
-    const gp = new GrowthPartner({ name, email, phoneNumber, location });
+    const gp = new GrowthPartner({ name, email, phoneNumber, location: region });
     const gpDoc = await gp.save();
 
     await mailgun.sendEmail(email, 'growth-partner-application');
@@ -42,25 +42,80 @@ router.post('/add', async (req, res) => {
 });
 
 // Search growth partners
+// router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
+//   try {
+//     const { search } = req.query;
+//     // new RegExp(search, 'i')
+//     const regex = new RegExp(`.*${search}.*`, 'i');
+
+//     const partners = await GrowthPartner.find({
+//       $or: [
+//         { phoneNumber: { $regex: regex } },
+//         { email: { $regex: regex } },
+//         { name: { $regex: regex } },
+//         {location: {$regex: regex}}
+//       ]
+//     });
+
+//     res.status(200).json({ partners,
+//       growthpartners: partners });
+//   } catch (error) {
+//     res.status(400).json({ error: 'Search failed.' });
+//   }
+// });
+// Search growth partners
+// router.get('/search', auth, async (req, res) => {
+//   try {
+//     const { search } = req.query;
+//     const regex = new RegExp(search, 'i');
+
+//     const partners = await GrowthPartner.find({
+//       $or: [
+//         { phoneNumber: { $regex: regex } },
+//         { email: { $regex: regex } },
+//         { name: { $regex: regex } },
+//         { location: { $regex: regex } },
+//         { status: { $regex: regex } }
+//       ]
+//     });
+
+//     res.status(200).json({ partners,growthpartners: partners }); // ✅ ensure key is "growthpartners"
+//   } catch (error) {
+//     res.status(400).json({ error: 'Search failed. Please try again.' });
+//   }
+// });
 router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
   try {
     const { search } = req.query;
-    const regex = new RegExp(search, 'i');
+
+    // ✅ Validate search input
+    if (!search || search.trim() === '') {
+      return res.status(400).json({ error: 'Search query is required.' });
+    }
+
+    // ✅ Trim and escape special regex characters
+    const searchTerm = search.trim();
+    const escapedSearch = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escapedSearch, 'i');
 
     const partners = await GrowthPartner.find({
       $or: [
         { phoneNumber: { $regex: regex } },
         { email: { $regex: regex } },
         { name: { $regex: regex } },
+        { location: { $regex: regex } },
         { status: { $regex: regex } }
       ]
-    });
+    }).sort('-created');
 
-    res.status(200).json({ partners });
+    console.log(`Search for "${searchTerm}" found ${partners.length} results`);
+    res.status(200).json({ growthpartners: partners, partners });
   } catch (error) {
-    res.status(400).json({ error: 'Search failed.' });
+    console.error('Search error:', error.message);
+    res.status(400).json({ error: 'Search failed. Please try again.' });
   }
 });
+
 
 // Fetch all growth partners
 router.get('/', auth, role.check(ROLES.Admin), async (req, res) => {

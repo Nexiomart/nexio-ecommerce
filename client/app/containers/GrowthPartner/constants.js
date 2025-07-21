@@ -35,3 +35,6 @@ export const GROWTH_PARTNER_CHANGE = 'src/GrowthPartner/GROWTH_PARTNER_CHANGE';
 export const SIGNUP_CHANGE = 'src/GrowthPartner/SIGNUP_CHANGE';
 export const SET_SIGNUP_FORM_ERRORS = 'src/GrowthPartner/SET_SIGNUP_FORM_ERRORS';
 export const SIGNUP_RESET = 'src/GrowthPartner/SIGNUP_RESET';
+// ✅ New constant for searched results
+export const FETCH_SEARCHED_GROWTH_PARTNERS = 'src/GrowthPartner/FETCH_SEARCHED_GROWTH_PARTNERS';
+

@@ -211,6 +211,7 @@ import axios from 'axios';
 
 import {
   FETCH_GROWTH_PARTNERS,
+  FETCH_SEARCHED_GROWTH_PARTNERS,
   REMOVE_GROWTH_PARTNER,
   SET_ADVANCED_FILTERS,
   SET_GROWTH_PARTNER_FORM_ERRORS,
@@ -414,16 +415,42 @@ export const disableGrowthPartner = (partner, makeActive, search = '', page = 1)
   }
 };
 
-/* Search */
-export const searchGrowthPartners = ({ value }) => async dispatch => {
-  try {
-    const { data } = await axios.get(`${API_URL}/growthpartner/search`, {
-      params: { search: value }
-    });
-    dispatch({ type: FETCH_GROWTH_PARTNERS, payload: data.growthpartners });
-  } catch (err) {
-    handleError(err, dispatch);
-  }
+// /* Search */
+// export const searchGrowthPartners = ({ value }) => async dispatch => {
+//   try {
+//     dispatch(setGrowthPartnerLoading(true));
+//     const { data } = await axios.get(`${API_URL}/growthpartner/search`, {
+//       params: { search: value }
+//     });
+//     dispatch({ type: FETCH_GROWTH_PARTNERS, payload: data.growthpartners });
+//   } catch (err) {
+//     handleError(err, dispatch);
+//   }
+//   console.log('Searching:', value);
+// console.log('Response:', data.growthpartners);
+
+// };
+export const searchGrowthPartners = filter => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setGrowthPartnerLoading(true));
+
+      const response = await axios.get(`${API_URL}/growthpartner/search`, {
+        params: {
+          search: filter.value
+        }
+      });
+
+      dispatch({
+        type: FETCH_SEARCHED_GROWTH_PARTNERS,
+        payload: response.data.growthpartners
+      });
+    } catch (error) {
+      handleError(error, dispatch);
+    } finally {
+      dispatch(setGrowthPartnerLoading(false));
+    }
+  };
 };
 
 

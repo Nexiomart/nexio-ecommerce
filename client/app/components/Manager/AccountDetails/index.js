@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Row, Col } from 'reactstrap';
 
-import { EMAIL_PROVIDER } from '../../../constants';
+import { EMAIL_PROVIDER, ROLES } from '../../../constants';
 import UserRole from '../UserRole';
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
@@ -40,6 +40,8 @@ const AccountDetails = props => {
       </div> */}
       <div className='info'>
   <div className='desc'>
+   
+
     <p className='one-line-ellipsis mr-3'>
       {user.provider === EMAIL_PROVIDER.Email ? (
         user.email
@@ -58,6 +60,40 @@ const AccountDetails = props => {
     <p className="text-lg font-extrabold text-gray-800">
       ID: <span className="text-blue-900">{user.growthPartner.uniqueId}</span>
     </p>
+  </div>
+)}
+{user.role === ROLES.Member && (
+  <div className='account-action-links-wrapper'>
+    <a
+      href='/sell'
+      className='account-sell-link'
+      role='button'
+      aria-label='Start selling with us - Begin your business journey'
+      tabIndex='0'
+    >
+      <div className='account-link-content'>
+        <span className='account-link-icon' aria-hidden='true'>🚀</span>
+        <span className='account-link-title'>Sell With Us</span>
+        <span className='account-link-desc'>Start your business journey</span>
+      </div>
+      <div className='account-link-overlay'></div>
+      <div className='account-link-shine'></div>
+    </a>
+    <a
+      href='/join-as-growth-partner'
+      className='account-partner-link'
+      role='button'
+      aria-label='Join as Growth Partner - Grow together with us'
+      tabIndex='0'
+    >
+      <div className='account-link-content'>
+        <span className='account-link-icon' aria-hidden='true'>🤝</span>
+        <span className='account-link-title'>Join as Growth Partner</span>
+        <span className='account-link-desc'>Grow together with us</span>
+      </div>
+      <div className='account-link-overlay'></div>
+      <div className='account-link-shine'></div>
+    </a>
   </div>
 )}
 

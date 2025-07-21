@@ -6,6 +6,7 @@
 
 import {
   FETCH_GROWTH_PARTNERS,
+  FETCH_SEARCHED_GROWTH_PARTNERS,
   REMOVE_GROWTH_PARTNER,
   SET_ADVANCED_FILTERS,
   GROWTH_PARTNER_CHANGE,
@@ -52,6 +53,12 @@ const growthPartnerReducer = (state = initialState, action) => {
       return {
         ...state,
         growthPartners: action.payload
+      };
+
+    case FETCH_SEARCHED_GROWTH_PARTNERS:
+      return {
+        ...state,
+        searchedGrowthPartners: action.payload
       };
 
     case REMOVE_GROWTH_PARTNER:

@@ -201,7 +201,7 @@ router.post(
 //   }
 // });
 
-// search merchants api role.check(ROLES.Admin),
+// // search merchants api role.check(ROLES.Admin),
 router.get('/search', auth, async (req, res) => {
   try {
     const { search } = req.query;
@@ -229,6 +229,8 @@ router.get('/search', auth, async (req, res) => {
     });
   }
 });
+
+
 
 // router.get('/search', auth,  async (req, res) => {
 //   try {
