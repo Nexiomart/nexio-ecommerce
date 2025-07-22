@@ -17,17 +17,42 @@ import Button from '../../components/Common/Button';
 import { API_URL } from '../../constants';
 
 class Cart extends React.PureComponent {
-  // razorpay 
+  // Calculate grand total including tax
+  calculateGrandTotal = () => {
+    const { cartItems, cartTotal } = this.props;
+    const TAX_RATE = 5;
+
+    const subtotal = parseFloat(cartTotal) || 0;
+
+    // Calculate tax on discounted prices
+    const estimatedTax = cartItems.reduce((total, item) => {
+      if (item.taxable) {
+        const effectivePrice = item.effectivePrice || (item.discount > 0
+          ? item.price - (item.price * item.discount / 100)
+          : item.price);
+        return total + effectivePrice * item.quantity * (TAX_RATE / 100);
+      }
+      return total;
+    }, 0);
+
+    const shipping = 0;
+    return subtotal + estimatedTax + shipping;
+  };
+
+  // razorpay
   handlePayment = async () => {
   // const { cartTotal, placeOrder } = this.props;
   const { cartTotal, placeOrder, user } = this.props;
+
+  // Use grand total including tax for payment
+  const grandTotal = this.calculateGrandTotal();
 
 // api http://localhost:3000/api
   const res = await fetch(`${API_URL}/payment/create-order`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      amount: cartTotal,
+      amount: grandTotal,
       currency: 'INR'
     })
   });

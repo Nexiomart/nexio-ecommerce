@@ -1,0 +1,113 @@
+.product-skeleton {
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  position: relative;
+
+  .skeleton-image {
+    height: 240px;
+    background: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .skeleton-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .skeleton-title {
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton-description {
+    height: 14px;
+    background: #f0f0f0;
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+
+    &.short {
+      width: 70%;
+    }
+  }
+
+  .skeleton-price {
+    height: 24px;
+    width: 60%;
+    background: #f0f0f0;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto;
+  }
+
+  .skeleton-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .product-skeleton {
+    border-radius: 16px;
+    height: 360px;
+    
+    .skeleton-image {
+      height: 200px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .skeleton-content {
+      padding: 20px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .product-skeleton {
+    border-radius: 12px;
+    height: 340px;
+    
+    .skeleton-image {
+      height: 180px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .skeleton-content {
+      padding: 16px;
+    }
+  }
+}

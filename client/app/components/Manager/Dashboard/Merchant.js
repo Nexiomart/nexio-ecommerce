@@ -21,6 +21,7 @@ import Order from '../../../containers/Order';
 import Merchant from '../../../containers/Merchant';
 import Wishlist from '../../../containers/WishList';
 // import Merchant from '../../../containers/Merchant';
+import Category from '../../../containers/Category';
 
 const Merchant_dashboard = props => {
   return (
@@ -36,6 +37,7 @@ const Merchant_dashboard = props => {
               <Route path='/dashboard/security' component={AccountSecurity} />
               <Route path='/dashboard/address' component={Address} />
               <Route path='/dashboard/product' component={Product} />
+              <Route path='/dashboard/category' component={Category} />
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/merchant' component={Merchant} />

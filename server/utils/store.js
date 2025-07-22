@@ -22,14 +22,15 @@ exports.caculateTaxAmount = order => {
     order.totalTax = 0;
     if (order.products && order.products.length > 0) {
       order.products.map(item => {
-        const price = item.purchasePrice || (item?.product?.price ?? 0);
+        // Use effective price (discounted price) if available, otherwise use regular price
+        const effectivePrice = item.effectivePrice || item.purchasePrice || (item?.product?.discountedPrice ?? item?.product?.price ?? 0);
         const quantity = item.quantity;
-        item.totalPrice = price * quantity;
-        item.purchasePrice = price;
+        item.totalPrice = effectivePrice * quantity;
+        item.purchasePrice = effectivePrice;
 
         if (item.status !== 'Cancelled') {
           if (item.product?.taxable && item.priceWithTax === 0) {
-            const taxAmount = price * (taxRate / 100) * 100;
+            const taxAmount = effectivePrice * (taxRate / 100) * 100;
             item.totalTax = parseFloat(
               Number((taxAmount * quantity).toFixed(2))
             );
@@ -88,7 +89,10 @@ exports.caculateItemsSalesTax = items => {
     item.priceWithTax = 0;
     item.totalPrice = 0;
     item.totalTax = 0;
-    item.purchasePrice = item.price;
+
+    // Use effective price (discounted price) if available, otherwise use regular price
+    const effectivePrice = item.effectivePrice || item.price;
+    item.purchasePrice = effectivePrice;
 
     const price = item.purchasePrice;
     const quantity = item.quantity;

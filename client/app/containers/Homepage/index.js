@@ -13,11 +13,23 @@ import actions from '../../actions';
 import banners from './banners.json';
 import CarouselSlider from '../../components/Common/CarouselSlider';
 import { responsiveOneItemCarousel } from '../../components/Common/CarouselSlider/utils';
+import ProductSection from '../../components/Store/ProductSection';
+
+import './style.scss';
 
 class Homepage extends React.PureComponent {
+  componentDidMount() {
+    const { fetchTopDiscountedProducts, fetchLatestProducts } = this.props;
+    fetchTopDiscountedProducts(5);
+    fetchLatestProducts(5);
+  }
+
   render() {
+    const { topDiscountedProducts, latestProducts, isLoading } = this.props;
+
     return (
       <div className='homepage'>
+        {/* Hero Section */}
         <Row className='flex-row'>
           <Col xs='12' lg='6' className='order-lg-2 mb-3 px-3 px-md-2'>
             <div className='home-carousel'>
@@ -48,13 +60,39 @@ class Homepage extends React.PureComponent {
             </div>
           </Col>
         </Row>
+
+        {/* Top Discounted Products Section */}
+        <ProductSection
+          title="🔥 Mega Deals & Discounts"
+          products={topDiscountedProducts}
+          viewAllLink="/shop?sortBy=discount"
+          viewAllText="Explore All Deals"
+          emptyMessage="Amazing deals coming soon! Stay tuned for incredible discounts."
+          className="top-discounted-section"
+          isLoading={isLoading}
+        />
+
+        {/* Latest Products Section */}
+        <ProductSection
+          title="✨ Fresh Arrivals"
+          products={latestProducts}
+          viewAllLink="/shop?sortBy=newest"
+          viewAllText="Discover More"
+          emptyMessage="New products are on their way! Check back soon for the latest additions."
+          className="latest-products-section"
+          isLoading={isLoading}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    topDiscountedProducts: state.product.topDiscountedProducts,
+    latestProducts: state.product.latestProducts,
+    isLoading: state.product.isLoading
+  };
 };
 
 export default connect(mapStateToProps, actions)(Homepage);

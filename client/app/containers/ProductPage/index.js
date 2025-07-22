@@ -18,6 +18,7 @@ import NotFound from '../../components/Common/NotFound';
 import { BagIcon } from '../../components/Common/Icon';
 import ProductReviews from '../../components/Store/ProductReviews';
 import SocialShare from '../../components/Store/SocialShare';
+import { calculateDiscountedPrice } from '../../utils/price';
 
 class ProductPage extends React.PureComponent {
   componentDidMount() {
@@ -101,7 +102,23 @@ class ProductPage extends React.PureComponent {
                         </p>
                       )}
                       <p className='item-desc'>{product.description}</p>
-                      <p className='price'>₹ {product.price}</p>
+                      <div className='price-section'>
+                        {product.discount > 0 ? (
+                          <div>
+                            <p className='price text-success mb-1'>
+                              ₹ {calculateDiscountedPrice(product.price, product.discount).toFixed(2)}
+                            </p>
+                            <p className='original-price text-muted mb-1' style={{ textDecoration: 'line-through', fontSize: '0.9em' }}>
+                              ₹ {product.price}
+                            </p>
+                            <span className='discount-badge badge badge-danger mb-2'>
+                              {product.discount}% OFF - You save ₹{(product.price - calculateDiscountedPrice(product.price, product.discount)).toFixed(2)}
+                            </span>
+                          </div>
+                        ) : (
+                          <p className='price'>₹ {product.price}</p>
+                        )}
+                      </div>
                     </div>
                     <div className='item-customize'>
                       <Input

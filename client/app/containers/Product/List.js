@@ -9,6 +9,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from '../../actions';
+import { ROLES } from '../../constants';
 
 import ProductList from '../../components/Manager/ProductList';
 import SubPage from '../../components/Manager/SubPage';
@@ -21,14 +22,14 @@ class List extends React.PureComponent {
   }
 
   render() {
-    const { history, products, isLoading } = this.props;
+    const { history, products, isLoading, user } = this.props;
 
     return (
       <>
         <SubPage
           title='Products'
-          actionTitle='Add'
-          handleAction={() => history.push('/dashboard/product/add')}
+          actionTitle={user.role !== ROLES.GrowthPartner ? 'Add' : null}
+          handleAction={user.role !== ROLES.GrowthPartner ? () => history.push('/dashboard/product/add') : null}
         >
           {isLoading ? (
             <LoadingIndicator inline />

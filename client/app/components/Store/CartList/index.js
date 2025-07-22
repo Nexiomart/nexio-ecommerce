@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
 import Button from '../../Common/Button';
+import { calculateDiscountedPrice } from '../../../utils/price';
 
 const CartList = props => {
   const { cartItems, handleRemoveFromCart } = props;
@@ -60,9 +61,15 @@ const CartList = props => {
               <Row className='mb-2 align-items-center'>
                 <Col xs='9'>
                   <p className='item-label'>price</p>
+                  {item.discount > 0 && (
+                    <small className='text-muted'>
+                      <span style={{ textDecoration: 'line-through' }}>₹{(item.price * item.quantity).toFixed(2)}</span>
+                      <span className='badge badge-danger ml-1'>{item.discount}% OFF</span>
+                    </small>
+                  )}
                 </Col>
                 <Col xs='3' className='text-right'>
-                  <p className='value price'>{` ₹${item?.totalPrice}`}</p>
+                  <p className='value price text-success'>{` ₹${item?.totalPrice}`}</p>
                 </Col>
               </Row>
               <Row className='mb-2 align-items-center'>

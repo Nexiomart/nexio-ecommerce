@@ -13,6 +13,7 @@ import Input from '../../Common/Input';
 import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
 import SelectOption from '../../Common/SelectOption';
+import { calculateDiscountedPrice, formatPrice } from '../../../utils/price';
 
 const taxableSelect = [
   { value: 1, label: 'Yes' },
@@ -106,6 +107,36 @@ const AddProduct = props => {
               }}
             />
           </Col>
+          <Col xs='12' lg='6'>
+            <Input
+              type={'number'}
+              error={formErrors['discount']}
+              label={'Discount (%)'}
+              name={'discount'}
+              min={0}
+              max={100}
+              placeholder={'Discount Percentage'}
+              value={productFormData.discount}
+              onInputChange={(name, value) => {
+                productChange(name, value);
+              }}
+            />
+            {productFormData.price > 0 && productFormData.discount > 0 && (
+              <div className="mt-2">
+                <small className="text-muted">
+                  Original Price: {formatPrice(productFormData.price)}
+                  <br />
+                  <strong className="text-success">
+                    Final Price: {formatPrice(calculateDiscountedPrice(productFormData.price, productFormData.discount))}
+                  </strong>
+                  <br />
+                  <span className="text-info">
+                    You save: {formatPrice(productFormData.price - calculateDiscountedPrice(productFormData.price, productFormData.discount))}
+                  </span>
+                </small>
+              </div>
+            )}
+          </Col>
           <Col xs='12' md='12'>
             <SelectOption
               error={formErrors['taxable']}
@@ -120,18 +151,21 @@ const AddProduct = props => {
           </Col>
           <Col xs='12' md='12'>
             <SelectOption
-              disabled={user.role === ROLES.Merchant}
               error={formErrors['brand']}
               name={'brand'}
               label={'Select Brand'}
-              value={
-                user.role === ROLES.Merchant ? brands[1] : productFormData.brand
-              }
+              value={productFormData.brand}
               options={brands}
               handleSelectChange={value => {
                 productChange('brand', value);
               }}
             />
+            {user.role === ROLES.Merchant && brands.length <= 1 && (
+              <small className="text-muted mt-1 d-block">
+                You need to create a brand first before adding products.
+                <a href="/dashboard/brand/add" className="ml-1">Add Brand</a>
+              </small>
+            )}
           </Col>
           <Col xs='12' md='12'>
             <Input

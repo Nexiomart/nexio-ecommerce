@@ -9,6 +9,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import AddToWishList from '../AddToWishList';
+import { calculateDiscountedPrice, formatPrice } from '../../../utils/price';
 
 const ProductList = props => {
   const { products, updateWishlist, authenticated } = props;
@@ -58,7 +59,23 @@ const ProductList = props => {
                     </div>
                   </div>
                   <div className='d-flex flex-row justify-content-between align-items-center px-4 mb-2 item-footer'>
-                    <p className='price mb-0'>₹ {product.price}</p>
+                    <div className='price-container'>
+                      {product.discount > 0 ? (
+                        <div>
+                          <p className='price mb-0 text-success'>
+                            ₹ {calculateDiscountedPrice(product.price, product.discount).toFixed(2)}
+                          </p>
+                          <p className='original-price mb-0 text-muted' style={{ textDecoration: 'line-through', fontSize: '0.9em' }}>
+                            ₹ {product.price}
+                          </p>
+                          <span className='discount-badge badge badge-danger'>
+                            {product.discount}% OFF
+                          </span>
+                        </div>
+                      ) : (
+                        <p className='price mb-0'>₹ {product.price}</p>
+                      )}
+                    </div>
                     {product.totalReviews > 0 && (
                       <p className='mb-0'>
                         <span className='fs-16 fw-normal mr-1'>

@@ -24,7 +24,9 @@ import {
   FETCH_PRODUCTS_SELECT,
   SET_PRODUCTS_LOADING,
   SET_ADVANCED_FILTERS,
-  RESET_ADVANCED_FILTERS
+  RESET_ADVANCED_FILTERS,
+  FETCH_TOP_DISCOUNTED_PRODUCTS,
+  FETCH_LATEST_PRODUCTS
 } from './constants';
 
 import { API_URL, ROLES } from '../../constants';
@@ -161,6 +163,50 @@ export const fetchProductsSelect = () => {
   };
 };
 
+// fetch top discounted products api
+export const fetchTopDiscountedProducts = (limit = 5) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setProductLoading(true));
+
+      const response = await axios.get(`${API_URL}/product/top-discounted`, {
+        params: { limit }
+      });
+
+      dispatch({
+        type: FETCH_TOP_DISCOUNTED_PRODUCTS,
+        payload: response.data.products
+      });
+    } catch (error) {
+      handleError(error, dispatch);
+    } finally {
+      dispatch(setProductLoading(false));
+    }
+  };
+};
+
+// fetch latest products api
+export const fetchLatestProducts = (limit = 5) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setProductLoading(true));
+
+      const response = await axios.get(`${API_URL}/product/latest`, {
+        params: { limit }
+      });
+
+      dispatch({
+        type: FETCH_LATEST_PRODUCTS,
+        payload: response.data.products
+      });
+    } catch (error) {
+      handleError(error, dispatch);
+    } finally {
+      dispatch(setProductLoading(false));
+    }
+  };
+};
+
 // fetch products api
 export const fetchProducts = () => {
   return async (dispatch, getState) => {
@@ -221,6 +267,7 @@ export const addProduct = () => {
         description: 'required|max:200',
         quantity: 'required|numeric',
         price: 'required|numeric',
+        discount: 'numeric|min:0|max:100',
         taxable: 'required',
         image: 'required',
         brand: 'required'
@@ -237,16 +284,12 @@ export const addProduct = () => {
         name: product.name,
         description: product.description,
         price: product.price,
+        discount: product.discount || 0,
         quantity: product.quantity,
         image: product.image,
         isActive: product.isActive,
         taxable: product.taxable.value,
-        brand:
-          user.role !== ROLES.Merchant
-            ? brand !== 0
-              ? brand
-              : null
-            : brands[1].value
+        brand: brand !== 0 ? brand : null
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
@@ -259,6 +302,9 @@ export const addProduct = () => {
           'Description may not be greater than 200 characters.',
         'required.quantity': 'Quantity is required.',
         'required.price': 'Price is required.',
+        'numeric.discount': 'Discount must be a number.',
+        'min.discount': 'Discount cannot be negative.',
+        'max.discount': 'Discount cannot exceed 100%.',
         'required.taxable': 'Taxable is required.',
         'required.image': 'Please upload files with jpg, jpeg, png format.',
         'required.brand': 'Brand is required.'

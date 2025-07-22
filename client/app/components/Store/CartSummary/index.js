@@ -49,16 +49,21 @@
 
 import React from 'react';
 import { Col } from 'reactstrap';
+import { calculateDiscountedPrice } from '../../../utils/price';
 
 const TAX_RATE = 5; // You can also import this from backend config if needed
 
 const CartSummary = ({ cartItems, cartTotal }) => {
   const subtotal = parseFloat(cartTotal) || 0;
 
-  // Calculate estimated sales tax (based on items marked as taxable)
+  // Calculate estimated sales tax (based on items marked as taxable and using discounted prices)
   const estimatedTax = cartItems.reduce((total, item) => {
     if (item.taxable) {
-      return total + item.price * item.quantity * (TAX_RATE / 100);
+      // Use effective price (discounted price) if available, otherwise use regular price
+      const effectivePrice = item.effectivePrice || (item.discount > 0
+        ? calculateDiscountedPrice(item.price, item.discount)
+        : item.price);
+      return total + effectivePrice * item.quantity * (TAX_RATE / 100);
     }
     return total;
   }, 0);

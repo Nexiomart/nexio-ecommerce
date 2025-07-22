@@ -14,6 +14,7 @@ import Input from '../../Common/Input';
 import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
 import SelectOption from '../../Common/SelectOption';
+import { calculateDiscountedPrice, formatPrice } from '../../../utils/price';
 
 const taxableSelect = [
   { value: 1, label: 'Yes' },
@@ -127,6 +128,36 @@ const EditProduct = props => {
                 productChange(name, value);
               }}
             />
+          </Col>
+          <Col xs='12' lg='6'>
+            <Input
+              type={'number'}
+              error={formErrors['discount']}
+              label={'Discount (%)'}
+              name={'discount'}
+              min={0}
+              max={100}
+              placeholder={'Discount Percentage'}
+              value={product.discount || 0}
+              onInputChange={(name, value) => {
+                productChange(name, value);
+              }}
+            />
+            {product.price > 0 && product.discount > 0 && (
+              <div className="mt-2">
+                <small className="text-muted">
+                  Original Price: {formatPrice(product.price)}
+                  <br />
+                  <strong className="text-success">
+                    Final Price: {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                  </strong>
+                  <br />
+                  <span className="text-info">
+                    You save: {formatPrice(product.price - calculateDiscountedPrice(product.price, product.discount))}
+                  </span>
+                </small>
+              </div>
+            )}
           </Col>
           <Col xs='12' md='12'>
             <SelectOption

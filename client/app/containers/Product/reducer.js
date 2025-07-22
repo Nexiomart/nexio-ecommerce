@@ -22,7 +22,9 @@ import {
   FETCH_PRODUCTS_SELECT,
   SET_PRODUCTS_LOADING,
   SET_ADVANCED_FILTERS,
-  RESET_ADVANCED_FILTERS
+  RESET_ADVANCED_FILTERS,
+  FETCH_TOP_DISCOUNTED_PRODUCTS,
+  FETCH_LATEST_PRODUCTS
 } from './constants';
 
 const initialState = {
@@ -33,12 +35,15 @@ const initialState = {
   },
   storeProduct: {},
   productsSelect: [],
+  topDiscountedProducts: [],
+  latestProducts: [],
   productFormData: {
     sku: '',
     name: '',
     description: '',
     quantity: 1,
     price: 1,
+    discount: 0,
     image: {},
     isActive: true,
     taxable: { value: 0, label: 'No' },
@@ -210,6 +215,16 @@ const productReducer = (state = initialState, action) => {
           count: 0,
           limit: 10
         }
+      };
+    case FETCH_TOP_DISCOUNTED_PRODUCTS:
+      return {
+        ...state,
+        topDiscountedProducts: action.payload
+      };
+    case FETCH_LATEST_PRODUCTS:
+      return {
+        ...state,
+        latestProducts: action.payload
       };
     default:
       return state;

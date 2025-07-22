@@ -26,6 +26,7 @@ import { API_URL, CART_ID, CART_ITEMS, CART_TOTAL } from '../../constants';
 import handleError from '../../utils/error';
 import { allFieldsValidation } from '../../utils/validation';
 import { toggleCart } from '../Navigation/actions';
+import { calculateDiscountedPrice } from '../../utils/price';
 
 // Handle Add To Cart
 export const handleAddToCart = product => {
@@ -52,8 +53,14 @@ export const handleAddToCart = product => {
       return dispatch({ type: SET_PRODUCT_SHOP_FORM_ERRORS, payload: errors });
     }
 
+    // Calculate discounted price for cart
+    const effectivePrice = product.discount > 0
+      ? calculateDiscountedPrice(product.price, product.discount)
+      : product.price;
+
     product.quantity = quantity;
-    product.totalPrice = parseFloat((quantity * product.price).toFixed(2));
+    product.effectivePrice = effectivePrice; // Store the discounted price
+    product.totalPrice = parseFloat((quantity * effectivePrice).toFixed(2));
 
     dispatch({ type: RESET_PRODUCT_SHOP });
     dispatch({ type: ADD_TO_CART, payload: product });
@@ -62,7 +69,7 @@ export const handleAddToCart = product => {
     const index = cartItems.findIndex(item => item._id === product._id);
     if (index > -1) {
       cartItems[index].quantity += quantity;
-      cartItems[index].totalPrice = parseFloat((cartItems[index].quantity * product.price).toFixed(2));
+      cartItems[index].totalPrice = parseFloat((cartItems[index].quantity * effectivePrice).toFixed(2));
     } else {
       cartItems.push(product);
     }
@@ -98,7 +105,11 @@ export const calculateCartTotal = () => {
     let total = 0;
 
     cartItems.map(item => {
-      total += item.price * item.quantity;
+      // Use effective price (discounted price) if available, otherwise use regular price
+      const itemPrice = item.effectivePrice || (item.discount > 0
+        ? calculateDiscountedPrice(item.price, item.discount)
+        : item.price);
+      total += itemPrice * item.quantity;
     });
 
     total = parseFloat(total.toFixed(2));
@@ -199,6 +210,10 @@ const getCartItems = cartItems => {
     const newItem = {};
     newItem.quantity = item.quantity;
     newItem.price = item.price;
+    // Include effective price (discounted price) for server-side calculations
+    newItem.effectivePrice = item.effectivePrice || (item.discount > 0
+      ? calculateDiscountedPrice(item.price, item.discount)
+      : item.price);
     newItem.taxable = item.taxable;
     newItem.product = item._id;
     newCartItems.push(newItem);

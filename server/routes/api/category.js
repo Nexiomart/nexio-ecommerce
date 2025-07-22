@@ -9,7 +9,7 @@ const role = require('../../middleware/role');
 const store = require('../../utils/store');
 const { ROLES } = require('../../constants');
 
-router.post('/add', auth, role.check(ROLES.Admin), (req, res) => {
+router.post('/add', auth, role.check(ROLES.Admin , ROLES.Merchant), (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const products = req.body.products;
@@ -97,7 +97,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', auth, role.check(ROLES.Admin), async (req, res) => {
+router.put('/:id', auth, role.check(ROLES.Admin, ROLES.Merchant), async (req, res) => {
   try {
     const categoryId = req.params.id;
     const update = req.body.category;
@@ -161,7 +161,7 @@ router.put('/:id/active', auth, role.check(ROLES.Admin), async (req, res) => {
 router.delete(
   '/delete/:id',
   auth,
-  role.check(ROLES.Admin),
+  role.check(ROLES.Admin, ),
   async (req, res) => {
     try {
       const product = await Category.deleteOne({ _id: req.params.id });

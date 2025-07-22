@@ -20,6 +20,65 @@ const { ROLES } = require('../../constants');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+// fetch top discounted products api
+router.get('/top-discounted', async (req, res) => {
+  try {
+    const { limit = 5 } = req.query;
+
+    const products = await Product.find({
+      isActive: true,
+      discount: { $gt: 0 }
+    })
+    .populate({
+      path: 'brand',
+      select: 'name isActive slug'
+    })
+    .sort({ discount: -1 })
+    .limit(parseInt(limit));
+
+    // Filter out products with inactive brands
+    const activeProducts = products.filter(product =>
+      product.brand === null || product.brand.isActive === true
+    );
+
+    res.status(200).json({
+      products: activeProducts
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: 'Your request could not be processed. Please try again.'
+    });
+  }
+});
+
+// fetch latest products api
+router.get('/latest', async (req, res) => {
+  try {
+    const { limit = 5 } = req.query;
+
+    const products = await Product.find({ isActive: true })
+    .populate({
+      path: 'brand',
+      select: 'name isActive slug'
+    })
+    .sort({ created: -1 })
+    .limit(parseInt(limit));
+
+    // Filter out products with inactive brands
+    const activeProducts = products.filter(product =>
+      product.brand === null || product.brand.isActive === true
+    );
+
+    res.status(200).json({
+      products: activeProducts
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: 'Your request could not be processed. Please try again.'
+    });
+  }
+});
+
 // fetch product slug api
 router.get('/item/:slug', async (req, res) => {
   try {
@@ -188,6 +247,7 @@ router.post(
       const description = req.body.description;
       const quantity = req.body.quantity;
       const price = req.body.price;
+      const discount = req.body.discount || 0;
       const taxable = req.body.taxable;
       const isActive = req.body.isActive;
       const brand = req.body.brand;
@@ -211,6 +271,10 @@ router.post(
         return res.status(400).json({ error: 'You must enter a price.' });
       }
 
+      if (discount < 0 || discount > 100) {
+        return res.status(400).json({ error: 'Discount must be between 0 and 100 percent.' });
+      }
+
       const foundProduct = await Product.findOne({ sku });
 
       if (foundProduct) {
@@ -225,6 +289,7 @@ router.post(
         description,
         quantity,
         price,
+        discount,
         taxable,
         isActive,
         brand,
@@ -417,7 +482,12 @@ router.put(
       const productId = req.params.id;
       const update = req.body.product;
       const query = { _id: productId };
-      const { sku, slug } = req.body.product;
+      const { sku, slug, discount } = req.body.product;
+
+      // Validate discount if provided
+      if (discount !== undefined && (discount < 0 || discount > 100)) {
+        return res.status(400).json({ error: 'Discount must be between 0 and 100 percent.' });
+      }
 
       const foundProduct = await Product.findOne({
         $or: [{ slug }, { sku }]

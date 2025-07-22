@@ -29,6 +29,7 @@
     },
     { "to": "/address", "name": "Address", "prefix": "/dashboard" },
     { "to": "/brand", "name": "Brand", "prefix": "/dashboard" },
+     { "to": "/category", "name": "Categories", "prefix": "/dashboard" },
     { "to": "/product", "name": "Products", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },

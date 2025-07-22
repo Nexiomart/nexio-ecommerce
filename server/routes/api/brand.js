@@ -10,7 +10,7 @@ const role = require('../../middleware/role');
 const store = require('../../utils/store');
 const { ROLES, MERCHANT_STATUS } = require('../../constants');
 
-router.post('/add', auth, role.check(ROLES.Admin), async (req, res) => {
+router.post('/add', auth, role.check(ROLES.Admin , ROLES.Merchant), async (req, res) => {
   try {
     const name = req.body.name;
     const description = req.body.description;
@@ -25,7 +25,9 @@ router.post('/add', auth, role.check(ROLES.Admin), async (req, res) => {
     const brand = new Brand({
       name,
       description,
-      isActive
+      isActive,
+      // Associate brand with merchant if user is a merchant
+      merchant: req.user.merchant || null
     });
 
     const brandDoc = await brand.save();
@@ -150,8 +152,21 @@ router.put(
     try {
       const brandId = req.params.id;
       const update = req.body.brand;
-      const query = { _id: brandId };
+      let query = { _id: brandId };
       const { slug } = req.body.brand;
+
+      // If user is a merchant, ensure they can only update their own brands
+      if (req.user.merchant) {
+        query.merchant = req.user.merchant;
+      }
+
+      // Check if brand exists and user has permission to update it
+      const existingBrand = await Brand.findOne(query);
+      if (!existingBrand) {
+        return res.status(404).json({
+          error: 'Brand not found or you do not have permission to update it.'
+        });
+      }
 
       const foundBrand = await Brand.findOne({
         $or: [{ slug }]
@@ -185,7 +200,20 @@ router.put(
     try {
       const brandId = req.params.id;
       const update = req.body.brand;
-      const query = { _id: brandId };
+      let query = { _id: brandId };
+
+      // If user is a merchant, ensure they can only update their own brands
+      if (req.user.merchant) {
+        query.merchant = req.user.merchant;
+      }
+
+      // Check if brand exists and user has permission to update it
+      const existingBrand = await Brand.findOne(query);
+      if (!existingBrand) {
+        return res.status(404).json({
+          error: 'Brand not found or you do not have permission to update it.'
+        });
+      }
 
       // disable brand(brandId) products
       if (!update.isActive) {

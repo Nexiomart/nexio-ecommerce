@@ -199,12 +199,29 @@ export const addOrder = () => {
   return async (dispatch, getState) => {
     try {
       const cartId = localStorage.getItem('cart_id');
-      const total = getState().cart.cartTotal;
+      const cartTotal = getState().cart.cartTotal;
+      const cartItems = getState().cart.cartItems;
+
+      // Calculate grand total including tax on discounted prices
+      const TAX_RATE = 5;
+      const subtotal = parseFloat(cartTotal) || 0;
+
+      const estimatedTax = cartItems.reduce((total, item) => {
+        if (item.taxable) {
+          const effectivePrice = item.effectivePrice || (item.discount > 0
+            ? item.price - (item.price * item.discount / 100)
+            : item.price);
+          return total + effectivePrice * item.quantity * (TAX_RATE / 100);
+        }
+        return total;
+      }, 0);
+
+      const grandTotal = subtotal + estimatedTax;
 
       if (cartId) {
         const response = await axios.post(`${API_URL}/order/add`, {
           cartId,
-          total
+          total: grandTotal
         });
 
         dispatch(push(`/order/success/${response.data.order._id}`));
