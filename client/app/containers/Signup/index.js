@@ -93,7 +93,7 @@ class Signup extends React.PureComponent {
               <Col xs='12' md='12'>
                 <Input
                   type={'password'}
-                  label={'Password'}
+                  label={'Create Password'}
                   error={formErrors['password']}
                   name={'password'}
                   placeholder={'Please Enter Your Password'}
