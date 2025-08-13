@@ -31,6 +31,7 @@ import ProductPage from '../ProductPage';
 import Sell from '../Sell';
 import JoinAsGrowthPartner from '../JoinAsGrowthPartner';
 import Contact from '../Contact';
+import SubscriptionModal from '../../components/Common/SubscriptionModal';
 import OrderSuccess from '../OrderSuccess';
 import OrderPage from '../OrderPage';
 import AuthSuccess from '../AuthSuccess';
@@ -120,6 +121,7 @@ class Application extends React.PureComponent {
           </Container>
         </main>
         <Footer />
+        <SubscriptionModal />
       </div>
     );
   }

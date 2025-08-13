@@ -44,7 +44,8 @@ const initialState = {
   },
   signupFormErrors: {},
   isLoading: false,
-  isSubmitting: false
+  isSubmitting: false,
+  pendingGrowthPartnerData: null
 };
 
 const growthPartnerReducer = (state = initialState, action) => {
@@ -144,6 +145,26 @@ const growthPartnerReducer = (state = initialState, action) => {
           firstName: '',
           lastName: '',
           password: ''
+        }
+      };
+
+    case 'SET_PENDING_GROWTH_PARTNER_DATA':
+      return {
+        ...state,
+        pendingGrowthPartnerData: action.payload
+      };
+
+    case 'CLEAR_PENDING_GROWTH_PARTNER_DATA':
+      return {
+        ...state,
+        pendingGrowthPartnerData: null,
+        growthPartnerFormData: {
+          name: '',
+          email: '',
+          phoneNumber: '',
+          region: '',
+          strategy: '',
+          referralCode: ''
         }
       };
 

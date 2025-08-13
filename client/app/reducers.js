@@ -35,6 +35,7 @@ import reviewReducer from './containers/Review/reducer';
 import wishListReducer from './containers/WishList/reducer';
 // import growthPartnerReducer from './containers/GrowthPartner/reducer'; // NEW: Import Growth Partner reducer
 import growthPartnerReducer from './containers/GrowthPartner/reducer';
+import subscriptionReducer from './containers/Subscription/reducer';
 
 const createReducer = history =>
   combineReducers({
@@ -64,8 +65,8 @@ const createReducer = history =>
     order: orderReducer,
     review: reviewReducer,
     wishlist: wishListReducer,
-    growthPartner: growthPartnerReducer // NEW: Add Growth Partner reducer
-    
+    growthPartner: growthPartnerReducer, // NEW: Add Growth Partner reducer
+    subscription: subscriptionReducer
   });
 
 export default createReducer;

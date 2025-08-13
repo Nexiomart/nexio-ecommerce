@@ -20,6 +20,8 @@ import Brand from '../../../containers/Brand';
 import Order from '../../../containers/Order';
 import Wishlist from '../../../containers/WishList';
 import Merchant from '../../../containers/Merchant'; // Custom for Growth Partner
+import Commission from '../../../containers/Commission';
+import Support from '../../../containers/Support';
 
 
 const GrowthPartner = props => {
@@ -40,6 +42,8 @@ const GrowthPartner = props => {
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
+              <Route path='/dashboard/commission' component={Commission} />
+              <Route path='/dashboard/support' component={Support} />
               <Route path='*' component={Page404} />
             </Switch>
           </div>

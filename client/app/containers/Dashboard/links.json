@@ -14,10 +14,11 @@
     { "to": "/users", "name": "Users", "prefix": "/dashboard" },
     { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },
     { "to": "/growthpartner", "name": "Growth Partner", "prefix": "/dashboard" },
+    { "to": "/commissions", "name": "Commissions", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/review", "name": "Reviews", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/support", "name": "Support", "prefix": "/dashboard" }
   ],
   "ROLE MERCHANT": [
     { "to": "", "name": "Account Details", "prefix": "/dashboard" },
@@ -34,7 +35,7 @@
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/support", "name": "Support", "prefix": "/dashboard" }
   ],
   "ROLE MEMBER": [
     { "to": "", "name": "Account Details", "prefix": "/dashboard" },
@@ -47,7 +48,7 @@
     { "to": "/address", "name": "Address", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/support", "name": "Support", "prefix": "/dashboard" }
   ],
  "ROLE GROWTH PARTNER": [
   { "to": "", "name": "Account Details", "prefix": "/dashboard" },
@@ -61,9 +62,10 @@
     { "to": "/brand", "name": "Brand", "prefix": "/dashboard" },
     { "to": "/product", "name": "Products", "prefix": "/dashboard" },
     { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },
+    { "to": "/commission", "name": "Commission", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/review", "name": "Reviews", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/support", "name": "Support", "prefix": "/dashboard" }
 ]
 }

@@ -228,6 +228,7 @@ import handleError from '../../utils/error';
 import { allFieldsValidation } from '../../utils/validation';
 import { signOut } from '../Login/actions';
 import { API_URL } from '../../constants';
+import { toggleSubscriptionModal } from '../Subscription/actions';
 
 // Input Change for Form
 export const growthPartnerChange = (name, value) => {
@@ -255,7 +256,53 @@ export const setGrowthPartnerSubmitting = value => ({
   payload: value
 });
 
-// Add Growth Partner
+// Add Growth Partner with subscription flow
+export const addGrowthPartnerWithSubscription = () => {
+  return async (dispatch, getState) => {
+    try {
+      const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+      const rules = {
+        name: 'required',
+        email: 'required|email',
+        phoneNumber: ['required', `regex:${phoneno}`],
+        region: 'required',
+        strategy: 'required|min:10'
+      };
+
+      const growthpartner = getState().growthPartner.growthPartnerFormData;
+
+      const { isValid, errors } = allFieldsValidation(growthpartner, rules, {
+        'required.name': 'Name is required.',
+        'required.email': 'Email is required.',
+        'email.email': 'Invalid email format.',
+        'required.phoneNumber': 'Phone number is required.',
+        'regex.phoneNumber': 'Phone number format is invalid.',
+        'required.region': 'Region is required.',
+        'required.strategy': 'Strategy is required.',
+        'min.strategy': 'Strategy must be at least 10 characters.'
+      });
+
+      if (!isValid) {
+        return dispatch({ type: SET_GROWTH_PARTNER_FORM_ERRORS, payload: errors });
+      }
+
+      // Store growth partner data temporarily and open subscription modal
+      dispatch({
+        type: 'SET_PENDING_GROWTH_PARTNER_DATA',
+        payload: growthpartner
+      });
+
+      // Open subscription modal for growth partners
+      dispatch(toggleSubscriptionModal(true, 'Other Growth Partner'));
+
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+// Add Growth Partner (original - for admin dashboard)
 export const addGrowthPartner = (isBack = false) => {
   return async (dispatch, getState) => {
     try {

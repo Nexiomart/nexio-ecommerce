@@ -1,0 +1,114 @@
+.subscription-modal {
+  .modal-dialog {
+    max-width: 1000px;
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom: none;
+    padding: 2rem;
+
+    .modal-title-container {
+      width: 100%;
+
+      h3 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      .modal-subtitle {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.9;
+        font-size: 1rem;
+      }
+    }
+
+    .close {
+      color: white;
+      opacity: 0.8;
+      text-shadow: none;
+      font-size: 1.5rem;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 2rem;
+    background: #f8f9fa;
+  }
+
+  .plan-selection-step {
+    .referral-info {
+      .alert {
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        color: #1565c0;
+        font-weight: 500;
+
+        i {
+          color: #ff9800;
+        }
+      }
+    }
+  }
+
+  .payment-step {
+    .selected-plan-summary {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+      h5 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .price-breakdown {
+        .d-flex {
+          margin-bottom: 0.5rem;
+          
+          &:last-child {
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            color: #333;
+          }
+        }
+
+        hr {
+          margin: 1rem 0;
+          border-color: #dee2e6;
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .subscription-modal {
+    .modal-dialog {
+      margin: 1rem;
+      max-width: calc(100% - 2rem);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+
+      .modal-title-container h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+  }
+}

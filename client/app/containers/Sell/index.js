@@ -14,19 +14,21 @@ import actions from '../../actions';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
 import AddMerchant from '../../components/Manager/AddMerchant';
 
+import './style.scss';
+
 class Sell extends React.PureComponent {
   render() {
     const {
       merchantFormData,
       formErrors,
       merchantChange,
-      addMerchant,
+      addMerchantWithSubscription,
       isSubmitting,
       isLoading
     } = this.props;
 
     return (
-      <div className='sell'>
+      <div className='sell sell-page'>
         {isLoading && <LoadingIndicator />}
         <h3 className='text-uppercase'>Become A MERN Store Seller!</h3>
         <hr />
@@ -38,7 +40,7 @@ class Sell extends React.PureComponent {
               isSubmitting={isSubmitting}
               submitTitle='Submit'
               merchantChange={merchantChange}
-              addMerchant={addMerchant}
+              addMerchant={addMerchantWithSubscription}
             />
           </Col>
           <Col xs='12' md='6' className='order-1 order-md-2'>
@@ -47,7 +49,7 @@ class Sell extends React.PureComponent {
                 <div className='agreement-banner-text'>
                   <h3>Would you like to sell your products on MERN Store!</h3>
                   <h5>Grow your business with MERN Store</h5>
-                  <b>Apply Today</b>
+                  <b>Apply Today - Choose your subscription plan after registration</b>
                 </div>
               </Col>
 

@@ -35,7 +35,8 @@ const initialState = {
     business: '',
     pinCode: '',     // ✅ added
     city: '',        // ✅ added
-    state: ''        // ✅ added
+    state: '',       // ✅ added
+    referredByGP: '' // ✅ NEW: Growth Partner unique ID
   },
   formErrors: {},
   signupFormData: {
@@ -46,7 +47,8 @@ const initialState = {
   },
   signupFormErrors: {},
   isLoading: false,
-  isSubmitting: false
+  isSubmitting: false,
+  pendingMerchantData: null
 };
 
 const merchantReducer = (state = initialState, action) => {
@@ -134,6 +136,28 @@ const merchantReducer = (state = initialState, action) => {
           firstName: '',
           lastName: '',
           password: ''
+        }
+      };
+
+    case 'SET_PENDING_MERCHANT_DATA':
+      return {
+        ...state,
+        pendingMerchantData: action.payload
+      };
+
+    case 'CLEAR_PENDING_MERCHANT_DATA':
+      return {
+        ...state,
+        pendingMerchantData: null,
+        merchantFormData: {
+          name: '',
+          email: '',
+          phoneNumber: '',
+          brandName: '',
+          business: '',
+          pinCode: '',
+          city: '',
+          state: ''
         }
       };
 

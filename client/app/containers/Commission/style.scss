@@ -1,0 +1,221 @@
+.commission-dashboard {
+  .commission-summary-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &.earnings {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+
+      i {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    &.pending {
+      background: linear-gradient(135deg, #ffc107, #fd7e14);
+      color: white;
+
+      i {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    &.total {
+      background: linear-gradient(135deg, #007bff, #6610f2);
+      color: white;
+
+      i {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    &.approved {
+      background: linear-gradient(135deg, #17a2b8, #007bff);
+      color: white;
+
+      i {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .card-body {
+      padding: 2rem;
+
+      h4 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+      }
+
+      p {
+        font-weight: 500;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .commission-list {
+    h5 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .commission-item {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .commission-icon {
+      color: #007bff;
+      background: rgba(0, 123, 255, 0.1);
+      padding: 1rem;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .commission-amount {
+      color: #28a745;
+      font-weight: 700;
+    }
+
+    h6 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .text-muted {
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .admin-controls-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #28a745;
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    h5 {
+      color: #333;
+      font-weight: 600;
+    }
+  }
+
+  .table {
+    margin-bottom: 0;
+
+    th {
+      border-top: none;
+      font-weight: 600;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    td {
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+
+    code {
+      background: #f8f9fa;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .commission-dashboard {
+    .commission-summary-card {
+      margin-bottom: 1rem;
+
+      .card-body {
+        padding: 1.5rem;
+
+        h4 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .commission-item {
+      .card-body {
+        padding: 1rem;
+      }
+
+      .row {
+        text-align: center;
+
+        .col-md-2,
+        .col-md-4 {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .commission-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+// Animation for commission items
+.commission-item {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@for $i from 1 through 10 {
+  .commission-item:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.1}s;
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -212,6 +212,23 @@ const AddMerchant = props => {
             />
           </Col>
 
+          {/* 🔽 NEW: Referred by Growth Partner (Optional) */}
+          <Col xs='12'>
+            <Input
+              type='text'
+              error={formErrors['referredByGP']}
+              label='Referred by Growth Partner (Optional)'
+              name='referredByGP'
+              placeholder='Enter Growth Partner ID (e.g., GRW-ABC123)'
+              value={merchantFormData.referredByGP}
+              onInputChange={merchantChange}
+            />
+            <small className="text-muted">
+              <i className="fa fa-info-circle mr-1"></i>
+              If a Growth Partner referred you, enter their unique ID to give them credit for the referral.
+            </small>
+          </Col>
+
           {/* 🔽 Only PIN Code Field (auto-fills city/state in background) */}
           <Col xs='12'>
             <Input

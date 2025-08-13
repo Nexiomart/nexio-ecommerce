@@ -100,4 +100,4 @@ MerchantSchema.pre('save', async function (next) {
 });
 
 
-module.exports = Mongoose.model('Merchant', MerchantSchema);
+module.exports = Mongoose.models.Merchant || Mongoose.model('Merchant', MerchantSchema);

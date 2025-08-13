@@ -17,6 +17,8 @@ const wishlistRoutes = require('./wishlist');
 const growthpartnerRoutes = require('./growthPartner');
 const locationRoutes = require('./location');
 const paymentRoutes = require('./payment'); // ✅ NEW
+const subscriptionRoutes = require('./subscription');
+const supportTicketRoutes = require('./supportTicket');
 // auth routes
 router.use('/auth', authRoutes);
 
@@ -64,6 +66,12 @@ router.use('/review', reviewRoutes);
 
 // Wishlist routes
 router.use('/wishlist', wishlistRoutes);
+
+// Subscription routes
+router.use('/subscription', subscriptionRoutes);
+
+// support ticket routes
+router.use('/support-ticket', supportTicketRoutes);
 
 module.exports = router;
 

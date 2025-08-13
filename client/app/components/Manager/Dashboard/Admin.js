@@ -22,8 +22,10 @@ import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Merchant from '../../../containers/Merchant';
 import GrowthPartner from '../../../containers/GrowthPartner';
+import Commission from '../../../containers/Commission';
 import Review from '../../../containers/Review';
 import Wishlist from '../../../containers/WishList';
+import Support from '../../../containers/Support';
 
 const Admin = props => {
   return (
@@ -44,9 +46,11 @@ const Admin = props => {
               <Route path='/dashboard/users' component={Users} />
               <Route path='/dashboard/merchant' component={Merchant} />
               <Route path='/dashboard/GrowthPartner' component={GrowthPartner} />
+              <Route path='/dashboard/commissions' component={Commission} />
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/review' component={Review} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
+              <Route path='/dashboard/support' component={Support} />
               <Route path='*' component={Page404} />
             </Switch>
           </div>

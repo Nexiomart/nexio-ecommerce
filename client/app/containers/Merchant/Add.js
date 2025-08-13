@@ -21,7 +21,8 @@ class Add extends React.PureComponent {
       formErrors,
       isSubmitting,
       merchantChange,
-      addMerchant
+      addMerchant,
+      addMerchantWithSubscription
     } = this.props;
 
     return (
@@ -36,7 +37,7 @@ class Add extends React.PureComponent {
           isSubmitting={isSubmitting}
           submitTitle='Add Merchant'
           merchantChange={merchantChange}
-          addMerchant={() => addMerchant(true)}
+          addMerchant={() => addMerchantWithSubscription()}
         />
       </SubPage>
     );

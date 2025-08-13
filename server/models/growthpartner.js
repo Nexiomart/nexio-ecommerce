@@ -110,7 +110,7 @@ GrowthPartnerSchema.pre('save', async function (next) {
   next();
 });
 
-module.exports = mongoose.model('GrowthPartner', GrowthPartnerSchema);
+module.exports = mongoose.models.GrowthPartner || mongoose.model('GrowthPartner', GrowthPartnerSchema);
 
 // const mongoose = require('mongoose');
 // const { GROWTH_PARTNER_STATUS } = require('../constants');

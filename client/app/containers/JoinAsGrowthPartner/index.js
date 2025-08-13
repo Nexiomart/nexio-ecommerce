@@ -12,19 +12,21 @@ import actions from '../../actions';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
 import AddGrowthPartner from '../../components/Manager/AddGrowthPartner';
 
+import './style.scss';
+
 class JoinAsGrowthPartner extends React.PureComponent {
   render() {
     const {
       growthPartnerFormData,
       formErrors,
       growthPartnerChange,
-      addGrowthPartner,
+      addGrowthPartnerWithSubscription,
       isSubmitting,
       isLoading
     } = this.props;
 
     return (
-      <div className='join-as-growth-partner'>
+      <div className='join-as-growth-partner join-growth-partner-page'>
         {isLoading && <LoadingIndicator />}
         <h3 className='text-uppercase'>Become a Growth Partner!</h3>
         <hr />
@@ -36,7 +38,7 @@ class JoinAsGrowthPartner extends React.PureComponent {
               isSubmitting={isSubmitting}
               submitTitle='Submit'
               growthPartnerChange={growthPartnerChange}
-              addGrowthPartner={addGrowthPartner}
+              addGrowthPartner={addGrowthPartnerWithSubscription}
             />
           </Col>
           <Col xs='12' md='6' className='order-1 order-md-2'>
@@ -45,7 +47,7 @@ class JoinAsGrowthPartner extends React.PureComponent {
                 <div className='agreement-banner-text'>
                   <h3>Join as a Growth Partner!</h3>
                   <h5>Help us expand and earn rewards</h5>
-                  <b>Apply Today</b>
+                  <b>Apply Today - Get certified after registration</b>
                 </div>
               </Col>
 

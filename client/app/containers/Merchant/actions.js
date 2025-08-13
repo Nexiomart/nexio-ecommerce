@@ -27,6 +27,7 @@ import handleError from '../../utils/error';
 import { allFieldsValidation } from '../../utils/validation';
 import { signOut } from '../Login/actions';
 import { API_URL } from '../../constants';
+import { toggleSubscriptionModal } from '../Subscription/actions';
 
 export const merchantChange = (name, value) => {
   let formData = {};
@@ -62,7 +63,73 @@ export const setMerchantSubmitting = value => {
   };
 };
 
-// add merchant api
+// add merchant with subscription flow
+export const addMerchantWithSubscription = () => {
+  return async (dispatch, getState) => {
+    try {
+      const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+      const rules = {
+        name: 'required',
+        email: 'required|email',
+        phoneNumber: ['required', `regex:${phoneno}`],
+        brandName: 'required',
+        business: 'required|min:10',
+      };
+
+      const merchant = getState().merchant.merchantFormData;
+
+      const { isValid, errors } = allFieldsValidation(merchant, rules, {
+        'required.name': 'Name is required.',
+        'required.email': 'Email is required.',
+        'email.email': 'Email format is invalid.',
+        'required.phoneNumber': 'Phone number is required.',
+        'regex.phoneNumber': 'Phone number format is invalid.',
+        'required.brandName': 'Brand is required.',
+        'required.business': 'Business is required.',
+        'min.business': 'Business must be at least 10 characters.',
+      });
+
+      if (!isValid) {
+        return dispatch({ type: SET_MERCHANT_FORM_ERRORS, payload: errors });
+      }
+
+      // Get current user for referral tracking
+      const currentUser = getState().account.user;
+
+      // Determine referral source:
+      // 1. If current user is a Growth Partner (dashboard flow) - use their ID
+      // 2. If user entered a GP unique ID (self-registration flow) - use that
+      // 3. Otherwise, no referral
+      let referredBy = null;
+
+      if (currentUser?.role === 'ROLE GROWTH PARTNER') {
+        // Dashboard flow: Growth Partner adding merchant
+        referredBy = currentUser._id;
+      } else if (merchant.referredByGP && merchant.referredByGP.trim()) {
+        // Self-registration flow: User entered GP unique ID
+        referredBy = merchant.referredByGP.trim();
+      }
+
+      // Store merchant data temporarily and open subscription modal
+      dispatch({
+        type: 'SET_PENDING_MERCHANT_DATA',
+        payload: {
+          ...merchant,
+          referredBy // Can be GP ObjectId or GP uniqueId
+        }
+      });
+
+      // Open subscription modal for retailers
+      dispatch(toggleSubscriptionModal(true, 'Retailers'));
+
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+// add merchant api (original - for admin/growth partner dashboard)
 export const addMerchant = (isBack = false) => {
   return async (dispatch, getState) => {
     try {
