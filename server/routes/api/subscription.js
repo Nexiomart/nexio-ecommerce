@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const { SubscriptionPlan, UserSubscription, Commission } = require('../../models/subscription');
 const User = require('../../models/user');
 const Merchant = require('../../models/merchant');
-const GrowthPartner = require('../../models/growthPartner');
+const GrowthPartner = require('../../models/growthpartner');
 
 // Bring in constants
 const { MERCHANT_STATUS, GROWTH_PARTNER_STATUS, ROLES } = require('../../constants');
