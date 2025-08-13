@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { SubscriptionPlan } = require('../models/subscription');
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/mern-ecommerce', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://Riyansh:Riyansh@cluster0.hqnvrfg.mongodb.net/mern_ecommerce', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
