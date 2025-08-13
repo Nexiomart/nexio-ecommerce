@@ -2,8 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const { SubscriptionPlan } = require('../models/subscription');
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://Riyansh:Riyansh@cluster0.hqnvrfg.mongodb.net/mern_ecommerce', {
+// Connect to MongoDB || 'mongodb+srv://Riyansh:Riyansh@cluster0.hqnvrfg.mongodb.net/mern_ecommerce'
+mongoose.connect(process.env.MONGO_URI , {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
