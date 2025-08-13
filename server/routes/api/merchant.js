@@ -80,7 +80,7 @@ const mailgun = require('../../services/mailgun');
 router.post(
   '/add',
   auth,
-  role.check(ROLES.Admin, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.GrowthPartner,ROLES.Member),
   async (req, res) => {
     try {
       const {
