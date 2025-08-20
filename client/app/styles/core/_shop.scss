@@ -1,13 +1,58 @@
 .shop-page {
   .main {
     // background-color: $theme-white;
-    background-color: blanchedalmond;
+    background-color: rgb(213, 237, 241);
   }
 
   .shop-toolbar {
     border-radius: $border-radius-primary;
     box-shadow: $box-shadow-primary;
   }
+
+  // Filter cards (Price, Rating): rounded with elevated, darker highlight
+  .product-filter {
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: $white;
+      border: none;
+      box-shadow: 0 0 0 2px rgba(darken($primary-color, 22%), 0.55), 0 6px 16px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 0 3px rgba(lighten($primary-color, 8%), 0.6), 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+  }
+
+  // Product cards: rounded with elevated, darker highlight
+  .product-list {
+    .product-container {
+      border-radius: 12px;
+      overflow: hidden; // ensure image corners follow the container radius
+      background-color: $white;
+      border: none;
+      box-shadow: 0 0 0 2px rgba(darken($primary-color, 22%), 0.55), 0 6px 16px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .product-container:hover {
+      box-shadow: 0 0 0 3px rgba(lighten($primary-color, 8%), 0.6), 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .item-image-container {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      overflow: hidden;
+    }
+  }
+
+
 }
 
 // .shop-page {

@@ -30,7 +30,7 @@ class Sell extends React.PureComponent {
     return (
       <div className='sell sell-page'>
         {isLoading && <LoadingIndicator />}
-        <h3 className='text-uppercase'>Become A MERN Store Seller!</h3>
+        <h3 className='text-uppercase'>Become A Nexiomart Store Seller!</h3>
         <hr />
         <Row>
           <Col xs='12' md='6' className='order-2 order-md-1'>
@@ -47,8 +47,8 @@ class Sell extends React.PureComponent {
             <Row>
               <Col xs='12' className='order-2 order-md-1 text-md-center mb-3'>
                 <div className='agreement-banner-text'>
-                  <h3>Would you like to sell your products on MERN Store!</h3>
-                  <h5>Grow your business with MERN Store</h5>
+                  <h3>Would you like to sell your products on Nexiomart Store!</h3>
+                  <h5>Grow your business with Nexiomart Store</h5>
                   <b>Apply Today - Choose your subscription plan after registration</b>
                 </div>
               </Col>

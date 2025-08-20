@@ -81,7 +81,7 @@ class Application extends React.PureComponent {
         <Notification />
         <Navigation />
         <main className='main'>
-          <Container>
+          <Container fluid className='px-0'>
             <div className='wrapper'>
               <Switch>
                 <Route exact path='/' component={HomePage} />

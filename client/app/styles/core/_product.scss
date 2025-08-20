@@ -47,9 +47,17 @@
 
   .product-container {
     background-color: $white;
-    box-shadow: $box-shadow-primary;
+    box-shadow: $box-shadow-card;
+    border: none;
     border-radius: $border-radius-default;
+    transition: box-shadow $layout-transition-speed ease, transform $layout-transition-speed ease;
     height: 100%;
+
+    .product-container:hover {
+      box-shadow: $box-shadow-card-hover;
+      transform: translateY(-2px) scale(1.01);
+    }
+
 
     .item-box {
       height: 100%;
@@ -68,8 +76,12 @@
         height: 100%;
         flex: 1 auto;
       }
+      .item-container-padding { padding: 10px; }
+
 
       .item-footer {
+        border-radius: 12px;
+
         min-height: 50px;
       }
 
@@ -90,6 +102,9 @@
 
           .item-image {
             position: absolute;
+            border-radius: 10px;
+            object-fit: cover;
+
             top: 0;
             left: 0;
             right: 0;

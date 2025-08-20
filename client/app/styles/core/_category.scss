@@ -5,8 +5,8 @@
       height: 100%;
       z-index: -1;
       border-radius: $border-radius-default;
-      box-shadow: $box-shadow-secondary;
-      @include transition();
+      box-shadow: $box-shadow-card;
+      transition: box-shadow $layout-transition-speed ease, transform $layout-transition-speed ease;
 
       &:hover {
         background-color: $secondary-bg;
@@ -36,6 +36,12 @@
         @include text-ellipsis(2);
       }
     }
+
+      &:hover {
+        box-shadow: $box-shadow-card-hover;
+        transform: translateY(-2px);
+      }
+
   }
 }
 /* end category dashboard styles */

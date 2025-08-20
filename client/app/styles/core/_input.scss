@@ -1,4 +1,5 @@
 // start input text styles
+// custom overrides
 input[type='text'],
 input[type='number'],
 input[type='password'],
@@ -99,6 +100,13 @@ body.user-is-tabbing textarea {
     border-bottom-right-radius: 0;
   }
 
+  /* Height-align submit button with input */
+  .input-text-block .btn {
+    height: 45px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .input-btn {
     border-left: none !important;
     border-top-left-radius: 0 !important;
@@ -128,3 +136,9 @@ body.user-is-tabbing textarea {
   line-height: $line-height;
   text-transform: capitalize;
 }
+
+.half-width-input {
+  width: 48% !important;
+}
+
+

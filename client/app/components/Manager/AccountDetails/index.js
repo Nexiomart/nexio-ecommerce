@@ -33,14 +33,14 @@ const AccountDetails = props => {
                 Logged in With {user.provider}
               </span>
             )}
-           
+
           </p>
           <UserRole user={user} />
         </div>
       </div> */}
       <div className='info'>
   <div className='desc'>
-   
+
 
     <p className='one-line-ellipsis mr-3'>
       {user.provider === EMAIL_PROVIDER.Email ? (
@@ -161,11 +161,13 @@ const AccountDetails = props => {
               name={'phoneNumber'}
               placeholder={'Please Enter Your Phone Number'}
               value={user.phoneNumber ? user.phoneNumber : ''}
+              className="half-width-input"
               onInputChange={(name, value) => {
                 accountChange(name, value);
               }}
             />
           </Col>
+
         </Row>
         <hr />
         <div className='profile-actions'>

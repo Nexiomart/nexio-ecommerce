@@ -51,7 +51,7 @@ const PaymentForm = ({ amount, onSubmit, onBack }) => {
         key: 'rzp_test_bRho1zes8QzzpJ', // Same key as product checkout
         amount: data.order.amount,
         currency: data.order.currency,
-        name: 'MERN Store',
+        name: 'Nexiomart Store',
         description: 'Subscription Payment',
         order_id: data.order.id,
         handler: async function (response) {
@@ -93,7 +93,7 @@ const PaymentForm = ({ amount, onSubmit, onBack }) => {
           contact: ''
         },
         notes: {
-          address: 'MERN Store Subscription'
+          address: 'Nexiomart Store Subscription'
         },
         theme: {
           color: '#007bff'

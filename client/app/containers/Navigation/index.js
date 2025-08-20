@@ -159,8 +159,8 @@ class Navigation extends React.PureComponent {
             </Row>
           </Container>
         </div> */}
-        <Container>
-          <Row className='align-items-center top-header'>
+        <Container fluid className='px-0'>
+          <Row noGutters className='align-items-center top-header'>
             <Col
               xs={{ size: 12, order: 1 }}
               sm={{ size: 12, order: 1 }}
@@ -179,6 +179,8 @@ class Navigation extends React.PureComponent {
                     onClick={() => this.toggleMenu()}
                   />
                 )}
+
+
                 {/* <Link to='/'>
                   <h1 className='logo'>MERN Store</h1>
                 </Link> */}
@@ -192,7 +194,7 @@ class Navigation extends React.PureComponent {
               sm={{ size: 12, order: 4 }}
               md={{ size: 12, order: 4 }}
               lg={{ size: 5, order: 2 }}
-              className='pt-2 pt-lg-0'
+              className='pt-2 pt-lg-0 pr-2 pr-lg-3'
             >
               <Autosuggest
                 suggestions={suggestions}
@@ -211,7 +213,7 @@ class Navigation extends React.PureComponent {
               sm={{ size: 12, order: 2 }}
               md={{ size: 4, order: 1 }}
               lg={{ size: 5, order: 3 }}
-              className='desktop-hidden'
+              className='desktop-hidden pl-0'
             >
               <div className='header-links'>
                 <Button
@@ -229,7 +231,7 @@ class Navigation extends React.PureComponent {
               sm={{ size: 12, order: 2 }}
               md={{ size: 9, order: 1 }}
               lg={{ size: 4, order: 3 }}
-              // className='px-0'
+              className='pl-0'
             >
               <Navbar color='light' light expand='md' className='mt-1 mt-md-0'>
                 <CartIcon
@@ -308,8 +310,7 @@ class Navigation extends React.PureComponent {
         {/* hidden cart drawer */}
         <div
           className={isCartOpen ? 'mini-cart-open' : 'hidden-mini-cart'}
-          aria-hidden={`${isCartOpen ? false : true}`}
-        >
+          aria-hidden={`${isCartOpen ? false : true}`}>
           <div className='mini-cart'>
             <Cart />
           </div>

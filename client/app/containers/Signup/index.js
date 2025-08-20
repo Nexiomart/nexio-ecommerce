@@ -16,7 +16,6 @@ import Input from '../../components/Common/Input';
 import Button from '../../components/Common/Button';
 import Checkbox from '../../components/Common/Checkbox';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
-import SignupProvider from '../../components/Common/SignupProvider';
 
 class Signup extends React.PureComponent {
   render() {
@@ -48,7 +47,7 @@ class Signup extends React.PureComponent {
           <Row>
             <Col
               xs={{ size: 12, order: 2 }}
-              md={{ size: '6', order: 1 }}
+              md={{ size: '12', order: 1 }}
               className='p-0'
             >
               <Col xs='12' md='12'>
@@ -104,15 +103,8 @@ class Signup extends React.PureComponent {
                 />
               </Col>
             </Col>
-            <Col
-              xs={{ size: 12, order: 1 }}
-              md={{ size: '6', order: 2 }}
-              className='mb-2 mb-md-0'
-            >
-              <SignupProvider />
-            </Col>
-          </Row>
-          <hr />
+            </Row>
+            <hr />
           <Checkbox
             id={'subscribe'}
             label={'Subscribe to newsletter'}

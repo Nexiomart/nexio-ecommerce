@@ -15,8 +15,11 @@
 
 .header {
   // background-color: $white;
-  background: linear-gradient(to right, $white 20% , rgb(254, 196, 89) );
+  background: linear-gradient(to right, $white 20% , rgb(46, 140, 255) );
   border-bottom: $border-primary;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .logo {
     font-size: $font-size-heading-large !important;
@@ -38,23 +41,34 @@
   // margin-top: 10px;
   // margin-bottom: 10px;
   // height: 95px;
-  padding: 16px 0px;
+  padding: 12px 16px;
+  /* Unified bar height and alignment */
+  min-height: 120px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   @include media-breakpoint-up(lg) {
-    // height: 60px;
-
-    padding: 22px ​0px;
+    min-height: 132px;
+    padding: 10px 24px;
   }
 
   .bars-icon {
+    color: $primary-color !important;
+    transition: color $layout-transition-speed ease, transform $layout-transition-speed ease, text-shadow $layout-transition-speed ease;
+    text-shadow: 0 0 0 rgba(41, 98, 255, 0);
     &:hover {
-      opacity: 0.5;
+      color: lighten($primary-color, 5%) !important;
+      transform: translateY(-1px);
+      text-shadow: 0 2px 8px rgba(41, 98, 255, 0.25);
     }
   }
 
   .cart-icon {
-    position: relative; 
+    position: relative;
     line-height: 100%;
+    margin-left: 0; /* remove extra space */
 
     &:hover {
       opacity: 0.5;
@@ -75,21 +89,45 @@
   }
 
   .navbar {
+    /* White background same height as search input */
     background-color: $white !important;
-    // background-color: rgb(232, 146, 41);
-    justify-content: flex-end;
-    padding: 0;
+    display: inline-flex; /* shrink to content */
+    justify-content: flex-start;
+    align-items: center;
+    height: 40px; /* match .react-autosuggest__input */
+    min-height: 40px;
+    padding: 0 10px !important; /* symmetrical padding like input */
+    border: $border-default;
+    border-radius: 4px;
+    gap: 8px;
+    width: auto; /* no extra empty box */
+
+    /* Tighten nav links to visually center within the 40px bar */
+    .nav-link, .dropdown-toggle.nav-link { padding-top: 0; padding-bottom: 0; line-height: 40px; }
 
     @include media-breakpoint-down(sm) {
       padding-top: 0;
       padding-bottom: 0.5rem;
       justify-content: center;
+      width: 100%; /* keep full width on small screens */
+      display: flex;
     }
 
     .cart-icon {
       .bag-icon {
         vertical-align: text-bottom;
       }
+    }
+
+
+  }
+
+  // Make header full-bleed without container side padding
+  .fixed-mobile-header {
+    .container,
+    .container-fluid {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
   }
 
@@ -102,17 +140,52 @@
     .nav-link {
       padding-top: 0;
       padding-bottom: 0;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      line-height: 40px; // keep centered within bar height
+      font-family: $font-family-heading;
+      font-weight: $font-weight-semibold;
+      color: $font-heading-color !important;
+      letter-spacing: 0.2px;
+      position: relative;
+      border-radius: 9999px; // pill
+      transition: color $layout-transition-speed ease, background $layout-transition-speed ease, transform $layout-transition-speed ease, box-shadow $layout-transition-speed ease;
 
+      // animated underline indicator
+      &::after {
+        content: '';
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 6px;
+        height: 2px;
+        background: transparent;
+        border-radius: 2px;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform $layout-transition-speed ease, background $layout-transition-speed ease;
+      }
+
+      &:hover,
       &.active {
-        color: $font-hover-color !important;
+        color: $primary-color !important;
+        background: rgba($primary-color, 0.08);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(41, 98, 255, 0.15);
+
+        &::after {
+          background: $primary-color;
+          transform: scaleX(1);
+        }
       }
     }
 
+    // generic anchors/spans inside navbar
     a,
     span {
-      &:hover {
-        color: $font-hover-color !important;
-      }
+      font-weight: $font-weight-semibold;
+      transition: color $layout-transition-speed ease;
+      &:hover { color: $primary-color !important; }
     }
 
     .dropdown-toggle.nav-link {
@@ -131,34 +204,29 @@
 
     .nav-item {
       position: relative;
+      margin-right: 1rem;
       @include media-breakpoint-down(sm) {
-        margin-right: 15px;
+        margin-right: 0.625rem; // ~10px
       }
+      &:last-child { margin-right: 0; }
     }
   }
 
   .brand {
     @include flex();
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* prevent wrapping to keep elements tight */
     align-items: center;
     @include media-breakpoint-down(sm) {
       margin-top: 10px;
       justify-content: center;
     }
 
-    // .logo {
-    //   margin: 0px;
-    //   color: $font-custom-color !important;
-    //   @include media-breakpoint-up(md) {
-    //     
-    //   }
-    // }
     .logo {
-  height: 70px; /* Adjust as needed */
-  width: auto;
-  object-fit: contain;
-  margin-left: 15px;
-}
+      height: 110px; /* much larger logo */
+      width: auto;
+      object-fit: contain;
+      margin-left: 8px;
+    }
 
   }
 

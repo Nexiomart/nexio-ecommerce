@@ -59,9 +59,9 @@ const ProductSection = props => {
         </Row>
         <Row>
           {isLoading ? (
-            <ProductSkeletonGrid count={5} />
+            <ProductSkeletonGrid count={6} />
           ) : (
-            products.map((product, index) => (
+            products.slice(0, 6).map((product, index) => (
               <Col key={product._id || index} xs='12' sm='6' md='4' lg='2-4' className='mb-4'>
                 <ProductCard product={product} />
               </Col>

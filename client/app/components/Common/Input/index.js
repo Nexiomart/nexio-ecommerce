@@ -23,7 +23,8 @@ const Input = props => {
     label,
     name,
     onInputChange,
-    inlineElement
+    inlineElement,
+    className
   } = props;
 
   const _onChange = e => {
@@ -49,7 +50,7 @@ const Input = props => {
           name={name}
           value={value}
           placeholder={placeholder}
-          className={'textarea-text'}
+          className={className ? `textarea-text ${className}` : 'textarea-text'}
         />
         <span className='invalid-message'>{error && error[0]}</span>
       </div>
@@ -120,7 +121,7 @@ const Input = props => {
         {label && <label>{label}</label>}
         <div className='input-text-block'>
           <input
-            className={'input-text'}
+            className={className ? `input-text ${className}` : 'input-text'}
             autoComplete={autoComplete}
             type={type}
             onChange={e => {

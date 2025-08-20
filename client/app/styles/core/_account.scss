@@ -1,4 +1,38 @@
 .account {
+// Rounded sections/buttons under Account and modern UI touches
+.account {
+  .rounded-section {
+    background: $white;
+    border: 1px solid $border-color-primary;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    }
+  }
+
+  .rounded-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    border: 1px solid $border-color-primary;
+    background: $white;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background: $primary-color;
+      color: $white !important;
+      transform: translateY(-1px);
+    }
+  }
+}
+
   .info {
     margin-bottom: 10px;
     @include flex();

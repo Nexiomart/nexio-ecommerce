@@ -207,6 +207,7 @@ const AddMerchant = props => {
               label='Business'
               name='business'
               placeholder='Please Describe Your Business'
+              rows='3'
               value={merchantFormData.business}
               onInputChange={merchantChange}
             />

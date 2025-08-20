@@ -1,10 +1,56 @@
+// Modernize dashboard UI
 .panel-body {
-  // padding: 10px;
+  background: $white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  transition: box-shadow 0.3s ease;
+}
 
-  @include media-breakpoint-down(sm) {
-    margin-top: 20px;
+.panel-body:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+}
+
+// Sidebar (Account menu)
+.panel-sidebar {
+  .panel-title {
+    margin-bottom: 8px;
+    background: linear-gradient(180deg, $white, $theme-athens-gray);
+    border-radius: 12px;
+    border: 1px solid $border-color-primary;
+  }
+
+  .menu-panel {
+    border-radius: 12px;
+  }
+
+  .panel-links {
+    background: $white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+
+    li {
+      transition: background-color 0.25s ease;
+
+      a {
+        display: block;
+        padding: 12px 10px;
+        transition: color 0.25s ease, transform 0.2s ease;
+      }
+
+      &:hover {
+        background-color: $theme-gray;
+
+        a {
+          color: $primary-color !important;
+          transform: translateX(3px);
+        }
+      }
+    }
   }
 }
+
 
 .panel-sidebar {
   .panel-title,
@@ -85,6 +131,94 @@
           font-weight: $font-weight-medium;
           background-color: $white;
         }
+      }
+    }
+  }
+}
+
+
+// --- Modern rounded Account menu (final overrides to ensure visibility) ---
+.panel-sidebar {
+  .panel-title {
+    margin-bottom: 8px;
+    background: linear-gradient(180deg, $white, $theme-athens-gray);
+    border-radius: 12px;
+    border: 1px solid $border-color-primary;
+  }
+
+  .panel-links {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0;
+    border: 1px solid $border-color-primary;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+
+    li {
+      border-left: none;
+      border-right: none;
+      border-top: 1px solid $border-color-primary;
+
+      &:first-child { border-top: none; }
+
+      a {
+        display: block;
+        padding: 12px 10px;
+        text-transform: capitalize;
+        transition: color 0.25s ease, transform 0.2s ease;
+      }
+
+      &:hover {
+        background-color: $theme-gray;
+
+        a {
+          color: $primary-color !important;
+          transform: translateX(3px);
+        }
+      }
+
+      a.active-link {
+        font-weight: $font-weight-medium;
+        background-color: $white;
+      }
+    }
+  }
+}
+
+
+// Rounded pill-style items for Account sidebar
+.panel-sidebar {
+  .panel-links {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+
+    li {
+      border: none;
+
+      a {
+        margin: 6px 10px;
+        padding: 10px 14px;
+        background: $white;
+        border: 1px solid $border-color-primary;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        color: $font-custom-color !important;
+        transition: background-color .25s ease, color .25s ease, transform .2s ease, box-shadow .2s ease;
+      }
+
+      a:hover {
+        background: $theme-gray;
+        transform: translateX(2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      a.active-link {
+        background: lighten($primary-color, 46%);
+        border-color: $primary-color;
+        color: $primary-color !important;
+        box-shadow: 0 4px 12px rgba(41, 98, 255, 0.15);
       }
     }
   }

@@ -1,21 +1,38 @@
+@import '../../styles/core/variables';
+
 .join-growth-partner-page {
+  max-width: 840px; // wider form only (height unchanged)
+  margin-left: auto; margin-right: auto;
+
+  // Match login/signup card styling for the form box only
+  h3 { margin-top: 0; }
+  hr { margin: 12px 0 16px 0; }
+
+  .add-growth-partner {
+    background: $white;
+    border: 1px solid $border-color-primary;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 12%));
+    }
+
+  }
+
+  .input-box { margin: 6px 0; label { margin-bottom: 2px; } }
+
   .agreement-banner-text {
-    h3 {
-      color: #333;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    h5 {
-      color: #666;
-      font-weight: 400;
-      margin-bottom: 1rem;
-    }
-
-    b {
-      color: #28a745;
-      font-size: 1.1rem;
-    }
+    h3 { color: #333; font-weight: 600; margin-bottom: 1rem; }
+    h5 { color: #666; font-weight: 400; margin-bottom: 1rem; }
+    b { color: #28a745; font-size: 1.1rem; }
 
     .subscription-cta {
       background: linear-gradient(135deg, #f8fff8, #e8f5e8);
@@ -30,12 +47,7 @@
         box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
       }
 
-      p {
-        color: #333;
-        margin-bottom: 1.5rem;
-        font-size: 1rem;
-        line-height: 1.5;
-      }
+      p { color: #333; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.5; }
 
       .subscription-btn {
         background: linear-gradient(135deg, #28a745, #20c997);
@@ -48,14 +60,8 @@
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
-        }
-
-        i {
-          margin-right: 0.5rem;
-        }
+        &:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4); }
+        i { margin-right: 0.5rem; }
       }
     }
   }

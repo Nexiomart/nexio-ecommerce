@@ -20,8 +20,8 @@ import './style.scss';
 class Homepage extends React.PureComponent {
   componentDidMount() {
     const { fetchTopDiscountedProducts, fetchLatestProducts } = this.props;
-    fetchTopDiscountedProducts(5);
-    fetchLatestProducts(5);
+    fetchTopDiscountedProducts(6);
+    fetchLatestProducts(6);
   }
 
   render() {

@@ -22,9 +22,10 @@
   .brand-box {
     height: 100%;
     padding: 10px;
-    border: $border-default;
+    border: none;
     border-radius: $border-radius-default;
-    @include transition();
+    box-shadow: $box-shadow-card;
+    transition: box-shadow $layout-transition-speed ease, transform $layout-transition-speed ease;
 
     .brand-link {
       display: block;
@@ -32,12 +33,19 @@
 
     &:hover {
       background-color: $secondary-bg;
-      border-color: $border-hover-color;
-      @include transition();
+      box-shadow: $box-shadow-card-hover;
+      transform: translateY(-2px);
+      transition: box-shadow $layout-transition-speed ease, transform $layout-transition-speed ease;
     }
 
     .brand-desc {
       @include text-ellipsis(2);
     }
+
+  .brand-box:hover {
+    box-shadow: $box-shadow-card-hover;
+    transform: translateY(-2px);
+  }
+
   }
 }
