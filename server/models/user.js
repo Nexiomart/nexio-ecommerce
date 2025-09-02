@@ -46,6 +46,11 @@ referredBy: {
   ref: 'GrowthPartner',
   default: null
 },
+  manufacturer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Manufacturer',
+    default: null
+  },
 
   provider: {
     type: String,
@@ -64,7 +69,7 @@ referredBy: {
   role: {
     type: String,
     default: ROLES.Member,
-    enum: [ROLES.Admin, ROLES.Member, ROLES.Merchant , ROLES.GrowthPartner]
+    enum: [ROLES.Admin, ROLES.Member, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner]
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },

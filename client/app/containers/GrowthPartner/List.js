@@ -143,6 +143,7 @@ import { ROLES } from '../../constants';
 
 import SubPage from '../../components/Manager/SubPage';
 import GrowthPartnerList from '../../components/Manager/GrowthPartnerList';
+import { ROLES as APP_ROLES } from '../../constants';
 import GrowthPartnerSearch from '../../components/Manager/GrowthPartnerSearch';
 import SearchResultMeta from '../../components/Manager/SearchResultMeta';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
@@ -201,11 +202,14 @@ class List extends React.PureComponent {
     }
 
 
+    const isAdmin = user.role === ROLES.Admin;
+    const isManufacturer = user.role === APP_ROLES.Manufacturer;
+
     return (
       <div className='growth-partner-dashboard'>
         <SubPage
           title='Growth Partners'
-          actionTitle={user.role === ROLES.Admin && 'Add'}
+          actionTitle={isAdmin && 'Add'}
           handleAction={() => history.push('/dashboard/growthpartner/add')}
         />
 
@@ -232,18 +236,10 @@ class List extends React.PureComponent {
 
             <GrowthPartnerList
               growthPartners={filteredPartners}
-              approveGrowthPartner={p =>
-                approveGrowthPartner(p, search, advancedFilters.currentPage)
-              }
-              rejectGrowthPartner={p =>
-                rejectGrowthPartner(p, search, advancedFilters.currentPage)
-              }
-              deleteGrowthPartner={p =>
-                deleteGrowthPartner(p, search, advancedFilters.currentPage)
-              }
-              disableGrowthPartner={(p, v) =>
-                disableGrowthPartner(p, v, search, advancedFilters.currentPage)
-              }
+              approveGrowthPartner={isAdmin ? (p => approveGrowthPartner(p, search, advancedFilters.currentPage)) : undefined}
+              rejectGrowthPartner={isAdmin ? (p => rejectGrowthPartner(p, search, advancedFilters.currentPage)) : undefined}
+              deleteGrowthPartner={isAdmin ? (p => deleteGrowthPartner(p, search, advancedFilters.currentPage)) : undefined}
+              disableGrowthPartner={isAdmin ? ((p, v) => disableGrowthPartner(p, v, search, advancedFilters.currentPage)) : undefined}
             />
           </>
         )}

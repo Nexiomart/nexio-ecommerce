@@ -1,0 +1,29 @@
+@import '../../styles/core/variables';
+
+.become-manufacturer-page {
+  max-width: 840px;
+  margin: 0 auto;
+
+  h3 { margin-top: 0; }
+  hr { margin: 10px 0 14px 0; }
+
+  .info-box {
+    background: $white;
+    border: 1px solid $border-color-primary;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 12%));
+    }
+  }
+}
+

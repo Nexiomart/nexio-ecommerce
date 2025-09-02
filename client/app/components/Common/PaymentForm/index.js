@@ -10,7 +10,7 @@ import { API_URL } from '../../../constants';
 
 import './style.scss';
 
-const PaymentForm = ({ amount, onSubmit, onBack }) => {
+const PaymentForm = ({ amount, onSubmit, onBack, onNoPayment, noPaymentLabel = 'Continue Without Payment (Submit For Approval)' }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const isMountedRef = useRef(true);
 
@@ -154,36 +154,53 @@ const PaymentForm = ({ amount, onSubmit, onBack }) => {
           </div>
         </div>
 
-        <div className="form-actions">
-          <Button
-            type="button"
-            color="secondary"
-            onClick={onBack}
-            disabled={isProcessing}
-          >
-            <i className="fa fa-arrow-left mr-2"></i>
-            Back to Plans
-          </Button>
+        <div className="form-actions d-flex flex-column align-items-center">
+          <div className="d-flex justify-content-center mb-3">
+            <Button
+              type="button"
+              color="secondary"
+              onClick={onBack}
+              disabled={isProcessing}
+            >
+              <i className="fa fa-arrow-left mr-2"></i>
+              Back to Plans
+            </Button>
 
-          <Button
-            type="button"
-            color="primary"
-            onClick={handleRazorpayPayment}
-            disabled={isProcessing}
-            className="ml-2 razorpay-btn"
-          >
-            {isProcessing ? (
-              <>
-                <i className="fa fa-spinner fa-spin mr-2"></i>
-                Processing...
-              </>
-            ) : (
-              <>
-                <i className="fa fa-credit-card mr-2"></i>
-                Pay with Razorpay
-              </>
-            )}
-          </Button>
+            <Button
+              type="button"
+              color="primary"
+              onClick={handleRazorpayPayment}
+              disabled={isProcessing}
+              className="ml-2 razorpay-btn"
+            >
+              {isProcessing ? (
+                <>
+                  <i className="fa fa-spinner fa-spin mr-2"></i>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <i className="fa fa-credit-card mr-2"></i>
+                  Pay with Razorpay
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Prominent no-payment CTA (optional) */}
+          {onNoPayment && (
+            <Button
+              type="button"
+              color="warning"
+              outline
+              onClick={onNoPayment}
+              disabled={isProcessing}
+              className="no-payment-btn"
+            >
+              <i className="fa fa-paper-plane mr-2"></i>
+              {noPaymentLabel}
+            </Button>
+          )}
         </div>
       </div>
     </div>

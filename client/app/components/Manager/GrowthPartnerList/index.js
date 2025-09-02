@@ -200,6 +200,7 @@ const GrowthPartnerList = ({
   deleteGrowthPartner,
   disableGrowthPartner
 }) => {
+  const readOnly = !approveGrowthPartner && !rejectGrowthPartner && !deleteGrowthPartner && !disableGrowthPartner;
   const renderPartnerPopover = growthpartner => (
     <div className='p-2'>
       <p className='text-gray text-14'>
@@ -221,6 +222,13 @@ const GrowthPartnerList = ({
     <div className='growth-partner-list'>
       {growthPartners.map((growthpartner, index) => (
         <div key={index} className='partner-box'>
+          {/* profile image on the right */}
+          {growthpartner.profileImageUrl && (
+            <div className='float-right mb-2' style={{width:80,height:80,borderRadius:'50%',overflow:'hidden'}}>
+              <img src={growthpartner.profileImageUrl} alt='Profile' style={{width:'100%',height:'100%',objectFit:'cover'}} />
+            </div>
+          )}
+
           <div className='mb-3 p-4'>
 
             <label className='text-black'>Name</label>
@@ -234,7 +242,7 @@ const GrowthPartnerList = ({
 
             <label className='text-black'>Region</label>
             <p>{growthpartner.location}</p>
-{/* 
+{/*
             <label className='text-black'>Strategy</label>
             <p className='text-truncate'>{growthpartner.strategy}</p> */}
 
@@ -244,7 +252,12 @@ const GrowthPartnerList = ({
             <hr />
 
             {/* Approval Status Logic */}
-            {growthpartner.status === GROWTH_PARTNER_STATUS.Approved ? (
+            {readOnly ? (
+              <div className='d-flex align-items-center'>
+                <CheckIcon className='text-green' />
+                <p className='ml-2 mb-0'>Status: {growthpartner.status}</p>
+              </div>
+            ) : growthpartner.status === GROWTH_PARTNER_STATUS.Approved ? (
               <>
                 <div className='d-flex justify-content-between align-items-center mx-0'>
                   <div className='d-flex align-items-center'>

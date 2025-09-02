@@ -55,13 +55,27 @@ const AccountDetails = props => {
 
     <UserRole user={user} />
     <br />
-   {user.growthPartner?.uniqueId && (
-  <div className="mt-3 p-3 rounded-md bg-gray-100 dark:bg-gray-800">
-    <p className="text-lg font-extrabold text-gray-800">
-      ID: <span className="text-blue-900">{user.growthPartner.uniqueId}</span>
-    </p>
-  </div>
-)}
+  {(() => {
+      // Show unique ID for all roles except Member
+      let idToShow = '';
+      if (user.role === ROLES.GrowthPartner && user.growthPartner?.uniqueId) {
+        idToShow = user.growthPartner.uniqueId;
+      } else if (user.role === ROLES.Merchant && user.merchant?.uniqueId) {
+        idToShow = user.merchant.uniqueId;
+      } else if (user.role === ROLES.Manufacturer && user.manufacturer?.uniqueId) {
+        idToShow = user.manufacturer.uniqueId;
+      } else if (user.role === ROLES.Admin && user.uniqueId) {
+        idToShow = user.uniqueId; // Admin uses User uniqueId
+      }
+      return idToShow ? (
+        <div className="mt-3 p-3 rounded-md bg-gray-100 dark:bg-gray-800">
+          <p className="text-lg font-extrabold text-gray-800">
+            ID: <span className="text-blue-900">{idToShow}</span>
+          </p>
+        </div>
+      ) : null;
+    })()}
+
 {user.role === ROLES.Member && (
   <div className='account-action-links-wrapper'>
     <a
@@ -94,6 +108,22 @@ const AccountDetails = props => {
       <div className='account-link-overlay'></div>
       <div className='account-link-shine'></div>
     </a>
+    <a
+      href='/become-manufacturer'
+      className='account-manufacturer-link'
+      role='button'
+      aria-label='Become Manufacturer - Partner with us'
+      tabIndex='0'
+    >
+      <div className='account-link-content'>
+        <span className='account-link-icon' aria-hidden='true'>🏭</span>
+        <span className='account-link-title'>Become Manufacturer</span>
+        <span className='account-link-desc'>Partner with us</span>
+      </div>
+      <div className='account-link-overlay'></div>
+      <div className='account-link-shine'></div>
+    </a>
+
   </div>
 )}
 

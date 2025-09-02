@@ -16,6 +16,7 @@ import actions from '../../actions';
 import Login from '../Login';
 import Signup from '../Signup';
 import MerchantSignup from '../MerchantSignup';
+import ManufacturerSignup from '../ManufacturerSignup';
 import GrowthPartnerSignup from '../GrowthPartnerSignup';
 import HomePage from '../Homepage';
 import Dashboard from '../Dashboard';
@@ -29,6 +30,7 @@ import Shop from '../Shop';
 import BrandsPage from '../BrandsPage';
 import ProductPage from '../ProductPage';
 import Sell from '../Sell';
+import BecomeManufacturer from '../BecomeManufacturer';
 import JoinAsGrowthPartner from '../JoinAsGrowthPartner';
 import Contact from '../Contact';
 import SubscriptionModal from '../../components/Common/SubscriptionModal';
@@ -87,6 +89,7 @@ class Application extends React.PureComponent {
                 <Route exact path='/' component={HomePage} />
                 <Route path='/shop' component={Shop} />
                 <Route path='/sell' component={Sell} />
+                <Route path='/become-manufacturer' component={BecomeManufacturer} />
                 <Route path='/join-as-growth-partner'component={JoinAsGrowthPartner}/>
                 <Route path='/contact' component={Contact} />
                 <Route path='/brands' component={BrandsPage} />
@@ -98,6 +101,10 @@ class Application extends React.PureComponent {
                 <Route
                   path='/merchant-signup/:token'
                   component={MerchantSignup}
+                />
+                <Route
+                  path='/manufacturer-signup/:token'
+                  component={ManufacturerSignup}
                 />
                 <Route
                   path='/growth-partner-signup/:token'

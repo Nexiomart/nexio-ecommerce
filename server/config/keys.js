@@ -1,7 +1,7 @@
 module.exports = {
   app: {
     name: 'Mern Ecommerce',
-    apiURL: `${process.env.BASE_API_URL}`,
+    apiURL: process.env.BASE_API_URL || 'api',
     clientURL: process.env.CLIENT_URL
   },
   port: process.env.PORT || 3000,

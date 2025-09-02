@@ -10,6 +10,7 @@ const categoryRoutes = require('./category');
 const brandRoutes = require('./brand');
 const contactRoutes = require('./contact');
 const merchantRoutes = require('./merchant');
+const manufacturerRoutes = require('./manufacturer');
 const cartRoutes = require('./cart');
 const orderRoutes = require('./order');
 const reviewRoutes = require('./review');
@@ -19,6 +20,7 @@ const locationRoutes = require('./location');
 const paymentRoutes = require('./payment'); // ✅ NEW
 const subscriptionRoutes = require('./subscription');
 const supportTicketRoutes = require('./supportTicket');
+const registerNoPayRoutes = require('./subscription.register-nopay');
 // auth routes
 router.use('/auth', authRoutes);
 
@@ -46,6 +48,9 @@ router.use('/contact', contactRoutes);
 // merchant routes
 router.use('/merchant', merchantRoutes);
 
+// manufacturer routes
+router.use('/manufacturer', manufacturerRoutes);
+
 // location routes
 router.use('/location', locationRoutes);
 
@@ -63,6 +68,10 @@ router.use('/payment', paymentRoutes);
 
 // Review routes
 router.use('/review', reviewRoutes);
+
+// registration without payment
+router.use('/', registerNoPayRoutes);
+
 
 // Wishlist routes
 router.use('/wishlist', wishlistRoutes);

@@ -29,6 +29,7 @@ import brandReducer from './containers/Brand/reducer';
 import navigationMenuReducer from './containers/NavigationMenu/reducer';
 import shopReducer from './containers/Shop/reducer';
 import merchantReducer from './containers/Merchant/reducer';
+import manufacturerReducer from './containers/Manufacturer/reducer';
 import contactReducer from './containers/Contact/reducer';
 import orderReducer from './containers/Order/reducer';
 import reviewReducer from './containers/Review/reducer';
@@ -61,6 +62,7 @@ const createReducer = history =>
     menu: navigationMenuReducer,
     shop: shopReducer,
     merchant: merchantReducer,
+    manufacturer: manufacturerReducer,
     contact: contactReducer,
     order: orderReducer,
     review: reviewReducer,

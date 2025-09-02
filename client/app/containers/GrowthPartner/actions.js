@@ -287,10 +287,13 @@ export const addGrowthPartnerWithSubscription = () => {
         return dispatch({ type: SET_GROWTH_PARTNER_FORM_ERRORS, payload: errors });
       }
 
+      // Derive referredBy from optional field (uniqueId like GRW-XXXXXX)
+      const referredBy = (growthpartner.referredByGP || '').trim() || null;
+
       // Store growth partner data temporarily and open subscription modal
       dispatch({
         type: 'SET_PENDING_GROWTH_PARTNER_DATA',
-        payload: growthpartner
+        payload: { ...growthpartner, referredBy }
       });
 
       // Open subscription modal for growth partners

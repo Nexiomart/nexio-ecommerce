@@ -11,6 +11,11 @@ const User = require('../../models/user');
 const auth = require('../../middleware/auth');
 const role = require('../../middleware/role');
 const mailgun = require('../../services/mailgun');
+const multer = require('multer');
+const { s3Upload, s3Delete } = require('../../utils/storage');
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 
 // Register growth partner
 router.post('/add', async (req, res) => {
@@ -84,7 +89,7 @@ router.post('/add', async (req, res) => {
 //     res.status(400).json({ error: 'Search failed. Please try again.' });
 //   }
 // });
-router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
+router.get('/search', auth, role.check(ROLES.Admin, ROLES.Manufacturer), async (req, res) => {
   try {
     const { search } = req.query;
 
@@ -118,7 +123,7 @@ router.get('/search', auth, role.check(ROLES.Admin), async (req, res) => {
 
 
 // Fetch all growth partners
-router.get('/', auth, role.check(ROLES.Admin), async (req, res) => {
+router.get('/', auth, role.check(ROLES.Admin, ROLES.Manufacturer), async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
     const partners = await GrowthPartner.find()
@@ -137,6 +142,25 @@ router.get('/', auth, role.check(ROLES.Admin), async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({ error: 'Could not fetch partners.' });
+  }
+});
+
+// Fetch growth partners referred by the logged-in Growth Partner
+router.get('/referred', auth, role.check(ROLES.GrowthPartner), async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate('growthPartner');
+    if (!user || !user.growthPartner) {
+      return res.status(400).json({ error: 'Growth Partner profile not found.' });
+    }
+    const myUniqueId = user.growthPartner.uniqueId;
+    const referred = await GrowthPartner.find({ referredBy: myUniqueId }).sort('-created');
+    return res.status(200).json({
+      partners: referred,
+      growthpartners: referred,
+      total: referred.length
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'Could not fetch referred growth partners.' });
   }
 });
 
@@ -164,6 +188,10 @@ router.put('/reject/:id', auth, async (req, res) => {
 
     await GrowthPartner.findByIdAndUpdate(partnerId, update, { new: true });
     res.status(200).json({ success: true });
+
+
+
+
   } catch (error) {
     res.status(400).json({ error: 'Rejection failed.' });
   }
@@ -232,5 +260,59 @@ const createGrowthPartnerUser = async (email, name, growthPartner, host) => {
     return await user.save();
   }
 };
+
+// Upload or replace profile image (Growth Partner only)
+router.put('/profile-image', auth, role.check(ROLES.GrowthPartner), upload.single('profileImage'), async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user || !user.growthPartner) {
+      return res.status(400).json({ error: 'Growth Partner account not found.' });
+    }
+    const gp = await GrowthPartner.findById(user.growthPartner);
+    if (!gp) return res.status(404).json({ error: 'Growth Partner not found.' });
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image provided.' });
+    }
+
+    // delete previous image if any
+    if (gp.profileImageKey) {
+      try { await s3Delete(gp.profileImageKey); } catch (e) { /* ignore */ }
+    }
+
+    const { imageUrl, imageKey } = await s3Upload(req.file);
+    gp.profileImageUrl = imageUrl;
+    gp.profileImageKey = imageKey;
+    await gp.save();
+
+    res.status(200).json({ success: true, message: 'Profile photo updated.', growthpartner: gp });
+  } catch (err) {
+    res.status(400).json({ error: 'Could not update profile image.' });
+  }
+});
+
+// Remove profile image
+router.delete('/profile-image', auth, role.check(ROLES.GrowthPartner), async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user || !user.growthPartner) {
+      return res.status(400).json({ error: 'Growth Partner account not found.' });
+    }
+    const gp = await GrowthPartner.findById(user.growthPartner);
+    if (!gp) return res.status(404).json({ error: 'Growth Partner not found.' });
+
+    if (gp.profileImageKey) {
+      try { await s3Delete(gp.profileImageKey); } catch (e) { /* ignore */ }
+    }
+
+    gp.profileImageUrl = '';
+    gp.profileImageKey = '';
+    await gp.save();
+
+    res.status(200).json({ success: true, message: 'Profile photo removed.', growthpartner: gp });
+  } catch (err) {
+    res.status(400).json({ error: 'Could not remove profile image.' });
+  }
+});
 
 module.exports = router;

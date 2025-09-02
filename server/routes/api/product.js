@@ -238,7 +238,7 @@ router.get('/list/select', auth, async (req, res) => {
 router.post(
   '/add',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant , ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   upload.single('image'),
   async (req, res) => {
     try {
@@ -318,36 +318,25 @@ router.post(
 router.get(
   '/',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let products = [];
 
       if (req.user.merchant) {
-        const brands = await Brand.find({
-          merchant: req.user.merchant
-        }).populate('merchant', '_id');
-
-        const brandId = brands[0]?.['_id'];
-
-        products = await Product.find({})
-          .populate({
-            path: 'brand',
-            populate: {
-              path: 'merchant',
-              model: 'Merchant'
-            }
-          })
-          .where('brand', brandId);
+        const brands = await Brand.find({ merchant: req.user.merchant }).populate('merchant', '_id');
+        const brandIds = brands.map(b => b._id);
+        products = await Product.find({ brand: { $in: brandIds } })
+          .populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
+      } else if (req.user.manufacturer) {
+        const brands = await Brand.find({ manufacturer: req.user.manufacturer }).populate('manufacturer', '_id');
+        const brandIds = brands.map(b => b._id);
+        products = await Product.find({ brand: { $in: brandIds } })
+          .populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
       } else {
-        products = await Product.find({}).populate({
-          path: 'brand',
-          populate: {
-            path: 'merchant',
-            model: 'Merchant'
-          }
-        });
+        products = await Product.find({}).populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
       }
+
 
       res.status(200).json({
         products
@@ -429,7 +418,7 @@ router.get(
 router.get(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -437,23 +426,17 @@ router.get(
       let productDoc = null;
 
       if (req.user.merchant) {
-        const brands = await Brand.find({
-          merchant: req.user.merchant
-        }).populate('merchant', '_id');
-
-        const brandId = brands[0]['_id'];
-
-        productDoc = await Product.findOne({ _id: productId })
-          .populate({
-            path: 'brand',
-            select: 'name'
-          })
-          .where('brand', brandId);
+        const brands = await Brand.find({ merchant: req.user.merchant }).populate('merchant', '_id');
+        const brandIds = brands.map(b => b._id);
+        productDoc = await Product.findOne({ _id: productId, brand: { $in: brandIds } })
+          .populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
+      } else if (req.user.manufacturer) {
+        const brands = await Brand.find({ manufacturer: req.user.manufacturer }).populate('manufacturer', '_id');
+        const brandIds = brands.map(b => b._id);
+        productDoc = await Product.findOne({ _id: productId, brand: { $in: brandIds } })
+          .populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
       } else {
-        productDoc = await Product.findOne({ _id: productId }).populate({
-          path: 'brand',
-          select: 'name'
-        });
+        productDoc = await Product.findOne({ _id: productId }).populate({ path: 'brand', populate: [{ path: 'merchant', model: 'Merchant' }, { path: 'manufacturer', model: 'Manufacturer' }] });
       }
 
       if (!productDoc) {
@@ -476,7 +459,7 @@ router.get(
 router.put(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -518,7 +501,7 @@ router.put(
 router.put(
   '/:id/active',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const productId = req.params.id;
@@ -544,7 +527,7 @@ router.put(
 router.delete(
   '/delete/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer,ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const product = await Product.deleteOne({ _id: req.params.id });

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, Row, Col, Button } from 'reactstrap';
 
 import actions from '../../../actions';
+
 import SubscriptionPlanCard from '../SubscriptionPlanCard';
 import PaymentForm from '../PaymentForm';
 import LoadingIndicator from '../LoadingIndicator';
@@ -54,6 +55,12 @@ class SubscriptionModal extends React.PureComponent {
     };
 
     createSubscription(subscriptionData);
+  };
+
+  handleNoPayment = () => {
+    if (window.confirm('Submit without payment now? You can upgrade later.')) {
+      this.props.registerWithoutPayment();
+    }
   };
 
   getModalTitle = () => {
@@ -112,7 +119,7 @@ class SubscriptionModal extends React.PureComponent {
             </p>
           </div>
         </ModalHeader>
-        
+
         <ModalBody>
           {isLoading ? (
             <div className="text-center py-5">
@@ -121,6 +128,23 @@ class SubscriptionModal extends React.PureComponent {
           ) : (
             <>
               {step === 1 && (
+                <>
+
+	              {/* Always-visible dual choice (Option A) */}
+	              <div className="d-flex align-items-center justify-content-center mb-3">
+	                <div className="choice-group d-flex align-items-center">
+	                  <Button color="primary" className="mr-3 pay-now-btn btn-lg px-4 py-2" onClick={() => this.setState({ step: 2 })}>
+	                    <i className="fa fa-credit-card mr-2"></i> Pay Now
+	                  </Button>
+	                  <span className="mx-2 or-divider">OR</span>
+	                  <Button color="danger" className="ml-3 no-payment-btn btn-lg px-4 py-2" onClick={this.handleNoPayment}>
+	                    <i className="fa fa-paper-plane mr-2"></i> Continue Without Payment
+	                  </Button>
+	                </div>
+
+
+	              </div>
+
                 <div className="plan-selection-step">
                   <div className="subscription-intro mb-4">
                     <p className="text-center">
@@ -147,7 +171,7 @@ class SubscriptionModal extends React.PureComponent {
                       </div>
                     </div>
                   )}
-                  
+
                   <Row>
                     {subscriptionPlans.map((plan, index) => (
                       <Col key={plan._id} md="4" className="mb-4">
@@ -159,44 +183,81 @@ class SubscriptionModal extends React.PureComponent {
                       </Col>
                     ))}
                   </Row>
-                  
+
                   {subscriptionPlans.length === 0 && (
                     <div className="text-center py-5">
                       <p>No subscription plans available for {modalStakeholder} at the moment.</p>
                     </div>
                   )}
+
+
+
                 </div>
+
+	                </>
+
               )}
 
               {step === 2 && selectedPlan && (
-                <div className="payment-step">
-                  <div className="selected-plan-summary mb-4">
-                    <h5>Selected Plan: {selectedPlan.modelName}</h5>
-                    <div className="plan-details">
-                      <div className="price-breakdown">
-                        <div className="d-flex justify-content-between">
-                          <span>Subscription Fee:</span>
-                          <span>₹{selectedPlan.subscriptionFeePerYear}</span>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <span>GST:</span>
-                          <span>₹{selectedPlan.gst}</span>
-                        </div>
-                        <hr />
-                        <div className="d-flex justify-content-between font-weight-bold">
-                          <span>Total Amount:</span>
-                          <span>₹{selectedPlan.subscriptionAmount}</span>
+                <>
+                  <div className="payment-step">
+                    <div className="selected-plan-summary mb-4">
+                      <h5>Selected Plan: {selectedPlan.modelName}</h5>
+                      <div className="plan-details">
+                        <div className="price-breakdown">
+                          <div className="d-flex justify-content-between">
+                            <span>Subscription Fee:</span>
+                            <span>₹{selectedPlan.subscriptionFeePerYear}</span>
+                          </div>
+                          <div className="d-flex justify-content-between">
+                            <span>GST:</span>
+
+	                  {/* Option A: Two side-by-side buttons with an OR divider */}
+	                  <div className="d-flex align-items-center justify-content-center my-3">
+	                    <div className="d-flex align-items-center choice-group">
+	                      <Button
+	                        color="primary"
+	                        className="mr-2 pay-now-btn"
+	                        onClick={() => this.handlePaymentSubmit({ inline: true })}
+	                      >
+	                        <i className="fa fa-credit-card mr-2"></i>
+	                        Pay Now
+	                      </Button>
+	                      <span className="mx-2 or-divider">OR</span>
+	                      <Button
+	                        color="warning"
+	                        outline
+	                        className="ml-2 no-payment-btn"
+	                        onClick={this.props.registerWithoutPayment}
+	                      >
+	                        <i className="fa fa-paper-plane mr-2"></i>
+	                        Continue Without Payment
+	                      </Button>
+	                    </div>
+	                  </div>
+
+                            <span>₹{selectedPlan.gst}</span>
+                          </div>
+                          <hr />
+                          <div className="d-flex justify-content-between font-weight-bold">
+                            <span>Total Amount:</span>
+                            <span>₹{selectedPlan.subscriptionAmount}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+
+                    <PaymentForm
+                      amount={selectedPlan.subscriptionAmount}
+                      onSubmit={this.handlePaymentSubmit}
+                      onBack={this.handleBackToPlans}
+                      onNoPayment={this.props.registerWithoutPayment}
+                      noPaymentLabel={'Continue Without Payment (Submit For Approval)'}
+                    />
                   </div>
 
-                  <PaymentForm
-                    amount={selectedPlan.subscriptionAmount}
-                    onSubmit={this.handlePaymentSubmit}
-                    onBack={this.handleBackToPlans}
-                  />
-                </div>
+
+                </>
               )}
             </>
           )}

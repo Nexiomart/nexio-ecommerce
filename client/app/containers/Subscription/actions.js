@@ -27,7 +27,7 @@ export const fetchSubscriptionPlans = (stakeholder) => {
   return async (dispatch, getState) => {
     try {
       dispatch(setSubscriptionLoading(true));
-      
+
       const response = await axios.get(`${API_URL}/subscription/plans/${stakeholder}`);
 
       dispatch({
@@ -47,7 +47,7 @@ export const fetchUserSubscription = () => {
   return async (dispatch, getState) => {
     try {
       dispatch(setSubscriptionLoading(true));
-      
+
       const response = await axios.get(`${API_URL}/subscription/my-subscription`);
 
       dispatch({
@@ -106,20 +106,24 @@ export const createSubscription = (subscriptionData) => {
       // Remove referredBy from userData to avoid sending it as part of user data
       const { referredBy: _, ...cleanUserData } = userData;
 
+      // Determine effective referral source (modal input or pending data)
+      const effectiveReferredBy = subscriptionData.referredBy || referredBy || null;
+
       // Create subscription with user data
-      const requestData = {
-        ...subscriptionData,
-        userData: cleanUserData,
-        userType,
-        referredBy // Pass referredBy separately for commission tracking
-      };
+      const formData = new FormData();
+      formData.set('planId', subscriptionData.planId);
+      if (effectiveReferredBy) formData.set('referredBy', effectiveReferredBy);
+      if (subscriptionData.paymentDetails) formData.set('paymentDetails', JSON.stringify(subscriptionData.paymentDetails));
+      formData.set('userType', userType);
+      formData.set('userData', JSON.stringify(cleanUserData));
 
-      // Use appropriate endpoint based on authentication
-      const endpoint = isAuthenticated
-        ? `${API_URL}/subscription/subscribe-with-user`
-        : `${API_URL}/subscription/subscribe-with-user`;
+      // Attach profile image if provided (for growth partner flow)
+      if (cleanUserData.profileImage) {
+        formData.set('profileImage', cleanUserData.profileImage);
+      }
 
-      const response = await axios.post(endpoint, requestData);
+      const endpoint = `${API_URL}/subscription/subscribe-with-user`;
+      const response = await axios.post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
       dispatch({
         type: CREATE_SUBSCRIPTION,
@@ -161,7 +165,7 @@ export const fetchCommissions = () => {
   return async (dispatch, getState) => {
     try {
       dispatch(setSubscriptionLoading(true));
-      
+
       const response = await axios.get(`${API_URL}/subscription/commissions`);
 
       dispatch({
@@ -229,3 +233,68 @@ export const toggleSubscriptionModal = (isOpen, stakeholder = null) => {
     }
   };
 };
+
+// Register without payment (no subscription created)
+export const registerWithoutPayment = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setSubscriptionLoading(true));
+
+      const state = getState();
+      const pendingMerchantData = state.merchant.pendingMerchantData;
+      const pendingGrowthPartnerData = state.growthPartner.pendingGrowthPartnerData;
+
+      let userData = null;
+      let userType = null;
+      let referredBy = null;
+
+      if (pendingMerchantData) {
+        userData = pendingMerchantData;
+        userType = 'merchant';
+        referredBy = pendingMerchantData.referredBy || null;
+      } else if (pendingGrowthPartnerData) {
+        userData = pendingGrowthPartnerData;
+        userType = 'growthPartner';
+        referredBy = pendingGrowthPartnerData.referredBy || null;
+      }
+
+      if (!userData || !userType) {
+        throw new Error('No pending user data found. Please fill the form first.');
+      }
+
+      const { referredBy: _, profileImage, ...cleanUserData } = userData;
+
+      const formData = new FormData();
+      if (referredBy) formData.set('referredBy', referredBy);
+      formData.set('userType', userType);
+      formData.set('userData', JSON.stringify(cleanUserData));
+      if (profileImage) formData.set('profileImage', profileImage);
+
+      const endpoint = `${API_URL}/subscription/register-with-user`;
+      await axios.post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+
+      success({
+        title: 'Submitted for approval',
+        message: 'We received your application. You will be notified after admin review.',
+        position: 'tr',
+        autoDismiss: 6
+      });
+
+      dispatch(toggleSubscriptionModal(false));
+      dispatch(resetSubscriptionForm());
+
+      if (pendingMerchantData) {
+        dispatch({ type: 'CLEAR_PENDING_MERCHANT_DATA' });
+      }
+      if (pendingGrowthPartnerData) {
+        dispatch({ type: 'CLEAR_PENDING_GROWTH_PARTNER_DATA' });
+      }
+
+    } catch (error) {
+      handleError(error, dispatch);
+    } finally {
+      dispatch(setSubscriptionLoading(false));
+    }
+  };
+};
+

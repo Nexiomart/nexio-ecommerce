@@ -1,4 +1,4 @@
-export const API_URL = process.env.API_URL;
+export const API_URL = process.env.API_URL || '/api';
 
 export const SOCKET_URL =
   window.location.host.indexOf('localhost') >= 0
@@ -9,6 +9,7 @@ export const ROLES = {
   Admin: 'ROLE ADMIN',
   Member: 'ROLE MEMBER',
   Merchant: 'ROLE MERCHANT',
+  Manufacturer: 'ROLE MANUFACTURER',
   GrowthPartner: 'ROLE GROWTH PARTNER'
 };
 
@@ -25,6 +26,12 @@ export const CART_ITEM_STATUS = {
 };
 
 export const MERCHANT_STATUS = {
+  Rejected: 'Rejected',
+  Approved: 'Approved',
+  Waiting_Approval: 'Waiting Approval'
+};
+
+export const MANUFACTURER_STATUS = {
   Rejected: 'Rejected',
   Approved: 'Approved',
   Waiting_Approval: 'Waiting Approval'

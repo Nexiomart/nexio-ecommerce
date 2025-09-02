@@ -28,12 +28,13 @@ const Input = props => {
   } = props;
 
   const _onChange = e => {
-    if (e.target.name == 'image') {
-      onInputChange(e.target.name, e.target.files[0]);
+    if (e.target.type === 'file') {
+      onInputChange(e.target.name, e.target.files && e.target.files[0]);
     } else {
       onInputChange(e.target.name, e.target.value);
     }
   };
+
 
   if (type === 'textarea') {
     const styles = `input-box${error ? ' invalid' : ''}`;
@@ -108,6 +109,26 @@ const Input = props => {
             onInputChange(name, value);
           }}
         />
+        <span className='invalid-message'>{error && error[0]}</span>
+      </div>
+    );
+  } else if (type === 'file') {
+    const styles = `input-box${error ? ' invalid' : ''}`;
+    return (
+      <div className={styles}>
+        {label && <label>{label}</label>}
+        <div className='input-text-block'>
+          <input
+            className={className ? `input-text ${className}` : 'input-text'}
+            autoComplete={autoComplete}
+            type='file'
+            onChange={e => { _onChange(e); }}
+            disabled={disabled}
+            name={name}
+            placeholder={placeholder}
+          />
+          {inlineElement}
+        </div>
         <span className='invalid-message'>{error && error[0]}</span>
       </div>
     );

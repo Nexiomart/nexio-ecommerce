@@ -33,6 +33,17 @@ const GrowthPartnerSchema = new Schema({
     trim: true
   },
 
+  // Profile image stored on S3
+  profileImageUrl: {
+    type: String,
+    default: ''
+  },
+  profileImageKey: {
+    type: String,
+    default: ''
+  },
+
+
   // ✅ Unique public ID for growth partner (e.g., GRW-XXXXXX)
   uniqueId: {
     type: String,
@@ -167,7 +178,7 @@ module.exports = mongoose.models.GrowthPartner || mongoose.model('GrowthPartner'
 //     type: Boolean,
 //     default: false
 //   },
-   
+
 //   status: {
 //     type: String,
 //     default: GROWTH_PARTNER_STATUS.Waiting_Approval,

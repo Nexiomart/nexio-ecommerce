@@ -23,6 +23,7 @@ import Wishlist from '../../../containers/WishList';
 // import Merchant from '../../../containers/Merchant';
 import Category from '../../../containers/Category';
 import Support from '../../../containers/Support';
+import GrowthPartner from '../../../containers/GrowthPartner';
 
 const Merchant_dashboard = props => {
   return (
@@ -43,6 +44,7 @@ const Merchant_dashboard = props => {
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/merchant' component={Merchant} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
+              <Route path='/dashboard/growthpartner' component={GrowthPartner} />
               <Route path='/dashboard/support' component={Support} />
               <Route path='*' component={Page404} />
             </Switch>

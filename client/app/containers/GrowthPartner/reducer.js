@@ -33,7 +33,8 @@ const initialState = {
     phoneNumber: '',
     region: '',
     strategy: '',
-    referralCode: ''
+    referralCode: '',
+    referredByGP: '' // Optional: GP unique ID of referrer
   },
   formErrors: {},
   signupFormData: {
@@ -117,7 +118,8 @@ const growthPartnerReducer = (state = initialState, action) => {
           phoneNumber: '',
           region: '',
           strategy: '',
-          referralCode: ''
+          referralCode: '',
+          referredByGP: ''
         },
         formErrors: {}
       };

@@ -38,6 +38,11 @@ const BrandSchema = new Schema({
     ref: 'Merchant',
     default: null
   },
+  manufacturer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Manufacturer',
+    default: null
+  },
   updated: Date,
   created: {
     type: Date,

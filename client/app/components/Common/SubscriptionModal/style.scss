@@ -1,3 +1,48 @@
+/* Accentuate the no-payment CTA */
+.subscription-modal .no-payment-btn {
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}
+
+.subscription-modal .plan-selection-step .no-payment-banner {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.subscription-modal .choice-group .or-divider {
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+/* Make the dual-choice buttons big and high-contrast */
+.subscription-modal .choice-group .btn {
+  border-radius: 10px;
+  font-weight: 700;
+}
+.subscription-modal .choice-group .pay-now-btn {
+  background-color: #2563eb; /* blue-600 */
+  border-color: #2563eb;
+}
+.subscription-modal .choice-group .no-payment-btn {
+  background-color: #ef4444; /* red-500 */
+  border-color: #ef4444;
+  color: #fff;
+}
+.subscription-modal .choice-group .btn:hover {
+  filter: brightness(0.95);
+}
+
+.subscription-modal .pay-now-btn {
+  border-radius: 8px;
+}
+
+
 .subscription-modal {
   .modal-dialog {
     max-width: 1000px;
@@ -74,7 +119,7 @@
       .price-breakdown {
         .d-flex {
           margin-bottom: 0.5rem;
-          
+
           &:last-child {
             margin-bottom: 0;
             font-size: 1.1rem;

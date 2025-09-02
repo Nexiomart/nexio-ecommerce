@@ -86,6 +86,42 @@ exports.merchantApplicationEmail = () => {
   return message;
 };
 
+// Manufacturer templates
+exports.manufacturerSignup = (host, { resetToken, email }) => {
+  const message = {
+    subject: 'Manufacturer Registration',
+    text: `Congratulations! Your application has been accepted. Please complete your Manufacturer account signup by clicking on the link below. \n\n` +
+      'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+      'http://' + host + '/manufacturer-signup/' + resetToken + '?email=' + email + '\n\n'
+  };
+  return message;
+};
+
+exports.manufacturerWelcome = name => {
+  const message = {
+    subject: 'Manufacturer Registration',
+    text: `Hi ${name}! Congratulations! Your application for manufacturer account has been accepted. \n\n` +
+      `It looks like you already have a member account with us. Please sign in with your member credentials and you will be able to see your manufacturer account.`
+  };
+  return message;
+};
+
+exports.manufacturerApplicationEmail = () => {
+  const message = {
+    subject: 'Become Manufacturer on Nexiomart Store',
+    text: `We received your request! Our team will contact you soon. \n\n`
+  };
+  return message;
+};
+
+exports.manufacturerDeactivateAccount = () => {
+  const message = {
+    subject: 'Manufacturer account on Nexiomart Store',
+    text: `Your manufacturer account has been disabled. \n\nPlease contact admin to request access again.`
+  };
+  return message;
+};
+
 exports.merchantDeactivateAccount = () => {
   const message = {
     subject: 'Merchant account on Nexiomart Store',

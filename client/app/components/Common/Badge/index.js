@@ -12,6 +12,7 @@ const variants = {
   success: 'custom-badge-success',
   danger: 'custom-badge-danger',
   dark: 'custom-badge-dark',
+  info: 'custom-badge-info',
   none: 'custom-badge-none',
   empty: ''
 };

@@ -211,11 +211,16 @@ router.get('/me', auth, async (req, res) => {
       {
         path: 'merchant',
         model: 'Merchant',
-        populate: { path: 'brand', model: 'Brand' } // existing merchant-brand nesting
+        populate: { path: 'brand', model: 'Brand' }
+      },
+      {
+        path: 'manufacturer',
+        model: 'Manufacturer',
+        populate: { path: 'brand', model: 'Brand' }
       },
       {
         path: 'growthPartner',
-        model: 'GrowthPartner'                      // NEW – basic GP populate
+        model: 'GrowthPartner'
       }
     ]);
 

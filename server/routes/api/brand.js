@@ -10,7 +10,7 @@ const role = require('../../middleware/role');
 const store = require('../../utils/store');
 const { ROLES, MERCHANT_STATUS } = require('../../constants');
 
-router.post('/add', auth, role.check(ROLES.Admin , ROLES.Merchant), async (req, res) => {
+router.post('/add', auth, role.check(ROLES.Admin , ROLES.Merchant, ROLES.Manufacturer), async (req, res) => {
   try {
     const name = req.body.name;
     const description = req.body.description;
@@ -26,8 +26,9 @@ router.post('/add', auth, role.check(ROLES.Admin , ROLES.Merchant), async (req, 
       name,
       description,
       isActive,
-      // Associate brand with merchant if user is a merchant
-      merchant: req.user.merchant || null
+      // Associate brand with merchant/manufacturer if user is an owner
+      merchant: req.user.merchant || null,
+      manufacturer: req.user.manufacturer || null
     });
 
     const brandDoc = await brand.save();
@@ -65,17 +66,17 @@ router.get('/list', async (req, res) => {
 router.get(
   '/',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let brands = null;
 
       if (req.user.merchant) {
-        brands = await Brand.find({
-          merchant: req.user.merchant
-        }).populate('merchant', 'name');
+        brands = await Brand.find({ merchant: req.user.merchant }).populate('merchant', 'name').populate('manufacturer', 'name');
+      } else if (req.user.manufacturer) {
+        brands = await Brand.find({ manufacturer: req.user.manufacturer }).populate('merchant', 'name').populate('manufacturer', 'name');
       } else {
-        brands = await Brand.find({}).populate('merchant', 'name');
+        brands = await Brand.find({}).populate('merchant', 'name').populate('manufacturer', 'name');
       }
 
       res.status(200).json({
@@ -117,18 +118,15 @@ router.get('/:id', async (req, res) => {
 router.get(
   '/list/select',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant, ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       let brands = null;
 
       if (req.user.merchant) {
-        brands = await Brand.find(
-          {
-            merchant: req.user.merchant
-          },
-          'name'
-        );
+        brands = await Brand.find({ merchant: req.user.merchant }, 'name');
+      } else if (req.user.manufacturer) {
+        brands = await Brand.find({ manufacturer: req.user.manufacturer }, 'name');
       } else {
         brands = await Brand.find({}, 'name');
       }
@@ -147,7 +145,7 @@ router.get(
 router.put(
   '/:id',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const brandId = req.params.id;
@@ -158,6 +156,9 @@ router.put(
       // If user is a merchant, ensure they can only update their own brands
       if (req.user.merchant) {
         query.merchant = req.user.merchant;
+      }
+      if (req.user.manufacturer) {
+        query.manufacturer = req.user.manufacturer;
       }
 
       // Check if brand exists and user has permission to update it
@@ -195,7 +196,7 @@ router.put(
 router.put(
   '/:id/active',
   auth,
-  role.check(ROLES.Admin, ROLES.Merchant ,ROLES.GrowthPartner),
+  role.check(ROLES.Admin, ROLES.Merchant, ROLES.Manufacturer, ROLES.GrowthPartner),
   async (req, res) => {
     try {
       const brandId = req.params.id;
@@ -205,6 +206,9 @@ router.put(
       // If user is a merchant, ensure they can only update their own brands
       if (req.user.merchant) {
         query.merchant = req.user.merchant;
+      }
+      if (req.user.manufacturer) {
+        query.manufacturer = req.user.manufacturer;
       }
 
       // Check if brand exists and user has permission to update it

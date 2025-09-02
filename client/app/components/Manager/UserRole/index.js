@@ -58,6 +58,10 @@ const UserRole = props => {
         <Badge variant='dark' className={className}>
           Merchant
         </Badge>
+      ) : user.role === ROLES.Manufacturer ? (
+        <Badge variant='info' className={className}>
+          Manufacturer
+        </Badge>
       ) : user.role === ROLES.GrowthPartner ? (
         <Badge variant='success' className={className}>
           Growth Partner

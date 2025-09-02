@@ -83,7 +83,8 @@
 
 // Base styles for both account action links
 .account-sell-link,
-.account-partner-link {
+.account-partner-link,
+.account-manufacturer-link {
   position: relative;
   display: block;
   padding: 1.5rem 2rem;
@@ -246,6 +247,38 @@
   }
 }
 
+// Manufacturer button specific styles
+.account-manufacturer-link {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #20c997 0%, #0d6efd 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 18px;
+    z-index: 0;
+  }
+
+  &:hover {
+    &::before { opacity: 1; }
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+    box-shadow: 0 12px 35px rgba(23, 162, 184, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+
+    .account-link-title { color: #ffffff; text-shadow: 0 2px 8px rgba(23, 162, 184, 0.6); }
+    .account-link-desc { color: rgba(255,255,255,0.95); text-shadow: 0 1px 4px rgba(23,162,184,0.4); }
+  }
+
+  &:active { background: linear-gradient(135deg, #138496 0%, #0f6674 100%); }
+}
+
+
 // Content and element styles for account action links
 .account-link-overlay {
   position: absolute;
@@ -315,13 +348,15 @@
 }
 
 .account-sell-link:hover .account-link-shine,
-.account-partner-link:hover .account-link-shine {
+.account-partner-link:hover .account-link-shine,
+.account-manufacturer-link:hover .account-link-shine {
   left: 100%;
 }
 
 // Animations for account action links
 .account-sell-link,
-.account-partner-link {
+.account-partner-link,
+.account-manufacturer-link {
   animation: accountLinkFloat 4s ease-in-out infinite;
 
   &:hover {

@@ -22,6 +22,8 @@ import Wishlist from '../../../containers/WishList';
 import Merchant from '../../../containers/Merchant'; // Custom for Growth Partner
 import Commission from '../../../containers/Commission';
 import Support from '../../../containers/Support';
+import GrowthPartnerProfilePhoto from '../../../containers/GrowthPartnerProfilePhoto';
+
 
 
 const GrowthPartner = props => {
@@ -43,6 +45,8 @@ const GrowthPartner = props => {
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
               <Route path='/dashboard/commission' component={Commission} />
+              <Route path='/dashboard/gp-photo' component={GrowthPartnerProfilePhoto} />
+              <Route path='/dashboard/ref-gp' component={require('../../../containers/ReferredGrowthPartners').default} />
               <Route path='/dashboard/support' component={Support} />
               <Route path='*' component={Page404} />
             </Switch>

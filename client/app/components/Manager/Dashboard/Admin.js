@@ -21,6 +21,7 @@ import Category from '../../../containers/Category';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Merchant from '../../../containers/Merchant';
+import Manufacturer from '../../../containers/Manufacturer';
 import GrowthPartner from '../../../containers/GrowthPartner';
 import Commission from '../../../containers/Commission';
 import Review from '../../../containers/Review';
@@ -45,6 +46,7 @@ const Admin = props => {
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/users' component={Users} />
               <Route path='/dashboard/merchant' component={Merchant} />
+              <Route path='/dashboard/manufacturer' component={Manufacturer} />
               <Route path='/dashboard/GrowthPartner' component={GrowthPartner} />
               <Route path='/dashboard/commissions' component={Commission} />
               <Route path='/dashboard/orders' component={Order} />

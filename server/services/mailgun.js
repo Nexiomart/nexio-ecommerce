@@ -77,6 +77,20 @@ const prepareTemplate = (type, host, data) => {
       message = template.merchantDeactivateAccount();
       break;
 
+    // Manufacturer emails
+    case 'manufacturer-signup':
+      message = template.manufacturerSignup(host, data);
+      break;
+    case 'manufacturer-welcome':
+      message = template.manufacturerWelcome(data);
+      break;
+    case 'manufacturer-application':
+      message = template.manufacturerApplicationEmail();
+      break;
+    case 'manufacturer-deactivate-account':
+      message = template.manufacturerDeactivateAccount();
+      break;
+
     case 'order-confirmation':
       message = template.orderConfirmationEmail(data);
       break;

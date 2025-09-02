@@ -64,6 +64,25 @@ const AddGrowthPartner = props => {
             />
           </Col>
 
+          {/* Referred by Growth Partner (Optional) */}
+          <Col xs='12'>
+            <Input
+              type='text'
+              error={formErrors['referredByGP']}
+              label='Referred by Growth Partner (Optional)'
+              name='referredByGP'
+              placeholder='Enter Growth Partner ID (e.g., GRW-ABC123)'
+              value={growthPartnerFormData.referredByGP}
+              onInputChange={(name, value) => {
+                growthPartnerChange(name, value);
+              }}
+            />
+            <small className='text-muted'>
+              <i className='fa fa-info-circle mr-1'></i>
+              If another Growth Partner referred you, enter their unique ID to give them credit.
+            </small>
+          </Col>
+
           <Col xs='12'>
             <Input
               type='text'
@@ -100,6 +119,20 @@ const AddGrowthPartner = props => {
               name='strategy'
               placeholder='Describe how you plan to grow the platform or bring in users.'
               value={growthPartnerFormData.strategy}
+              onInputChange={(name, value) => {
+                growthPartnerChange(name, value);
+              }}
+            />
+          </Col>
+
+          {/* Profile Photo */}
+          <Col xs='12'>
+            <Input
+              type='file'
+              error={formErrors['profileImage']}
+              label='Profile Photo'
+              name='profileImage'
+              placeholder='Upload your profile image'
               onInputChange={(name, value) => {
                 growthPartnerChange(name, value);
               }}

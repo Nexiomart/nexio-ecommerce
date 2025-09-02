@@ -26,12 +26,14 @@ import * as brand from './containers/Brand/actions';
 import * as menu from './containers/NavigationMenu/actions';
 import * as shop from './containers/Shop/actions';
 import * as merchant from './containers/Merchant/actions';
+import * as manufacturer from './containers/Manufacturer/actions';
 import * as contact from './containers/Contact/actions';
 import * as order from './containers/Order/actions';
 import * as review from './containers/Review/actions';
 import * as wishlist from './containers/WishList/actions';
 import * as growthPartner from './containers/GrowthPartner/actions';
 import * as subscription from './containers/Subscription/actions';
+export { registerWithoutPayment } from './containers/Subscription/actions';
 
 export default function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -56,6 +58,7 @@ export default function mapDispatchToProps(dispatch) {
       ...menu,
       ...shop,
       ...merchant,
+      ...manufacturer,
       ...growthPartner, // ✅ NEW
       ...contact,
       ...order,

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
 
 // Bring in Models
 const { SubscriptionPlan, UserSubscription, Commission } = require('../../models/subscription');
@@ -17,6 +18,10 @@ const crypto = require('crypto');
 // Bring in Utils
 const auth = require('../../middleware/auth');
 const role = require('../../middleware/role');
+const { s3Upload } = require('../../utils/storage');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Get subscription plans by stakeholder type
 router.get('/plans/:stakeholder', async (req, res) => {
@@ -54,25 +59,33 @@ router.get('/plans', auth, role.check('ROLE ADMIN'), async (req, res) => {
 });
 
 // Create subscription with user creation (for new signups)
-router.post('/subscribe-with-user', async (req, res) => {
+router.post('/subscribe-with-user', upload.single('profileImage'), async (req, res) => {
   try {
+    // If multipart/form-data, fields may arrive as JSON strings
+    const parsedUserData = typeof req.body.userData === 'string' ? JSON.parse(req.body.userData) : req.body.userData;
+    const parsedPaymentDetails = typeof req.body.paymentDetails === 'string' ? JSON.parse(req.body.paymentDetails) : req.body.paymentDetails;
+
     console.log('Subscription API called with data:', {
       planId: req.body.planId,
       referredBy: req.body.referredBy,
       userType: req.body.userType,
-      userData: req.body.userData ? {
-        name: req.body.userData.name,
-        email: req.body.userData.email,
-        phoneNumber: req.body.userData.phoneNumber
+      userData: parsedUserData ? {
+        name: parsedUserData.name,
+        email: parsedUserData.email,
+        phoneNumber: parsedUserData.phoneNumber
       } : null,
-      paymentDetails: req.body.paymentDetails ? {
-        transactionId: req.body.paymentDetails.transactionId,
-        paymentMethod: req.body.paymentDetails.paymentMethod,
-        paymentStatus: req.body.paymentDetails.paymentStatus
-      } : null
+      paymentDetails: parsedPaymentDetails ? {
+        transactionId: parsedPaymentDetails.transactionId,
+        paymentMethod: parsedPaymentDetails.paymentMethod,
+        paymentStatus: parsedPaymentDetails.paymentStatus
+      } : null,
+      hasFile: !!req.file
     });
 
-    const { planId, referredBy, paymentDetails, userData, userType } = req.body;
+    const { planId, referredBy, userType } = req.body;
+    const userData = parsedUserData;
+    const paymentDetails = parsedPaymentDetails;
+    const profileImage = req.file;
 
     if (!userData || !userType) {
       console.log('Validation failed - missing userData or userType:', {
@@ -180,6 +193,25 @@ router.post('/subscribe-with-user', async (req, res) => {
         isActive: false
       };
 
+      // Map referral for GP signups: store referrer's GP uniqueId into 'referredBy'
+      if (referredBy) {
+        if (mongoose.Types.ObjectId.isValid(referredBy)) {
+          const gpUser = await User.findById(referredBy).populate('growthPartner');
+          if (gpUser && gpUser.growthPartner) {
+            growthPartnerData.referredBy = gpUser.growthPartner.uniqueId;
+          }
+        } else {
+          growthPartnerData.referredBy = referredBy; // assumed to be GP uniqueId
+        }
+      }
+
+      // Upload optional profile image for GP
+      if (profileImage) {
+        const { imageUrl, imageKey } = await s3Upload(profileImage);
+        growthPartnerData.profileImageUrl = imageUrl;
+        growthPartnerData.profileImageKey = imageKey;
+      }
+
       await new GrowthPartner(growthPartnerData).save();
     }
 
@@ -238,6 +270,9 @@ router.post('/subscribe-with-user', async (req, res) => {
       hasReferredBy: !!growthPartnerObjectId,
       hasCommission: plan.growthPartnerCommission > 0
     });
+
+
+
 
     if (growthPartnerObjectId && plan.growthPartnerCommission > 0) {
       // Find the Growth Partner user by ObjectId

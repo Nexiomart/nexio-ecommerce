@@ -42,6 +42,23 @@ exports.s3Upload = async (image) => {
   }
 };
 
+exports.s3Delete = async (key) => {
+  try {
+    if (!key) return;
+    if (!keys.aws.accessKeyId || !keys.aws.secretAccessKey) return;
+
+    const s3 = new AWS.S3({
+      accessKeyId: keys.aws.accessKeyId,
+      secretAccessKey: keys.aws.secretAccessKey,
+      region: keys.aws.region,
+    });
+
+    await s3.deleteObject({ Bucket: keys.aws.bucketName, Key: key }).promise();
+  } catch (error) {
+    console.error('S3 Delete Error:', error);
+  }
+};
+
 
 // const AWS = require('aws-sdk');
 
