@@ -160,7 +160,7 @@ const AddProduct = props => {
                 productChange('brand', value);
               }}
             />
-            {user.role === ROLES.Merchant && brands.length <= 1 && (
+            {(user.role === ROLES.Merchant || user.role === ROLES.Manufacturer) && brands.length <= 1 && (
               <small className="text-muted mt-1 d-block">
                 You need to create a brand first before adding products.
                 <a href="/dashboard/brand/add" className="ml-1">Add Brand</a>

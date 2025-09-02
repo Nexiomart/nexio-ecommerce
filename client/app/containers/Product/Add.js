@@ -24,7 +24,7 @@ class Add extends React.PureComponent {
 
     // Auto-select first brand for merchants when brands are loaded
     if (
-      user.role === ROLES.Merchant &&
+      (user.role === ROLES.Merchant || user.role === ROLES.Manufacturer) &&
       brands.length > 1 &&
       prevProps.brands.length !== brands.length &&
       (!productFormData.brand || productFormData.brand.value === 0)

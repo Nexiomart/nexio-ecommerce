@@ -26,9 +26,9 @@ class Product extends React.PureComponent {
         <Switch>
           <Route exact path='/dashboard/product' component={List} />
           <Route exact path='/dashboard/product/edit/:id' component={Edit} />
-          {(user.role === ROLES.Admin || user.role === ROLES.Merchant) && (
-          <Route exact path='/dashboard/product/add' component={Add} />
-            )}
+          {(user.role === ROLES.Admin || user.role === ROLES.Merchant || user.role === ROLES.Manufacturer) && (
+            <Route exact path='/dashboard/product/add' component={Add} />
+          )}
           <Route path='*' component={Page404} />
         </Switch>
       </div>

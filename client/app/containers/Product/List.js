@@ -28,8 +28,8 @@ class List extends React.PureComponent {
       <>
         <SubPage
           title='Products'
-          actionTitle={user.role !== ROLES.GrowthPartner ? 'Add' : null}
-          handleAction={user.role !== ROLES.GrowthPartner ? () => history.push('/dashboard/product/add') : null}
+          actionTitle={(user.role === ROLES.Admin || user.role === ROLES.Merchant || user.role === ROLES.Manufacturer) ? 'Add' : null}
+          handleAction={(user.role === ROLES.Admin || user.role === ROLES.Merchant || user.role === ROLES.Manufacturer) ? () => history.push('/dashboard/product/add') : null}
         >
           {isLoading ? (
             <LoadingIndicator inline />
