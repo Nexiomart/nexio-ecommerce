@@ -14,9 +14,10 @@ import Newsletter from '../../../containers/Newsletter';
 const Footer = () => {
   const infoLinks = [
     { id: 0, name: 'Contact Us', to: '/contact' },
-    // { id: 1, name: 'Sell With Us', to: '/sell' },
-    // { id: 2, name: 'Shipping', to: '/shipping' },
-    // {id: 3, name : 'join as Growth Partner', to: '/join-as-growth-partner'}
+    { id: 1, name: 'Terms & Conditions', to: '/terms' },
+    { id: 2, name: 'Privacy Policy', to: '/privacy' },
+    { id: 3, name: 'Shipping Policy', to: '/shipping' },
+    { id: 4, name: 'Returns Policy', to: '/returns' }
   ];
 
   const footerBusinessLinks = (

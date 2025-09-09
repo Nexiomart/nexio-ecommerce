@@ -122,6 +122,7 @@ class Contact extends React.PureComponent {
                 <span className='info-icon'><FaEnvelope /></span>
                 <div>
                   <h4>Email</h4>
+                  <p>Partnerships@nexiomart.com</p>
                   <p>nexiomart007@gmail.com</p>
                   <p>anuj@nexiomart.com</p>
                 </div>
@@ -131,6 +132,7 @@ class Contact extends React.PureComponent {
                 <span className='info-icon'><FaPhoneAlt /></span>
                 <div>
                   <h4>Phone</h4>
+                  <p>+91-8319918953</p>
                   <p>+91-9111777280</p>
                 </div>
               </div>

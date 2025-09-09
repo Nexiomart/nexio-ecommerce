@@ -39,6 +39,7 @@ class JoinAsGrowthPartner extends React.PureComponent {
               submitTitle='Submit'
               growthPartnerChange={growthPartnerChange}
               addGrowthPartner={addGrowthPartnerWithSubscription}
+              currentUser={this.props.user}
             />
           </Col>
           <Col xs='12' md='6' className='order-1 order-md-2'>
@@ -74,7 +75,8 @@ const mapStateToProps = state => {
     growthPartnerFormData: state.growthPartner.growthPartnerFormData,
     formErrors: state.growthPartner.formErrors,
     isSubmitting: state.growthPartner.isSubmitting,
-    isLoading: state.growthPartner.isLoading
+    isLoading: state.growthPartner.isLoading,
+    user: state.account.user
   };
 };
 

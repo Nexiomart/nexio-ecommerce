@@ -57,18 +57,40 @@ router.post('/subscription/register-with-user', upload.single('profileImage'), a
         isActive: false
       };
       if (referredBy) {
-        let gpUser = null;
-        if (mongoose.Types.ObjectId.isValid(referredBy)) {
-          gpUser = await User.findById(referredBy).populate('growthPartner');
-        } else {
-          const gpRecord = await GrowthPartner.findOne({ uniqueId: referredBy });
+        // Prevent self-referral by email match
+        const normalizedRef = String(referredBy).trim();
+
+        if (normalizedRef.startsWith('GRW-')) {
+          // Resolve Growth Partner by uniqueId
+          const gpRecord = await GrowthPartner.findOne({ uniqueId: normalizedRef });
           if (gpRecord) {
-            gpUser = await User.findOne({ email: gpRecord.email, role: ROLES.GrowthPartner }).populate('growthPartner');
+            if (gpRecord.email && gpRecord.email === userData.email) {
+              return res.status(400).json({ error: 'Self-referral is not allowed.' });
+            }
+            merchantData.growthPartner = gpRecord.uniqueId;
+            merchantData.referredBy = gpRecord.uniqueId;
+            refName = gpRecord.name;
           }
-        }
-        if (gpUser?.growthPartner) {
-          merchantData.growthPartner = gpUser.growthPartner.uniqueId;
-          merchantData.referredBy = gpUser.growthPartner.uniqueId;
+        } else if (normalizedRef.startsWith('MER-')) {
+          // Resolve Merchant by uniqueId
+          const merRecord = await Merchant.findOne({ uniqueId: normalizedRef });
+          if (merRecord) {
+            if (merRecord.email && merRecord.email === userData.email) {
+              return res.status(400).json({ error: 'Self-referral is not allowed.' });
+            }
+            merchantData.referredBy = merRecord.uniqueId; // growthPartner remains null
+            refName = merRecord.name;
+          }
+        } else if (mongoose.Types.ObjectId.isValid(normalizedRef)) {
+          // Dashboard flow (GP objectId)
+          const gpUser = await User.findById(normalizedRef).populate('growthPartner');
+          if (gpUser?.growthPartner) {
+            if (gpUser.email && gpUser.email === userData.email) {
+              return res.status(400).json({ error: 'Self-referral is not allowed.' });
+            }
+            merchantData.growthPartner = gpUser.growthPartner.uniqueId;
+            merchantData.referredBy = gpUser.growthPartner.uniqueId;
+          }
         }
       }
       await new Merchant(merchantData).save();
@@ -79,15 +101,18 @@ router.post('/subscription/register-with-user', upload.single('profileImage'), a
         isActive: false
       };
 
-      // Map referral for GP signups: store referrer's GP uniqueId into 'referredBy'
+      // Map referral for GP signups: store referrer's uniqueId (GP or Merchant) into 'referredBy'
       if (referredBy) {
-        if (mongoose.Types.ObjectId.isValid(referredBy)) {
-          const gpUser = await User.findById(referredBy).populate('growthPartner');
+        const normalizedRef = String(referredBy).trim();
+        if (normalizedRef.startsWith('GRW-')) {
+          growthPartnerData.referredBy = normalizedRef;
+        } else if (normalizedRef.startsWith('MER-')) {
+          growthPartnerData.referredBy = normalizedRef;
+        } else if (mongoose.Types.ObjectId.isValid(normalizedRef)) {
+          const gpUser = await User.findById(normalizedRef).populate('growthPartner');
           if (gpUser && gpUser.growthPartner) {
             growthPartnerData.referredBy = gpUser.growthPartner.uniqueId;
           }
-        } else {
-          growthPartnerData.referredBy = referredBy;
         }
       }
 

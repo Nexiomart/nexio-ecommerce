@@ -35,6 +35,8 @@
     { "to": "/product", "name": "Products", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
     { "to": "/merchant", "name": "Merchants", "prefix": "/dashboard" },
+    { "to": "/ref-merchants", "name": "Referred Merchants", "prefix": "/dashboard" },
+    { "to": "/ref-gp-by-merchant", "name": "Referred Growth Partners", "prefix": "/dashboard" },
     { "to": "/wishlist", "name": "WishList", "prefix": "/dashboard" },
     { "to": "/support", "name": "Support", "prefix": "/dashboard" }
   ],

@@ -8,6 +8,7 @@ const { MERCHANT_STATUS, ROLES } = require('../../constants');
 const Merchant = require('../../models/merchant');
 const User = require('../../models/user');
 const Brand = require('../../models/brand');
+const GrowthPartner = require('../../models/growthpartner');
 const auth = require('../../middleware/auth');
 const role = require('../../middleware/role');
 const mailgun = require('../../services/mailgun');
@@ -294,6 +295,33 @@ router.get('/', auth, role.check(ROLES.Admin, ROLES.GrowthPartner , ROLES.Mercha
     });
   }
 });
+
+// Merchants referred by the logged-in Merchant (by uniqueId)
+router.get('/referred-merchants', auth, role.check(ROLES.Merchant), async (req, res) => {
+  try {
+    const me = await User.findById(req.user._id).populate('merchant');
+    if (!me || !me.merchant) return res.status(400).json({ error: 'Merchant profile not found.' });
+    const myUniqueId = me.merchant.uniqueId;
+    const merchants = await Merchant.find({ referredBy: myUniqueId }).sort('-created');
+    return res.status(200).json({ merchants, total: merchants.length });
+  } catch (err) {
+    return res.status(400).json({ error: 'Could not fetch referred merchants.' });
+  }
+});
+
+// Growth Partners referred by the logged-in Merchant (by uniqueId)
+router.get('/referred-growthpartners', auth, role.check(ROLES.Merchant), async (req, res) => {
+  try {
+    const me = await User.findById(req.user._id).populate('merchant');
+    if (!me || !me.merchant) return res.status(400).json({ error: 'Merchant profile not found.' });
+    const myUniqueId = me.merchant.uniqueId;
+    const partners = await GrowthPartner.find({ referredBy: myUniqueId }).sort('-created');
+    return res.status(200).json({ growthpartners: partners, partners, total: partners.length });
+  } catch (err) {
+    return res.status(400).json({ error: 'Could not fetch referred growth partners.' });
+  }
+});
+
 
 // router.get('/', auth,role.check(ROLES.Admin , ROLES.GrowthPartner), async (req, res) => {
 //   try {

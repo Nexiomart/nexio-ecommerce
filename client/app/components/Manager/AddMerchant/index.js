@@ -107,7 +107,7 @@
 
 // export default AddMerchant;
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
@@ -121,8 +121,15 @@ const AddMerchant = props => {
     isSubmitting,
     submitTitle = 'Submit',
     merchantChange,
-    addMerchant
+    addMerchant,
+    currentUser
   } = props;
+
+  const [referralState, setReferralState] = useState({
+    status: 'idle', // idle | checking | valid | invalid | self
+    info: null,
+    error: null
+  });
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -144,6 +151,44 @@ const AddMerchant = props => {
       } catch (err) {
         merchantChange('city', '');
         merchantChange('state', '');
+  // Real-time referral validation
+  useEffect(() => {
+    const code = (merchantFormData.referredByGP || '').trim();
+    if (!code) {
+      setReferralState({ status: 'idle', info: null, error: null });
+      return;
+    }
+
+    // Prevent self-referral if current user exists and has matching uniqueId prefix
+    if (currentUser) {
+      const myUniqueId = currentUser?.growthPartner?.uniqueId || currentUser?.merchant?.uniqueId;
+      if (myUniqueId && myUniqueId === code) {
+        setReferralState({ status: 'self', info: null, error: 'Self-referral not allowed' });
+        return;
+      }
+    }
+
+    let cancelled = false;
+    setReferralState(prev => ({ ...prev, status: 'checking', error: null }));
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axios.get(`${API_URL}/referral/lookup/${encodeURIComponent(code)}`);
+        if (cancelled) return;
+        const info = res.data;
+        setReferralState({ status: 'valid', info, error: null });
+      } catch (err) {
+        if (cancelled) return;
+        const msg = err?.response?.data?.error || 'Invalid or inactive referral ID.';
+        setReferralState({ status: 'invalid', info: null, error: msg });
+      }
+    }, 400);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [merchantFormData.referredByGP, currentUser]);
+
         console.error('Invalid PIN Code');
       }
     } else {
@@ -213,20 +258,36 @@ const AddMerchant = props => {
             />
           </Col>
 
-          {/* 🔽 NEW: Referred by Growth Partner (Optional) */}
+          {/* 🔽 NEW: Referred by (Optional) - Accept GRW-xxxx or MER-xxxx */}
           <Col xs='12'>
             <Input
               type='text'
               error={formErrors['referredByGP']}
-              label='Referred by Growth Partner (Optional)'
+              label='Referred by (Optional)'
               name='referredByGP'
-              placeholder='Enter Growth Partner ID (e.g., GRW-ABC123)'
+              placeholder='Enter Growth Partner ID (GRW-XXXXXX) or Merchant ID (MER-XXXXXX)'
               value={merchantFormData.referredByGP}
               onInputChange={merchantChange}
             />
+            {merchantFormData.referredByGP && (
+              <div className="mt-1">
+                {referralState.status === 'checking' && (
+                  <small className="text-muted"><i className="fa fa-spinner fa-spin mr-1"></i>Checking referral...</small>
+                )}
+                {referralState.status === 'valid' && referralState.info && (
+                  <small className="text-success"><i className="fa fa-check-circle mr-1"></i>{`${referralState.info.name} (${referralState.info.type})`}</small>
+                )}
+                {referralState.status === 'self' && (
+                  <small className="text-warning"><i className="fa fa-exclamation-triangle mr-1"></i>You cannot refer yourself.</small>
+                )}
+                {referralState.status === 'invalid' && (
+                  <small className="text-danger"><i className="fa fa-times-circle mr-1"></i>{referralState.error || 'Invalid or inactive referral ID.'}</small>
+                )}
+              </div>
+            )}
             <small className="text-muted">
               <i className="fa fa-info-circle mr-1"></i>
-              If a Growth Partner referred you, enter their unique ID to give them credit for the referral.
+              Enter a Growth Partner (GRW-...) or Merchant (MER-...) unique ID.
             </small>
           </Col>
 

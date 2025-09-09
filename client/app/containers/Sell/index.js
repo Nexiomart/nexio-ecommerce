@@ -41,6 +41,7 @@ class Sell extends React.PureComponent {
               submitTitle='Submit'
               merchantChange={merchantChange}
               addMerchant={addMerchantWithSubscription}
+              currentUser={this.props.user}
             />
           </Col>
           <Col xs='12' md='6' className='order-1 order-md-2'>
@@ -76,7 +77,8 @@ const mapStateToProps = state => {
     merchantFormData: state.merchant.merchantFormData,
     formErrors: state.merchant.formErrors,
     isSubmitting: state.merchant.isSubmitting,
-    isLoading: state.merchant.isLoading
+    isLoading: state.merchant.isLoading,
+    user: state.account.user
   };
 };
 

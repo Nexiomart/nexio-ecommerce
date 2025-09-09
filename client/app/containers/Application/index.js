@@ -33,6 +33,10 @@ import Sell from '../Sell';
 import BecomeManufacturer from '../BecomeManufacturer';
 import JoinAsGrowthPartner from '../JoinAsGrowthPartner';
 import Contact from '../Contact';
+import Terms from '../Terms';
+import Privacy from '../Privacy';
+import Shipping from '../Shipping';
+import Returns from '../Returns';
 import SubscriptionModal from '../../components/Common/SubscriptionModal';
 import OrderSuccess from '../OrderSuccess';
 import OrderPage from '../OrderPage';
@@ -90,7 +94,7 @@ class Application extends React.PureComponent {
                 <Route path='/shop' component={Shop} />
                 <Route path='/sell' component={Sell} />
                 <Route path='/become-manufacturer' component={BecomeManufacturer} />
-                <Route path='/join-as-growth-partner'component={JoinAsGrowthPartner}/>
+                <Route path='/join-as-growth-partner' component={JoinAsGrowthPartner} />
                 <Route path='/contact' component={Contact} />
                 <Route path='/brands' component={BrandsPage} />
                 <Route path='/product/:slug' component={ProductPage} />
@@ -98,6 +102,13 @@ class Application extends React.PureComponent {
                 <Route path='/order/:id' component={OrderPage} />
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Signup} />
+
+                {/* Static policy pages */}
+                <Route path='/terms' component={Terms} />
+                <Route path='/privacy' component={Privacy} />
+                <Route path='/shipping' component={Shipping} />
+                <Route path='/returns' component={Returns} />
+
                 <Route
                   path='/merchant-signup/:token'
                   component={MerchantSignup}

@@ -43,6 +43,8 @@ const Merchant_dashboard = props => {
               <Route path='/dashboard/brand' component={Brand} />
               <Route path='/dashboard/orders' component={Order} />
               <Route path='/dashboard/merchant' component={Merchant} />
+              <Route path='/dashboard/ref-merchants' component={require('../../../containers/ReferredMerchants').default} />
+              <Route path='/dashboard/ref-gp-by-merchant' component={require('../../../containers/ReferredGrowthPartnersByMerchant').default} />
               <Route path='/dashboard/wishlist' component={Wishlist} />
               <Route path='/dashboard/growthpartner' component={GrowthPartner} />
               <Route path='/dashboard/support' component={Support} />

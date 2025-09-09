@@ -18,6 +18,7 @@ const wishlistRoutes = require('./wishlist');
 const growthpartnerRoutes = require('./growthPartner');
 const locationRoutes = require('./location');
 const paymentRoutes = require('./payment'); // ✅ NEW
+const referralRoutes = require('./referral');
 const subscriptionRoutes = require('./subscription');
 const supportTicketRoutes = require('./supportTicket');
 const registerNoPayRoutes = require('./subscription.register-nopay');
@@ -75,6 +76,10 @@ router.use('/', registerNoPayRoutes);
 
 // Wishlist routes
 router.use('/wishlist', wishlistRoutes);
+
+
+// Referral routes
+router.use('/referral', referralRoutes);
 
 // Subscription routes
 router.use('/subscription', subscriptionRoutes);
