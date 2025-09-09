@@ -13,6 +13,7 @@ class Add extends React.PureComponent {
 
     return (
       <SubPage title='Add Manufacturer' actionTitle='Cancel' handleAction={() => history.goBack()}>
+        {/* Commented out for manufacturer forms: showReferralField={false} */}
         <AddMerchant
           merchantFormData={manufacturerFormData}
           formErrors={formErrors}

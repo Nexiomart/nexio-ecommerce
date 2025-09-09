@@ -107,12 +107,14 @@
 
 // export default AddMerchant;
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+// import React, { useEffect, useState } from 'react';  // Commented out useEffect, useState for manufacturer forms
 import { Row, Col } from 'reactstrap';
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
-import axios from 'axios';
-import { API_URL } from '../../../constants';
+import axios from 'axios';  // Needed for PIN code functionality
+import { API_URL } from '../../../constants';  // Needed for PIN code functionality
+// Note: Referral functionality is commented out, but PIN code functionality remains active
 
 const AddMerchant = props => {
   const {
@@ -122,14 +124,16 @@ const AddMerchant = props => {
     submitTitle = 'Submit',
     merchantChange,
     addMerchant,
-    currentUser
+    currentUser  // Keep for compatibility with merchant forms, even though referral functionality is commented out
+    // showReferralField = true  // Commented out for manufacturer forms
   } = props;
 
-  const [referralState, setReferralState] = useState({
-    status: 'idle', // idle | checking | valid | invalid | self
-    info: null,
-    error: null
-  });
+  // Commented out for manufacturer forms - uncomment to enable referral state
+  // const [referralState, setReferralState] = useState({
+  //   status: 'idle', // idle | checking | valid | invalid | self
+  //   info: null,
+  //   error: null
+  // });
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -149,9 +153,18 @@ const AddMerchant = props => {
         merchantChange('city', city);
         merchantChange('state', state);
       } catch (err) {
+        console.error('Invalid PIN Code');
         merchantChange('city', '');
         merchantChange('state', '');
+      }
+    } else {
+      merchantChange('city', '');
+      merchantChange('state', '');
+    }
+  };
+
   // Real-time referral validation
+  /* Commented out for manufacturer forms - uncomment to enable referral validation
   useEffect(() => {
     const code = (merchantFormData.referredByGP || '').trim();
     if (!code) {
@@ -188,14 +201,7 @@ const AddMerchant = props => {
       clearTimeout(timer);
     };
   }, [merchantFormData.referredByGP, currentUser]);
-
-        console.error('Invalid PIN Code');
-      }
-    } else {
-      merchantChange('city', '');
-      merchantChange('state', '');
-    }
-  };
+  */
 
   return (
     <div className='add-merchant'>
@@ -258,7 +264,7 @@ const AddMerchant = props => {
             />
           </Col>
 
-          {/* 🔽 NEW: Referred by (Optional) - Accept GRW-xxxx or MER-xxxx */}
+          {/* 🔽 COMMENTED OUT: Referred by (Optional) - Accept GRW-xxxx or MER-xxxx
           <Col xs='12'>
             <Input
               type='text'
@@ -290,6 +296,7 @@ const AddMerchant = props => {
               Enter a Growth Partner (GRW-...) or Merchant (MER-...) unique ID.
             </small>
           </Col>
+          */}
 
           {/* 🔽 Only PIN Code Field (auto-fills city/state in background) */}
           <Col xs='12'>

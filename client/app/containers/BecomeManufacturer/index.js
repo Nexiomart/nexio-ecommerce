@@ -21,6 +21,7 @@ class BecomeManufacturer extends React.PureComponent {
         <hr />
         <Row>
           <Col xs='12' md='6' className='order-2 order-md-1'>
+            {/* Commented out for manufacturer forms: showReferralField={false} */}
             <AddMerchant
               merchantFormData={manufacturerFormData}
               formErrors={formErrors}

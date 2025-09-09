@@ -9,6 +9,7 @@ import MerchantList from '../../components/Manager/MerchantList';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
 import NotFound from '../../components/Common/NotFound';
 import Pagination from '../../components/Common/Pagination';
+import SearchResultMeta from '../../components/Manager/SearchResultMeta';
 
 class List extends React.PureComponent {
   componentDidMount() {
@@ -27,6 +28,10 @@ class List extends React.PureComponent {
           {displayManufacturers ? (
             <>
               <Pagination totalPages={advancedFilters.totalPages} onPagination={this.props.fetchManufacturers} />
+              <SearchResultMeta
+                label='manufacturers'
+                count={advancedFilters.count}
+              />
               <MerchantList
                 merchants={manufacturers}
                 approveMerchant={approveManufacturer}
